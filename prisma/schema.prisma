@@ -30,9 +30,9 @@ model CandidateProfile {
   educationLevel       EducationLevel
   major                String?
   year                 Int?
-  skills               String[] // JSON array stored as string in SQLite
-  sectorInterests      String[] // JSON array stored as string in SQLite
-  preferredLocations   String[] // JSON array stored as string in SQLite
+  skills               String   // JSON array stored as string
+  sectorInterests      String   // JSON array stored as string
+  preferredLocations   String   // JSON array stored as string
   language             Language @default(EN)
   residencyPin         String?
   ruralFlag            Boolean  @default(false)
