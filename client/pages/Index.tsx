@@ -51,7 +51,7 @@ export default function Index() {
       features: [
         {
           icon: Users,
-          title: "स्मार्ट मैचिंग",
+          title: "स्��ार्ट मैचिंग",
           description: "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।"
         },
         {
@@ -62,12 +62,12 @@ export default function Index() {
         {
           icon: TrendingUp,
           title: "करियर विकास",
-          description: "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्��ाप्त करें।"
+          description: "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।"
         },
         {
           icon: Globe,
           title: "राष्ट्रव्यापी पहुंच",
-          description: "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।"
+          description: "आपकी आवश्यकताओं के अनुकूल रिमोट और स��थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।"
         }
       ],
       stats: [
@@ -96,11 +96,11 @@ export default function Index() {
         {
           icon: TrendingUp,
           title: "ক্যারিয়ার বৃদ্ধি",
-          description: "বৃত্তি-ভিত্তিক ইন্টার্নশিপ প্রোগ্রামের সাথ��� ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।"
+          description: "বৃত্তি-ভিত্তিক ইন্টার্নশিপ প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।"
         },
         {
           icon: Globe,
-          title: "দেশব্যাপী অ্যাক্সেস",
+          title: "দেশব্যাপী ���্যাক্সেস",
           description: "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্তিক বিকল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।"
         }
       ],
@@ -116,25 +116,29 @@ export default function Index() {
   const currentContent = content[language];
 
   return (
-    <div className="min-h-screen bg-gradient-pm relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-pink-500/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
+      {/* Enhanced Background decorative elements */}
+      <div className="absolute inset-0 bg-black/10"></div>
+      <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-gradient-to-r from-green-400/15 to-cyan-500/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/2 w-60 h-60 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
 
-      {/* Language Switcher */}
-      <header className="relative z-10 flex justify-end p-6">
+      {/* Header with Language Switcher and Dark Mode Toggle */}
+      <header className="relative z-10 flex justify-between items-center p-6">
+        <div className="flex items-center">
+          <DarkModeToggle className="mr-4" />
+        </div>
         <div className="glass-card p-2 flex gap-1">
           {(['en', 'hi', 'bn'] as const).map((lang) => (
             <button
               key={lang}
               onClick={() => setLanguage(lang)}
               className={cn(
-                "px-3 py-1 rounded-lg text-sm font-medium transition-all duration-200",
+                "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-105",
                 language === lang
                   ? "bg-white/30 text-white shadow-lg"
-                  : "text-white/70 hover:text-white hover:bg-white/10"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
               )}
             >
               {lang.toUpperCase()}
