@@ -5,6 +5,7 @@ import { handleDemo } from "./routes/demo";
 import { handleIntake } from "./routes/intake";
 import { handleRecommend } from "./routes/recommend";
 import { handleInternshipsList, handleInternshipById } from "./routes/internships";
+import { handleCSVUpload } from "./routes/upload";
 
 export function createServer() {
   const app = express();
