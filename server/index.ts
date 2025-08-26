@@ -28,6 +28,7 @@ export function createServer() {
   app.post("/api/recommend", handleRecommend);
   app.get("/api/internships", handleInternshipsList);
   app.get("/api/internships/:id", handleInternshipById);
+  app.post("/api/internships/upload", handleCSVUpload);
 
   return app;
 }
