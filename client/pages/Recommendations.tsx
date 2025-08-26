@@ -4,8 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import {
-  ArrowLeft, ExternalLink, MapPin, Calendar,
-  IndianRupee, Building, ChevronDown, ChevronUp, RefreshCw
+  ArrowLeft,
+  ExternalLink,
+  MapPin,
+  Calendar,
+  IndianRupee,
+  Building,
+  ChevronDown,
+  ChevronUp,
+  RefreshCw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,29 +37,31 @@ interface RecommendationMatch {
 }
 
 export default function Recommendations() {
-  const [recommendations, setRecommendations] = useState<RecommendationMatch[]>([]);
+  const [recommendations, setRecommendations] = useState<RecommendationMatch[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
-  
+
   // Get profileId from URL params
   const urlParams = new URLSearchParams(window.location.search);
-  const profileId = urlParams.get('profileId');
+  const profileId = urlParams.get("profileId");
 
   const fetchRecommendations = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/recommend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profileId })
+      const response = await fetch("/api/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ profileId }),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         setRecommendations(data.recommendations || []);
       }
     } catch (error) {
-      console.error('Error fetching recommendations:', error);
+      console.error("Error fetching recommendations:", error);
     } finally {
       setLoading(false);
     }
@@ -66,7 +75,8 @@ export default function Recommendations() {
 
   const formatStipend = (min?: number, max?: number) => {
     if (!min && !max) return "Unpaid";
-    if (min && max) return `₹${min.toLocaleString()} - ₹${max.toLocaleString()}`;
+    if (min && max)
+      return `₹${min.toLocaleString()} - ₹${max.toLocaleString()}`;
     if (min) return `₹${min.toLocaleString()}+`;
     return `Up to ₹${max?.toLocaleString()}`;
   };
@@ -76,7 +86,7 @@ export default function Recommendations() {
     const now = new Date();
     const diffTime = date.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays < 0) return "Expired";
     if (diffDays === 0) return "Today";
     if (diffDays === 1) return "Tomorrow";
@@ -97,7 +107,9 @@ export default function Recommendations() {
         <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="glass-card p-8 text-center">
             <RefreshCw className="h-8 w-8 text-white animate-spin mx-auto mb-4" />
-            <p className="text-white text-lg">Finding your perfect matches...</p>
+            <p className="text-white text-lg">
+              Finding your perfect matches...
+            </p>
           </div>
         </div>
       </div>
@@ -119,7 +131,7 @@ export default function Recommendations() {
             <DarkModeToggle />
             <Button
               variant="ghost"
-              onClick={() => window.location.href = '/intake'}
+              onClick={() => (window.location.href = "/intake")}
               className="text-lg font-medium"
             >
               <ArrowLeft className="mr-2 h-5 w-5" />
@@ -156,7 +168,7 @@ export default function Recommendations() {
               </p>
               <Button
                 variant="accent"
-                onClick={() => window.location.href = '/intake'}
+                onClick={() => (window.location.href = "/intake")}
                 className="text-lg font-bold"
               >
                 Update Preferences
@@ -166,8 +178,8 @@ export default function Recommendations() {
         ) : (
           <div className="max-w-4xl mx-auto space-y-6">
             {recommendations.map((match, index) => (
-              <Card 
-                key={match.internship.id} 
+              <Card
+                key={match.internship.id}
                 className="glass-card border-white/10 hover:border-white/20 transition-all duration-300"
               >
                 <CardHeader className="pb-4">
@@ -177,7 +189,12 @@ export default function Recommendations() {
                         <span className="text-2xl font-bold text-white">
                           #{index + 1}
                         </span>
-                        <div className={cn("text-2xl font-bold", getScoreColor(match.score))}>
+                        <div
+                          className={cn(
+                            "text-2xl font-bold",
+                            getScoreColor(match.score),
+                          )}
+                        >
                           {Math.round(match.score)}% Match
                         </div>
                       </div>
@@ -189,14 +206,17 @@ export default function Recommendations() {
                           <Building className="h-4 w-4" />
                           {match.internship.orgName}
                         </div>
-                        <Badge variant="outline" className="border-white/30 text-white">
+                        <Badge
+                          variant="outline"
+                          className="border-white/30 text-white"
+                        >
                           {match.internship.sector}
                         </Badge>
                       </div>
                     </div>
                   </div>
                 </CardHeader>
-                
+
                 <CardContent className="space-y-4">
                   {/* Key Info */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -206,21 +226,25 @@ export default function Recommendations() {
                         Stipend
                       </div>
                       <div className="text-white font-semibold">
-                        {formatStipend(match.internship.stipendMin, match.internship.stipendMax)}
+                        {formatStipend(
+                          match.internship.stipendMin,
+                          match.internship.stipendMax,
+                        )}
                       </div>
                     </div>
-                    
+
                     <div className="glass p-3 rounded-xl">
                       <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
                         <MapPin className="h-4 w-4" />
                         Location
                       </div>
                       <div className="text-white font-semibold">
-                        {match.internship.remote ? "Remote" : 
-                         `${match.internship.city}, ${match.internship.state}`}
+                        {match.internship.remote
+                          ? "Remote"
+                          : `${match.internship.city}, ${match.internship.state}`}
                       </div>
                     </div>
-                    
+
                     <div className="glass p-3 rounded-xl">
                       <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
                         <Calendar className="h-4 w-4" />
@@ -230,12 +254,14 @@ export default function Recommendations() {
                         {formatDeadline(match.internship.deadline)}
                       </div>
                     </div>
-                    
+
                     <div className="glass p-3 rounded-xl">
                       <Button
                         variant="vibrant"
                         className="w-full text-lg font-bold shadow-lg"
-                        onClick={() => window.open(match.internship.applicationUrl, '_blank')}
+                        onClick={() =>
+                          window.open(match.internship.applicationUrl, "_blank")
+                        }
                       >
                         Apply Now
                         <ExternalLink className="ml-2 h-5 w-5" />
@@ -245,15 +271,26 @@ export default function Recommendations() {
 
                   {/* Skills */}
                   <div>
-                    <p className="text-white/70 text-sm mb-2">Required Skills</p>
+                    <p className="text-white/70 text-sm mb-2">
+                      Required Skills
+                    </p>
                     <div className="flex flex-wrap gap-2">
-                      {match.internship.requiredSkills.slice(0, 5).map((skill) => (
-                        <Badge key={skill} variant="outline" className="border-white/30 text-white">
-                          {skill}
-                        </Badge>
-                      ))}
+                      {match.internship.requiredSkills
+                        .slice(0, 5)
+                        .map((skill) => (
+                          <Badge
+                            key={skill}
+                            variant="outline"
+                            className="border-white/30 text-white"
+                          >
+                            {skill}
+                          </Badge>
+                        ))}
                       {match.internship.requiredSkills.length > 5 && (
-                        <Badge variant="outline" className="border-white/30 text-white/70">
+                        <Badge
+                          variant="outline"
+                          className="border-white/30 text-white/70"
+                        >
                           +{match.internship.requiredSkills.length - 5} more
                         </Badge>
                       )}
@@ -263,32 +300,42 @@ export default function Recommendations() {
                   {/* Why this match - Expandable */}
                   <div>
                     <button
-                      onClick={() => setExpandedCard(
-                        expandedCard === match.internship.id ? null : match.internship.id
-                      )}
+                      onClick={() =>
+                        setExpandedCard(
+                          expandedCard === match.internship.id
+                            ? null
+                            : match.internship.id,
+                        )
+                      }
                       className="flex items-center gap-2 text-white hover:text-white/80 transition-colors"
                     >
                       <span className="font-medium">Why this match?</span>
-                      {expandedCard === match.internship.id ? 
-                        <ChevronUp className="h-4 w-4" /> : 
+                      {expandedCard === match.internship.id ? (
+                        <ChevronUp className="h-4 w-4" />
+                      ) : (
                         <ChevronDown className="h-4 w-4" />
-                      }
+                      )}
                     </button>
-                    
+
                     {expandedCard === match.internship.id && (
                       <div className="mt-3 glass p-4 rounded-xl">
                         <ul className="space-y-2">
                           {match.matchReasons.map((reason, idx) => (
-                            <li key={idx} className="text-white/80 flex items-start gap-2">
+                            <li
+                              key={idx}
+                              className="text-white/80 flex items-start gap-2"
+                            >
                               <span className="text-green-400 mt-1">•</span>
                               {reason}
                             </li>
                           ))}
                         </ul>
-                        
+
                         {match.internship.description && (
                           <div className="mt-4 pt-4 border-t border-white/10">
-                            <p className="text-white/70 text-sm font-medium mb-2">Description</p>
+                            <p className="text-white/70 text-sm font-medium mb-2">
+                              Description
+                            </p>
                             <p className="text-white/80 text-sm">
                               {match.internship.description}
                             </p>
@@ -307,7 +354,7 @@ export default function Recommendations() {
         <div className="text-center mt-12">
           <Button
             variant="ghost"
-            onClick={() => window.location.href = '/'}
+            onClick={() => (window.location.href = "/")}
             className="text-lg font-medium"
           >
             Back to Home

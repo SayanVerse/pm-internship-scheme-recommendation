@@ -7,16 +7,14 @@ const Card = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   // Check if glass effect is requested
-  const hasGlassEffect = className?.includes('glass');
+  const hasGlassEffect = className?.includes("glass");
 
   return (
     <div
       ref={ref}
       className={cn(
         "rounded-lg border shadow-sm transition-all duration-300",
-        hasGlassEffect
-          ? "text-white"
-          : "bg-card text-card-foreground",
+        hasGlassEffect ? "text-white" : "bg-card text-card-foreground",
         className,
       )}
       {...props}

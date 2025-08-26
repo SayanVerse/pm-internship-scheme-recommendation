@@ -13,9 +13,9 @@ export default function Admin() {
       <div className="relative z-10 container mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Button 
-            variant="ghost" 
-            onClick={() => window.location.href = '/'}
+          <Button
+            variant="ghost"
+            onClick={() => (window.location.href = "/")}
             className="text-white hover:bg-white/10"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -82,38 +82,45 @@ export default function Admin() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="glass-card border-white/10">
               <CardHeader>
-                <CardTitle className="text-white text-xl">Upload Internships</CardTitle>
+                <CardTitle className="text-white text-xl">
+                  Upload Internships
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-white/70">
-                  Upload a CSV file with internship data to bulk import opportunities.
+                  Upload a CSV file with internship data to bulk import
+                  opportunities.
                 </p>
                 <Button className="w-full bg-white text-purple-600 hover:bg-white/90">
                   <Upload className="mr-2 h-4 w-4" />
                   Upload CSV File
                 </Button>
                 <p className="text-white/50 text-sm">
-                  Supported format: title, sector, orgName, city, state, pin, remote, minEducation, requiredSkills, stipendMin, stipendMax, applicationUrl, deadline, active
+                  Supported format: title, sector, orgName, city, state, pin,
+                  remote, minEducation, requiredSkills, stipendMin, stipendMax,
+                  applicationUrl, deadline, active
                 </p>
               </CardContent>
             </Card>
 
             <Card className="glass-card border-white/10">
               <CardHeader>
-                <CardTitle className="text-white text-xl">Manage Internships</CardTitle>
+                <CardTitle className="text-white text-xl">
+                  Manage Internships
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-white/70">
                   View, edit, and manage all internship listings in the system.
                 </p>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full border-white/30 text-white hover:bg-white/10"
                 >
                   View All Internships
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full border-white/30 text-white hover:bg-white/10"
                 >
                   Add New Internship
@@ -130,11 +137,12 @@ export default function Admin() {
                   Full Admin Dashboard Coming Soon
                 </h3>
                 <p className="text-white/70 mb-6">
-                  This is a preview of the admin interface. The complete dashboard with 
-                  full CRUD operations, analytics, and user management will be available soon.
+                  This is a preview of the admin interface. The complete
+                  dashboard with full CRUD operations, analytics, and user
+                  management will be available soon.
                 </p>
-                <Button 
-                  onClick={() => window.location.href = '/'}
+                <Button
+                  onClick={() => (window.location.href = "/")}
                   className="bg-white text-purple-600 hover:bg-white/90"
                 >
                   Continue Building This Feature

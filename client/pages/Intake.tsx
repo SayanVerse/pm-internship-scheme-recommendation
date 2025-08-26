@@ -5,17 +5,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
-import { ArrowLeft, ArrowRight, MapPin, GraduationCap, Briefcase, User } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  MapPin,
+  GraduationCap,
+  Briefcase,
+  User,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type EducationLevel = 'TENTH_PLUS_TWO' | 'DIPLOMA' | 'UNDERGRADUATE' | 'POSTGRADUATE';
-type Language = 'EN' | 'HI' | 'BN';
+type EducationLevel =
+  | "TENTH_PLUS_TWO"
+  | "DIPLOMA"
+  | "UNDERGRADUATE"
+  | "POSTGRADUATE";
+type Language = "EN" | "HI" | "BN";
 
 interface FormData {
   name: string;
-  educationLevel: EducationLevel | '';
+  educationLevel: EducationLevel | "";
   major: string;
-  year: number | '';
+  year: number | "";
   skills: string[];
   sectorInterests: string[];
   preferredLocations: string[];
@@ -28,69 +39,93 @@ const STEPS = [
   { id: 1, title: "Personal Info", icon: User },
   { id: 2, title: "Education & Skills", icon: GraduationCap },
   { id: 3, title: "Interests", icon: Briefcase },
-  { id: 4, title: "Location", icon: MapPin }
+  { id: 4, title: "Location", icon: MapPin },
 ];
 
 const SECTORS = [
-  "IT", "Healthcare", "Agriculture", "Education", "Public Admin", 
-  "Finance", "Manufacturing", "Tourism", "Environment", "Social Work"
+  "IT",
+  "Healthcare",
+  "Agriculture",
+  "Education",
+  "Public Admin",
+  "Finance",
+  "Manufacturing",
+  "Tourism",
+  "Environment",
+  "Social Work",
 ];
 
 const COMMON_SKILLS = [
-  "JavaScript", "Python", "Java", "C++", "React", "Node.js", "SQL", "HTML/CSS",
-  "Excel", "PowerBI", "Communication", "Leadership", "Project Management",
-  "Data Analysis", "Digital Marketing", "Content Writing", "Field Work",
-  "Research", "Teaching", "Customer Service"
+  "JavaScript",
+  "Python",
+  "Java",
+  "C++",
+  "React",
+  "Node.js",
+  "SQL",
+  "HTML/CSS",
+  "Excel",
+  "PowerBI",
+  "Communication",
+  "Leadership",
+  "Project Management",
+  "Data Analysis",
+  "Digital Marketing",
+  "Content Writing",
+  "Field Work",
+  "Research",
+  "Teaching",
+  "Customer Service",
 ];
 
 export default function Intake() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    educationLevel: '',
-    major: '',
-    year: '',
+    name: "",
+    educationLevel: "",
+    major: "",
+    year: "",
     skills: [],
     sectorInterests: [],
     preferredLocations: [],
-    language: 'EN',
-    residencyPin: '',
-    ruralFlag: false
+    language: "EN",
+    residencyPin: "",
+    ruralFlag: false,
   });
 
-  const [customSkill, setCustomSkill] = useState('');
+  const [customSkill, setCustomSkill] = useState("");
 
   const updateFormData = (updates: Partial<FormData>) => {
-    setFormData(prev => ({ ...prev, ...updates }));
+    setFormData((prev) => ({ ...prev, ...updates }));
   };
 
   const toggleArrayItem = (array: string[], item: string) => {
-    return array.includes(item) 
-      ? array.filter(i => i !== item)
+    return array.includes(item)
+      ? array.filter((i) => i !== item)
       : [...array, item];
   };
 
   const addCustomSkill = () => {
     if (customSkill.trim() && !formData.skills.includes(customSkill.trim())) {
       updateFormData({ skills: [...formData.skills, customSkill.trim()] });
-      setCustomSkill('');
+      setCustomSkill("");
     }
   };
 
   const submitForm = async () => {
     try {
-      const response = await fetch('/api/intake', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      const response = await fetch("/api/intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         window.location.href = `/recommendations?profileId=${data.profileId}`;
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -123,7 +158,7 @@ export default function Intake() {
             <DarkModeToggle />
             <Button
               variant="ghost"
-              onClick={() => window.location.href = '/'}
+              onClick={() => (window.location.href = "/")}
               className="text-lg font-medium"
             >
               <ArrowLeft className="mr-2 h-5 w-5" />
@@ -143,24 +178,30 @@ export default function Intake() {
             <div className="flex items-center space-x-4">
               {STEPS.map((step, index) => (
                 <div key={step.id} className="flex items-center">
-                  <div className={cn(
-                    "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 group",
-                    currentStep >= step.id
-                      ? "bg-white text-purple-600 shadow-soft pulse-glow transform scale-110"
-                      : "glass-tile text-white hover:scale-105"
-                  )}>
-                    <step.icon className={cn(
-                      "transition-all duration-300",
-                      currentStep >= step.id ? "h-6 w-6" : "h-5 w-5"
-                    )} />
+                  <div
+                    className={cn(
+                      "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 group",
+                      currentStep >= step.id
+                        ? "bg-white text-purple-600 shadow-soft pulse-glow transform scale-110"
+                        : "glass-tile text-white hover:scale-105",
+                    )}
+                  >
+                    <step.icon
+                      className={cn(
+                        "transition-all duration-300",
+                        currentStep >= step.id ? "h-6 w-6" : "h-5 w-5",
+                      )}
+                    />
                   </div>
                   {index < STEPS.length - 1 && (
-                    <div className={cn(
-                      "w-12 h-2 mx-3 rounded-full transition-all duration-300",
-                      currentStep > step.id
-                        ? "bg-gradient-to-r from-white to-white/80 shadow-glow"
-                        : "bg-white/20"
-                    )} />
+                    <div
+                      className={cn(
+                        "w-12 h-2 mx-3 rounded-full transition-all duration-300",
+                        currentStep > step.id
+                          ? "bg-gradient-to-r from-white to-white/80 shadow-glow"
+                          : "bg-white/20",
+                      )}
+                    />
                   )}
                 </div>
               ))}
@@ -182,12 +223,16 @@ export default function Intake() {
             <div className="w-16 h-1 bg-gradient-to-r from-white/50 to-white/20 rounded-full mx-auto"></div>
           </CardHeader>
           <CardContent className="p-8 space-y-8">
-            
             {/* Step 1: Personal Info */}
             {currentStep === 1 && (
               <div className="space-y-8">
                 <div className="group">
-                  <Label htmlFor="name" className="text-white mb-3 block text-lg font-medium">Full Name</Label>
+                  <Label
+                    htmlFor="name"
+                    className="text-white mb-3 block text-lg font-medium"
+                  >
+                    Full Name
+                  </Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -197,27 +242,53 @@ export default function Intake() {
                   />
                 </div>
                 <div>
-                  <Label className="text-white mb-4 block text-lg font-medium">Education Level</Label>
+                  <Label className="text-white mb-4 block text-lg font-medium">
+                    Education Level
+                  </Label>
                   <div className="grid grid-cols-2 gap-4">
                     {[
-                      { value: 'TENTH_PLUS_TWO', label: '10+2', desc: 'Higher Secondary' },
-                      { value: 'DIPLOMA', label: 'Diploma', desc: 'Technical Course' },
-                      { value: 'UNDERGRADUATE', label: 'UG', desc: 'Bachelor\'s Degree' },
-                      { value: 'POSTGRADUATE', label: 'PG', desc: 'Master\'s Degree' }
+                      {
+                        value: "TENTH_PLUS_TWO",
+                        label: "10+2",
+                        desc: "Higher Secondary",
+                      },
+                      {
+                        value: "DIPLOMA",
+                        label: "Diploma",
+                        desc: "Technical Course",
+                      },
+                      {
+                        value: "UNDERGRADUATE",
+                        label: "UG",
+                        desc: "Bachelor's Degree",
+                      },
+                      {
+                        value: "POSTGRADUATE",
+                        label: "PG",
+                        desc: "Master's Degree",
+                      },
                     ].map((option) => (
                       <button
                         key={option.value}
                         type="button"
-                        onClick={() => updateFormData({ educationLevel: option.value as EducationLevel })}
+                        onClick={() =>
+                          updateFormData({
+                            educationLevel: option.value as EducationLevel,
+                          })
+                        }
                         className={cn(
                           "glass-tile p-5 text-center group transition-all duration-300",
                           formData.educationLevel === option.value
                             ? "active ring-2 ring-white/40"
-                            : ""
+                            : "",
                         )}
                       >
-                        <div className="text-lg font-semibold text-white mb-1">{option.label}</div>
-                        <div className="text-sm text-white/70">{option.desc}</div>
+                        <div className="text-lg font-semibold text-white mb-1">
+                          {option.label}
+                        </div>
+                        <div className="text-sm text-white/70">
+                          {option.desc}
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -230,22 +301,38 @@ export default function Intake() {
               <div className="space-y-8">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="group">
-                    <Label htmlFor="major" className="text-white mb-3 block text-lg font-medium">Major/Field</Label>
+                    <Label
+                      htmlFor="major"
+                      className="text-white mb-3 block text-lg font-medium"
+                    >
+                      Major/Field
+                    </Label>
                     <Input
                       id="major"
                       value={formData.major}
-                      onChange={(e) => updateFormData({ major: e.target.value })}
+                      onChange={(e) =>
+                        updateFormData({ major: e.target.value })
+                      }
                       className="glass-input h-12"
                       placeholder="e.g. Computer Science"
                     />
                   </div>
                   <div className="group">
-                    <Label htmlFor="year" className="text-white mb-3 block text-lg font-medium">Year</Label>
+                    <Label
+                      htmlFor="year"
+                      className="text-white mb-3 block text-lg font-medium"
+                    >
+                      Year
+                    </Label>
                     <Input
                       id="year"
                       type="number"
                       value={formData.year}
-                      onChange={(e) => updateFormData({ year: e.target.value ? parseInt(e.target.value) : '' })}
+                      onChange={(e) =>
+                        updateFormData({
+                          year: e.target.value ? parseInt(e.target.value) : "",
+                        })
+                      }
                       className="glass-input h-12"
                       placeholder="2024"
                     />
@@ -253,21 +340,25 @@ export default function Intake() {
                 </div>
 
                 <div>
-                  <Label className="text-white mb-4 block text-lg font-medium">Skills</Label>
+                  <Label className="text-white mb-4 block text-lg font-medium">
+                    Skills
+                  </Label>
                   <div className="glass p-4 rounded-2xl mb-6">
                     <div className="flex flex-wrap gap-3">
                       {COMMON_SKILLS.map((skill) => (
                         <button
                           key={skill}
                           type="button"
-                          onClick={() => updateFormData({
-                            skills: toggleArrayItem(formData.skills, skill)
-                          })}
+                          onClick={() =>
+                            updateFormData({
+                              skills: toggleArrayItem(formData.skills, skill),
+                            })
+                          }
                           className={cn(
                             "px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300",
                             formData.skills.includes(skill)
                               ? "bg-white text-purple-600 shadow-lg transform scale-105"
-                              : "glass-button hover:scale-105"
+                              : "glass-button hover:scale-105",
                           )}
                         >
                           {skill}
@@ -282,7 +373,7 @@ export default function Intake() {
                       onChange={(e) => setCustomSkill(e.target.value)}
                       placeholder="Add custom skill"
                       className="glass-input flex-1"
-                      onKeyPress={(e) => e.key === 'Enter' && addCustomSkill()}
+                      onKeyPress={(e) => e.key === "Enter" && addCustomSkill()}
                     />
                     <Button
                       type="button"
@@ -300,20 +391,27 @@ export default function Intake() {
             {currentStep === 3 && (
               <div className="space-y-8">
                 <div>
-                  <Label className="text-white mb-6 block text-lg font-medium">Sector Interests</Label>
+                  <Label className="text-white mb-6 block text-lg font-medium">
+                    Sector Interests
+                  </Label>
                   <div className="grid grid-cols-2 gap-4">
                     {SECTORS.map((sector) => (
                       <button
                         key={sector}
                         type="button"
-                        onClick={() => updateFormData({
-                          sectorInterests: toggleArrayItem(formData.sectorInterests, sector)
-                        })}
+                        onClick={() =>
+                          updateFormData({
+                            sectorInterests: toggleArrayItem(
+                              formData.sectorInterests,
+                              sector,
+                            ),
+                          })
+                        }
                         className={cn(
                           "glass-tile p-4 text-center transition-all duration-300 group",
                           formData.sectorInterests.includes(sector)
                             ? "active ring-2 ring-white/40 transform scale-105"
-                            : ""
+                            : "",
                         )}
                       >
                         <div className="text-white font-medium text-sm group-hover:text-white transition-colors">
@@ -330,24 +428,41 @@ export default function Intake() {
             {currentStep === 4 && (
               <div className="space-y-8">
                 <div className="group">
-                  <Label htmlFor="residencyPin" className="text-white mb-3 block text-lg font-medium">PIN Code</Label>
+                  <Label
+                    htmlFor="residencyPin"
+                    className="text-white mb-3 block text-lg font-medium"
+                  >
+                    PIN Code
+                  </Label>
                   <Input
                     id="residencyPin"
                     value={formData.residencyPin}
-                    onChange={(e) => updateFormData({ residencyPin: e.target.value })}
+                    onChange={(e) =>
+                      updateFormData({ residencyPin: e.target.value })
+                    }
                     className="glass-input h-12"
                     placeholder="Enter your PIN code"
                   />
                 </div>
 
                 <div className="group">
-                  <Label htmlFor="locations" className="text-white mb-3 block text-lg font-medium">Preferred Work Locations</Label>
+                  <Label
+                    htmlFor="locations"
+                    className="text-white mb-3 block text-lg font-medium"
+                  >
+                    Preferred Work Locations
+                  </Label>
                   <Input
                     id="locations"
-                    value={formData.preferredLocations.join(', ')}
-                    onChange={(e) => updateFormData({
-                      preferredLocations: e.target.value.split(',').map(s => s.trim()).filter(s => s)
-                    })}
+                    value={formData.preferredLocations.join(", ")}
+                    onChange={(e) =>
+                      updateFormData({
+                        preferredLocations: e.target.value
+                          .split(",")
+                          .map((s) => s.trim())
+                          .filter((s) => s),
+                      })
+                    }
                     className="glass-input h-12"
                     placeholder="e.g. Mumbai, Delhi, Remote"
                   />
@@ -359,10 +474,15 @@ export default function Intake() {
                       type="checkbox"
                       id="ruralFlag"
                       checked={formData.ruralFlag}
-                      onChange={(e) => updateFormData({ ruralFlag: e.target.checked })}
+                      onChange={(e) =>
+                        updateFormData({ ruralFlag: e.target.checked })
+                      }
                       className="w-5 h-5 rounded border-2 border-white/30 bg-white/10 text-white focus:ring-2 focus:ring-white/20 transition-all"
                     />
-                    <Label htmlFor="ruralFlag" className="text-white text-lg font-medium group-hover:text-white/90 transition-colors">
+                    <Label
+                      htmlFor="ruralFlag"
+                      className="text-white text-lg font-medium group-hover:text-white/90 transition-colors"
+                    >
                       I am from a rural area
                     </Label>
                   </label>
@@ -380,7 +500,7 @@ export default function Intake() {
                 size="lg"
                 className={cn(
                   "text-lg font-medium",
-                  currentStep === 1 && "opacity-50 cursor-not-allowed"
+                  currentStep === 1 && "opacity-50 cursor-not-allowed",
                 )}
               >
                 <ArrowLeft className="mr-2 h-5 w-5" />
@@ -394,7 +514,7 @@ export default function Intake() {
                 size="lg"
                 className="text-lg font-bold shadow-2xl"
               >
-                {currentStep === STEPS.length ? 'Get Recommendations' : 'Next'}
+                {currentStep === STEPS.length ? "Get Recommendations" : "Next"}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>

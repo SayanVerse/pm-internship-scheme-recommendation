@@ -14,11 +14,12 @@ export default {
     },
     extend: {
       backdropBlur: {
-        xs: '2px',
+        xs: "2px",
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'glass-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "glass-gradient":
+          "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -69,14 +70,14 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        '2xl': '1rem',
-        '3xl': '1.5rem',
+        "2xl": "1rem",
+        "3xl": "1.5rem",
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-        'glass-inset': 'inset 0 -1px 0 0 rgba(255, 255, 255, 0.22)',
-        'soft': '0 2px 16px -4px rgba(0, 0, 0, 0.12)',
-        'soft-lg': '0 8px 32px -8px rgba(0, 0, 0, 0.16)',
+        glass: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+        "glass-inset": "inset 0 -1px 0 0 rgba(255, 255, 255, 0.22)",
+        soft: "0 2px 16px -4px rgba(0, 0, 0, 0.12)",
+        "soft-lg": "0 8px 32px -8px rgba(0, 0, 0, 0.16)",
       },
       keyframes: {
         "accordion-down": {

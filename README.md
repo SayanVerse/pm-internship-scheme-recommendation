@@ -15,6 +15,7 @@ A full-stack web application that provides AI-light recommendation system for PM
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - **React 18** with TypeScript
 - **React Router 6** (SPA mode)
 - **Tailwind CSS 3** with custom glassmorphism utilities
@@ -23,12 +24,14 @@ A full-stack web application that provides AI-light recommendation system for PM
 - **Lucide React** icons
 
 ### Backend
+
 - **Express.js** server with TypeScript
 - **Prisma ORM** with SQLite (dev) / PostgreSQL (prod)
 - **Zod** validation
 - **CORS** enabled
 
 ### Database
+
 - **SQLite** for development
 - **PostgreSQL** (Neon/Supabase) for production
 - Seeded with 25+ sample internships across sectors
@@ -36,10 +39,12 @@ A full-stack web application that provides AI-light recommendation system for PM
 ## 📦 Installation & Setup
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - pnpm (recommended) or npm
 
 ### Environment Variables
+
 Create a `.env` file with:
 
 ```env
@@ -76,6 +81,7 @@ The application will be available at `http://localhost:8080`
 ## 🗄️ Database Schema
 
 ### Core Models
+
 - **User**: Basic user info and role (candidate/admin)
 - **CandidateProfile**: Detailed candidate information including skills, preferences, location
 - **Internship**: Internship opportunities with requirements and details
@@ -83,7 +89,9 @@ The application will be available at `http://localhost:8080`
 - **Application**: Track user applications to internships
 
 ### Sample Data
+
 The seed script creates:
+
 - 20+ skills across different domains
 - 7 sample internships across IT, Healthcare, Agriculture, Education, and Public Admin sectors
 - 1 admin user for testing
@@ -93,12 +101,14 @@ The seed script creates:
 The recommendation system uses **rule-based scoring** without heavy ML dependencies:
 
 ### Scoring Algorithm (0-100 points)
+
 1. **Skills Match (0-60 points)**: Jaccard similarity between candidate and required skills
 2. **Sector Interest (0-20 points)**: Direct sector match or semantic skill-based matching
 3. **Location Preference (0-15 points)**: PIN code proximity or preferred location match
 4. **Inclusion Bonus (0-5 points)**: Rural candidates get bonus for Agriculture/Education/Public Admin sectors
 
 ### Location Matching
+
 - **Remote jobs**: Get 50% of location points
 - **PIN proximity**: Same first 3 digits = full points
 - **Preferred locations**: City/state name matching
@@ -107,19 +117,23 @@ The recommendation system uses **rule-based scoring** without heavy ML dependenc
 ## 📱 User Journey
 
 ### 1. Landing Page (`/`)
+
 - Hero section with purpose and CTAs
 - Multi-language switcher
 - Statistics cards
 - Feature highlights
 
 ### 2. Intake Wizard (`/intake`)
+
 **4-Step Process:**
+
 1. **Personal Info**: Name and education level selection
 2. **Education & Skills**: Major, year, skill selection with custom additions
-3. **Sector Interests**: Multi-select sector preferences  
+3. **Sector Interests**: Multi-select sector preferences
 4. **Location**: PIN code, preferred locations, rural flag
 
 ### 3. Recommendations (`/recommendations`)
+
 - Top 3-5 ranked internship matches
 - Match score percentage with color coding
 - Expandable "Why this match?" sections
@@ -127,6 +141,7 @@ The recommendation system uses **rule-based scoring** without heavy ML dependenc
 - Refresh and preference adjustment options
 
 ### 4. Admin Dashboard (`/admin`)
+
 - CSV upload for bulk internship import
 - Statistics overview
 - Internship management (placeholder for full CRUD)
@@ -134,21 +149,23 @@ The recommendation system uses **rule-based scoring** without heavy ML dependenc
 ## 🌐 API Endpoints
 
 ### Public Endpoints
+
 - `POST /api/intake` - Save candidate profile
 - `POST /api/recommend` - Get personalized recommendations
 - `GET /api/internships` - List internships (with filters)
 - `GET /api/internships/:id` - Get single internship details
 
 ### Admin Endpoints
+
 - `POST /api/internships/upload` - CSV bulk upload
 
 ### Example Usage
 
 ```javascript
 // Save candidate profile
-const response = await fetch('/api/intake', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/intake", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     name: "John Doe",
     educationLevel: "UNDERGRADUATE",
@@ -156,15 +173,15 @@ const response = await fetch('/api/intake', {
     sectorInterests: ["IT"],
     preferredLocations: ["Mumbai", "Remote"],
     language: "EN",
-    ruralFlag: false
-  })
+    ruralFlag: false,
+  }),
 });
 
 // Get recommendations
-const recommendations = await fetch('/api/recommend', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ profileId: "profile-id" })
+const recommendations = await fetch("/api/recommend", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ profileId: "profile-id" }),
 });
 ```
 
@@ -178,9 +195,11 @@ Software Intern,IT,TechCorp,Build web apps,Bangalore,Karnataka,560001,true,UNDER
 ```
 
 **Required columns:**
+
 - `title`, `sector`, `orgName`, `minEducation`, `requiredSkills`, `applicationUrl`, `deadline`
 
 **Optional columns:**
+
 - `description`, `city`, `state`, `pin`, `remote`, `stipendMin`, `stipendMax`, `active`
 
 See `seed/internships.csv` for examples.
@@ -188,6 +207,7 @@ See `seed/internships.csv` for examples.
 ## 🎨 Design System
 
 ### Glassmorphism Classes
+
 ```css
 .glass - Basic glass effect
 .glass-card - Enhanced glass card with borders
@@ -195,11 +215,13 @@ See `seed/internships.csv` for examples.
 ```
 
 ### Color Palette
+
 - **Primary Gradient**: Purple to Pink (`gradient-pm`)
 - **Glass Effects**: White with opacity and backdrop-blur
 - **Semantic Colors**: Success (green), Warning (yellow), Error (red)
 
 ### Typography
+
 - **Font**: Inter (Google Fonts)
 - **Weights**: 400, 500, 600, 700, 800
 - **Responsive**: Mobile-first approach
@@ -216,18 +238,22 @@ See `seed/internships.csv` for examples.
 ## 🚀 Deployment
 
 ### Development
+
 ```bash
 pnpm dev  # Starts both client and server on port 8080
 ```
 
 ### Production Build
+
 ```bash
 pnpm build  # Builds both client and server
 pnpm start  # Starts production server
 ```
 
 ### Cloud Deployment
+
 This app is ready for deployment on:
+
 - **Netlify**: Static frontend + serverless functions
 - **Vercel**: Full-stack deployment
 - **Railway/Render**: Traditional hosting
@@ -236,6 +262,7 @@ This app is ready for deployment on:
 ## 📈 Future Enhancements
 
 ### Planned Features
+
 - [ ] **Advanced Admin Dashboard**: Full CRUD operations
 - [ ] **Authentication**: Email OTP / Magic links
 - [ ] **Voice Assistance**: Web Speech API integration
@@ -245,6 +272,7 @@ This app is ready for deployment on:
 - [ ] **Advanced Matching**: TF-IDF similarity for better recommendations
 
 ### Performance Optimizations
+
 - [ ] **Caching**: Redis for API responses
 - [ ] **CDN**: Asset optimization
 - [ ] **Database**: Connection pooling and indexing
@@ -265,6 +293,7 @@ This project is part of the PM Internship Scheme initiative.
 ## 🙋‍♂️ Support
 
 For technical issues or questions:
+
 - Create an issue in the repository
 - Contact the development team
 - Check the documentation at `/docs`

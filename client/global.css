@@ -242,59 +242,99 @@
   }
 
   .gradient-pm {
-    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+    background: linear-gradient(
+      135deg,
+      #ff6b6b 0%,
+      #4ecdc4 25%,
+      #45b7d1 50%,
+      #96ceb4 75%,
+      #feca57 100%
+    );
     position: relative;
     animation: gradient-shift 15s ease infinite;
     background-size: 400% 400%;
   }
 
   .gradient-cyberpunk {
-    background: linear-gradient(135deg, #0f3460 0%, #e94560 25%, #ff6b6b 50%, #4ecdc4 75%, #45b7d1 100%);
+    background: linear-gradient(
+      135deg,
+      #0f3460 0%,
+      #e94560 25%,
+      #ff6b6b 50%,
+      #4ecdc4 75%,
+      #45b7d1 100%
+    );
     position: relative;
     animation: gradient-shift 12s ease infinite;
     background-size: 400% 400%;
   }
 
   .gradient-neon {
-    background: linear-gradient(135deg, #ff0844 0%, #ffb199 25%, #ff6ec7 50%, #c44569 75%, #f8b500 100%);
+    background: linear-gradient(
+      135deg,
+      #ff0844 0%,
+      #ffb199 25%,
+      #ff6ec7 50%,
+      #c44569 75%,
+      #f8b500 100%
+    );
     position: relative;
     animation: gradient-shift 10s ease infinite;
     background-size: 400% 400%;
   }
 
   @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   .floating-elements::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 20%;
     left: 10%;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 70%
+    );
     border-radius: 50%;
     animation: float 6s ease-in-out infinite;
   }
 
   .floating-elements::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 20%;
     right: 10%;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(236,72,153,0.2) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba(236, 72, 153, 0.2) 0%,
+      transparent 70%
+    );
     border-radius: 50%;
     animation: float 8s ease-in-out infinite reverse;
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
   }
 
   .pulse-glow {

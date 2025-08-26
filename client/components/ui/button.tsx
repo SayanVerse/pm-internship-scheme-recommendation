@@ -10,13 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "btn-primary shadow-lg",
-        destructive: "bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 shadow-lg",
+        destructive:
+          "bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 shadow-lg",
         outline: "btn-secondary",
         secondary: "btn-secondary",
-        ghost: "text-white hover:bg-white/10 border border-transparent hover:border-white/20",
+        ghost:
+          "text-white hover:bg-white/10 border border-transparent hover:border-white/20",
         link: "text-white underline-offset-4 hover:underline hover:text-white/80",
         accent: "btn-accent shadow-lg",
-        vibrant: "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white hover:from-purple-600 hover:via-pink-600 hover:to-red-600 shadow-lg",
+        vibrant:
+          "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white hover:from-purple-600 hover:via-pink-600 hover:to-red-600 shadow-lg",
       },
       size: {
         default: "h-12 px-6 py-3",

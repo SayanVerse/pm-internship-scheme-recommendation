@@ -5,61 +5,68 @@ import { InternshipsListResponse } from "@shared/api";
 
 // Validation schema for listing
 const InternshipsQuerySchema = z.object({
-  page: z.string().optional().transform(val => val ? parseInt(val) : 1),
-  limit: z.string().optional().transform(val => val ? Math.min(parseInt(val), 100) : 20),
-  active: z.string().optional().transform(val => val === 'true'),
+  page: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 1)),
+  limit: z
+    .string()
+    .optional()
+    .transform((val) => (val ? Math.min(parseInt(val), 100) : 20)),
+  active: z
+    .string()
+    .optional()
+    .transform((val) => val === "true"),
   sector: z.string().optional(),
-  search: z.string().optional()
+  search: z.string().optional(),
 });
 
 export const handleInternshipsList: RequestHandler = async (req, res) => {
   try {
-    const { page, limit, active, sector, search } = InternshipsQuerySchema.parse(req.query);
-    
+    const { page, limit, active, sector, search } =
+      InternshipsQuerySchema.parse(req.query);
+
     const where: any = {};
-    
+
     // Filter by active status
     if (active !== undefined) {
       where.active = active;
     }
-    
+
     // Filter by sector
     if (sector) {
       where.sector = sector;
     }
-    
+
     // Search filter
     if (search) {
       where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { orgName: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } }
+        { title: { contains: search, mode: "insensitive" } },
+        { orgName: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
       ];
     }
 
     // Get total count
     const total = await db.internship.count({ where });
-    
+
     // Get paginated results
     const internships = await db.internship.findMany({
       where,
       include: {
         requiredSkills: {
           include: {
-            skill: true
-          }
-        }
+            skill: true,
+          },
+        },
       },
-      orderBy: [
-        { deadline: 'asc' },
-        { createdAt: 'desc' }
-      ],
+      orderBy: [{ deadline: "asc" }, { createdAt: "desc" }],
       skip: (page - 1) * limit,
-      take: limit
+      take: limit,
     });
 
     // Transform data
-    const transformedInternships = internships.map(internship => ({
+    const transformedInternships = internships.map((internship) => ({
       id: internship.id,
       title: internship.title,
       sector: internship.sector,
@@ -75,7 +82,7 @@ export const handleInternshipsList: RequestHandler = async (req, res) => {
       applicationUrl: internship.applicationUrl,
       deadline: internship.deadline.toISOString(),
       active: internship.active,
-      requiredSkills: internship.requiredSkills.map(rs => rs.skill.name)
+      requiredSkills: internship.requiredSkills.map((rs) => rs.skill.name),
     }));
 
     const response: InternshipsListResponse = {
@@ -83,19 +90,19 @@ export const handleInternshipsList: RequestHandler = async (req, res) => {
       internships: transformedInternships,
       total,
       page,
-      limit
+      limit,
     };
 
     res.json(response);
   } catch (error) {
-    console.error('Internships list error:', error);
-    
+    console.error("Internships list error:", error);
+
     res.status(500).json({
       success: false,
       internships: [],
       total: 0,
       page: 1,
-      limit: 20
+      limit: 20,
     });
   }
 };
@@ -104,22 +111,22 @@ export const handleInternshipsList: RequestHandler = async (req, res) => {
 export const handleInternshipById: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const internship = await db.internship.findUnique({
       where: { id },
       include: {
         requiredSkills: {
           include: {
-            skill: true
-          }
-        }
-      }
+            skill: true,
+          },
+        },
+      },
     });
 
     if (!internship) {
       return res.status(404).json({
         success: false,
-        message: "Internship not found"
+        message: "Internship not found",
       });
     }
 
@@ -139,19 +146,19 @@ export const handleInternshipById: RequestHandler = async (req, res) => {
       applicationUrl: internship.applicationUrl,
       deadline: internship.deadline.toISOString(),
       active: internship.active,
-      requiredSkills: internship.requiredSkills.map(rs => rs.skill.name)
+      requiredSkills: internship.requiredSkills.map((rs) => rs.skill.name),
     };
 
     res.json({
       success: true,
-      internship: transformedInternship
+      internship: transformedInternship,
     });
   } catch (error) {
-    console.error('Internship by ID error:', error);
-    
+    console.error("Internship by ID error:", error);
+
     res.status(500).json({
       success: false,
-      message: "Internal server error"
+      message: "Internal server error",
     });
   }
 };

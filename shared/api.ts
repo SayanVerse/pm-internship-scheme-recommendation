@@ -5,29 +5,29 @@
 
 // Enums matching Prisma schema
 export enum Role {
-  CANDIDATE = 'CANDIDATE',
-  ADMIN = 'ADMIN'
+  CANDIDATE = "CANDIDATE",
+  ADMIN = "ADMIN",
 }
 
 export enum EducationLevel {
-  TENTH_PLUS_TWO = 'TENTH_PLUS_TWO',
-  DIPLOMA = 'DIPLOMA',
-  UNDERGRADUATE = 'UNDERGRADUATE',
-  POSTGRADUATE = 'POSTGRADUATE'
+  TENTH_PLUS_TWO = "TENTH_PLUS_TWO",
+  DIPLOMA = "DIPLOMA",
+  UNDERGRADUATE = "UNDERGRADUATE",
+  POSTGRADUATE = "POSTGRADUATE",
 }
 
 export enum Language {
-  EN = 'EN',
-  HI = 'HI',
-  BN = 'BN'
+  EN = "EN",
+  HI = "HI",
+  BN = "BN",
 }
 
 export enum ApplicationStatus {
-  APPLIED = 'APPLIED',
-  UNDER_REVIEW = 'UNDER_REVIEW',
-  ACCEPTED = 'ACCEPTED',
-  REJECTED = 'REJECTED',
-  WITHDRAWN = 'WITHDRAWN'
+  APPLIED = "APPLIED",
+  UNDER_REVIEW = "UNDER_REVIEW",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  WITHDRAWN = "WITHDRAWN",
 }
 
 // API Request/Response types
