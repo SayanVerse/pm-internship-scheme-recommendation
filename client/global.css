@@ -110,11 +110,13 @@
 
 @layer components {
   .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-300;
+    @apply backdrop-blur-md border border-white/20 transition-all duration-300;
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .glass:hover {
-    @apply bg-white/15 border-white/30 shadow-lg;
+    @apply border-white/30 shadow-lg;
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .glass-card {
@@ -136,19 +138,39 @@
   }
 
   .glass-button {
-    @apply bg-white/15 backdrop-blur-md border border-white/30 rounded-xl px-4 py-2 text-white font-medium transition-all duration-300 hover:bg-white/25 hover:border-white/40 hover:shadow-lg active:scale-95;
+    @apply backdrop-blur-md border border-white/30 rounded-xl px-4 py-2 text-white font-medium transition-all duration-300 hover:border-white/40 hover:shadow-lg active:scale-95;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .glass-button:hover {
+    background: rgba(255, 255, 255, 0.25);
   }
 
   .glass-tile {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:shadow-glass hover:scale-105 cursor-pointer;
+    @apply backdrop-blur-lg border border-white/20 rounded-2xl p-4 transition-all duration-300 hover:border-white/30 hover:shadow-glass hover:scale-105 cursor-pointer;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-tile:hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .glass-tile.active {
-    @apply bg-white/25 border-white/40 shadow-soft;
+    @apply border-white/40 shadow-soft;
+    background: rgba(255, 255, 255, 0.25);
   }
 
   .glass-input {
-    @apply bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 transition-all duration-300 focus:bg-white/15 focus:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/20;
+    @apply backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white transition-all duration-300 focus:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/20;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
   }
 
   .gradient-bg {
