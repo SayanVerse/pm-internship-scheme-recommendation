@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  role      Role     @default(CANDIDATE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidateProfile CandidateProfile?
+  applications     Application[]
+
+  @@map("users")
+}
+
+model CandidateProfile {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  name                 String
+  educationLevel       EducationLevel
+  major                String?
+  year                 Int?
+  skills               String[] // JSON array stored as string in SQLite
+  sectorInterests      String[] // JSON array stored as string in SQLite
+  preferredLocations   String[] // JSON array stored as string in SQLite
+  language             Language @default(EN)
+  residencyPin         String?
+  ruralFlag            Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("candidate_profiles")
+}
+
+model Skill {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  internshipSkills InternshipSkill[]
+
+  @@map("skills")
+}
+
+model Internship {
+  id             String         @id @default(cuid())
+  title          String
+  sector         String
+  orgName        String
+  description    String?
+  stipendMin     Int?
+  stipendMax     Int?
+  city           String?
+  state          String?
+  pin            String?
+  remote         Boolean        @default(false)
+  minEducation   EducationLevel
+  applicationUrl String
+  deadline       DateTime
+  active         Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  requiredSkills InternshipSkill[]
+  applications   Application[]
+
+  @@map("internships")
+}
+
+model InternshipSkill {
+  id           String @id @default(cuid())
+  internshipId String
+  skillId      String
+
+  internship Internship @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  skill      Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([internshipId, skillId])
+  @@map("internship_skills")
+}
+
+model Application {
+  id           String            @id @default(cuid())
+  userId       String
+  internshipId String
+  status       ApplicationStatus @default(APPLIED)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  internship Internship @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, internshipId])
+  @@map("applications")
+}
+
+enum Role {
+  CANDIDATE
+  ADMIN
+}
+
+enum EducationLevel {
+  TENTH_PLUS_TWO // 10+2
+  DIPLOMA
+  UNDERGRADUATE // UG
+  POSTGRADUATE  // PG
+}
+
+enum Language {
+  EN // English
+  HI // Hindi
+  BN // Bengali
+}
+
+enum ApplicationStatus {
+  APPLIED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
