@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { ArrowLeft, ArrowRight, MapPin, GraduationCap, Briefcase, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -108,25 +109,29 @@ export default function Intake() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-pm relative overflow-hidden floating-elements">
+    <div className="min-h-screen bg-gradient-neon relative overflow-hidden floating-elements">
       {/* Enhanced Background */}
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="absolute top-20 left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-pink-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 bg-black/15"></div>
+      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-r from-green-400/15 to-purple-500/15 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 container mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Button
-            onClick={() => window.location.href = '/'}
-            className="glass-button text-lg font-medium hover:scale-105 transition-all duration-300"
-          >
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Back to Home
-          </Button>
-          <div className="glass px-4 py-2 rounded-2xl">
-            <span className="text-white text-lg font-medium">
+          <div className="flex items-center gap-4">
+            <DarkModeToggle />
+            <Button
+              variant="ghost"
+              onClick={() => window.location.href = '/'}
+              className="text-lg font-medium"
+            >
+              <ArrowLeft className="mr-2 h-5 w-5" />
+              Back to Home
+            </Button>
+          </div>
+          <div className="glass px-6 py-3 rounded-2xl">
+            <span className="text-white text-lg font-semibold">
               Step {currentStep} of {STEPS.length}
             </span>
           </div>
@@ -369,11 +374,13 @@ export default function Intake() {
             <div className="flex justify-between pt-8">
               <Button
                 type="button"
+                variant="ghost"
                 onClick={prevStep}
                 disabled={currentStep === 1}
+                size="lg"
                 className={cn(
-                  "glass-button px-6 py-3 text-lg font-medium transition-all duration-300",
-                  currentStep === 1 ? "opacity-50 cursor-not-allowed" : "hover:scale-105 active:scale-95"
+                  "text-lg font-medium",
+                  currentStep === 1 && "opacity-50 cursor-not-allowed"
                 )}
               >
                 <ArrowLeft className="mr-2 h-5 w-5" />
@@ -382,8 +389,10 @@ export default function Intake() {
 
               <Button
                 type="button"
+                variant="accent"
                 onClick={nextStep}
-                className="bg-white text-purple-600 hover:bg-white/90 px-8 py-3 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                size="lg"
+                className="text-lg font-bold shadow-2xl"
               >
                 {currentStep === STEPS.length ? 'Get Recommendations' : 'Next'}
                 <ArrowRight className="ml-2 h-5 w-5" />
