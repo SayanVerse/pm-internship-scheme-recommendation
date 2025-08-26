@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ArrowLeft, ExternalLink, MapPin, Calendar, 
-  IndianRupee, Building, ChevronDown, ChevronUp, RefreshCw 
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import {
+  ArrowLeft, ExternalLink, MapPin, Calendar,
+  IndianRupee, Building, ChevronDown, ChevronUp, RefreshCw
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -104,29 +105,33 @@ export default function Recommendations() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-pm relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="absolute top-20 left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
+      {/* Enhanced Background */}
+      <div className="absolute inset-0 bg-black/15"></div>
+      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/3 right-1/3 w-72 h-72 bg-gradient-to-r from-green-400/15 to-purple-500/15 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 container mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Button 
-            variant="ghost" 
-            onClick={() => window.location.href = '/intake'}
-            className="text-white hover:bg-white/10"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Adjust Preferences
-          </Button>
-          <Button 
-            variant="outline" 
+          <div className="flex items-center gap-4">
+            <DarkModeToggle />
+            <Button
+              variant="ghost"
+              onClick={() => window.location.href = '/intake'}
+              className="text-lg font-medium"
+            >
+              <ArrowLeft className="mr-2 h-5 w-5" />
+              Adjust Preferences
+            </Button>
+          </div>
+          <Button
+            variant="outline"
             onClick={fetchRecommendations}
-            className="border-white/30 text-white hover:bg-white/10"
+            className="text-lg font-medium"
           >
-            <RefreshCw className="mr-2 h-4 w-4" />
+            <RefreshCw className="mr-2 h-5 w-5" />
             Refresh
           </Button>
         </div>
@@ -149,9 +154,10 @@ export default function Recommendations() {
               <p className="text-white/70 mb-6">
                 Try adjusting your preferences or adding more skills.
               </p>
-              <Button 
+              <Button
+                variant="accent"
                 onClick={() => window.location.href = '/intake'}
-                className="bg-white text-purple-600 hover:bg-white/90"
+                className="text-lg font-bold"
               >
                 Update Preferences
               </Button>
@@ -226,12 +232,13 @@ export default function Recommendations() {
                     </div>
                     
                     <div className="glass p-3 rounded-xl">
-                      <Button 
-                        className="w-full bg-white text-purple-600 hover:bg-white/90"
+                      <Button
+                        variant="vibrant"
+                        className="w-full text-lg font-bold shadow-lg"
                         onClick={() => window.open(match.internship.applicationUrl, '_blank')}
                       >
                         Apply Now
-                        <ExternalLink className="ml-2 h-4 w-4" />
+                        <ExternalLink className="ml-2 h-5 w-5" />
                       </Button>
                     </div>
                   </div>
@@ -298,10 +305,10 @@ export default function Recommendations() {
 
         {/* Footer */}
         <div className="text-center mt-12">
-          <Button 
-            variant="outline"
+          <Button
+            variant="ghost"
             onClick={() => window.location.href = '/'}
-            className="border-white/30 text-white hover:bg-white/10"
+            className="text-lg font-medium"
           >
             Back to Home
           </Button>
