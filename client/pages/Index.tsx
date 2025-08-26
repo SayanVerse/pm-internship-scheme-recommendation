@@ -51,7 +51,7 @@ export default function Index() {
       features: [
         {
           icon: Users,
-          title: "स्��ार्ट मैचिंग",
+          title: "स्मार्ट मैचिंग",
           description: "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।"
         },
         {
@@ -67,7 +67,7 @@ export default function Index() {
         {
           icon: Globe,
           title: "राष्ट्रव्यापी पहुंच",
-          description: "आपकी आवश्यकताओं के अनुकूल रिमोट और स��थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।"
+          description: "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।"
         }
       ],
       stats: [
@@ -100,7 +100,7 @@ export default function Index() {
         },
         {
           icon: Globe,
-          title: "দেশব্যাপী ���্যাক্সেস",
+          title: "দেশব���যাপী অ্যাক্সেস",
           description: "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্তিক বিকল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।"
         }
       ],
@@ -158,19 +158,20 @@ export default function Index() {
           </p>
           
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <Button 
-              size="lg" 
-              className="bg-white text-purple-600 hover:bg-white/90 text-lg px-8 py-4 rounded-2xl shadow-soft-lg font-semibold group"
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            <Button
+              variant="accent"
+              size="lg"
+              className="text-lg font-bold group shadow-2xl"
               onClick={() => window.location.href = '/intake'}
             >
               {currentContent.findCTA}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="lg"
-              className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-4 rounded-2xl backdrop-blur-sm"
+              className="text-lg font-semibold"
               onClick={() => window.location.href = '/admin'}
             >
               {currentContent.adminCTA}
