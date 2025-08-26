@@ -168,13 +168,14 @@ export default function Intake() {
         </div>
 
         {/* Form Card */}
-        <Card className="max-w-2xl mx-auto glass-card border-white/10">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-white">
+        <Card className="max-w-2xl mx-auto glass-card border-white/20 hover:border-white/30 transition-all duration-500">
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="text-3xl text-white font-bold mb-2">
               {STEPS[currentStep - 1].title}
             </CardTitle>
+            <div className="w-16 h-1 bg-gradient-to-r from-white/50 to-white/20 rounded-full mx-auto"></div>
           </CardHeader>
-          <CardContent className="p-8 space-y-6">
+          <CardContent className="p-8 space-y-8">
             
             {/* Step 1: Personal Info */}
             {currentStep === 1 && (
