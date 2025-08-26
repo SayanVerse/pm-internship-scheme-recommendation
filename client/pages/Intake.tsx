@@ -118,16 +118,17 @@ export default function Intake() {
       <div className="relative z-10 container mx-auto px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Button 
-            variant="ghost" 
+          <Button
             onClick={() => window.location.href = '/'}
-            className="text-white hover:bg-white/10"
+            className="glass-button text-lg font-medium hover:scale-105 transition-all duration-300"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 h-5 w-5" />
             Back to Home
           </Button>
-          <div className="text-white text-sm">
-            Step {currentStep} of {STEPS.length}
+          <div className="glass px-4 py-2 rounded-2xl">
+            <span className="text-white text-lg font-medium">
+              Step {currentStep} of {STEPS.length}
+            </span>
           </div>
         </div>
 
