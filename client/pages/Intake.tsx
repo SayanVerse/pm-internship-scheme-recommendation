@@ -179,38 +179,39 @@ export default function Intake() {
             
             {/* Step 1: Personal Info */}
             {currentStep === 1 && (
-              <div className="space-y-6">
-                <div>
-                  <Label htmlFor="name" className="text-white mb-2 block">Full Name</Label>
+              <div className="space-y-8">
+                <div className="group">
+                  <Label htmlFor="name" className="text-white mb-3 block text-lg font-medium">Full Name</Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => updateFormData({ name: e.target.value })}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/50"
+                    className="glass-input h-12 text-lg"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <Label className="text-white mb-4 block">Education Level</Label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <Label className="text-white mb-4 block text-lg font-medium">Education Level</Label>
+                  <div className="grid grid-cols-2 gap-4">
                     {[
-                      { value: 'TENTH_PLUS_TWO', label: '10+2' },
-                      { value: 'DIPLOMA', label: 'Diploma' },
-                      { value: 'UNDERGRADUATE', label: 'UG' },
-                      { value: 'POSTGRADUATE', label: 'PG' }
+                      { value: 'TENTH_PLUS_TWO', label: '10+2', desc: 'Higher Secondary' },
+                      { value: 'DIPLOMA', label: 'Diploma', desc: 'Technical Course' },
+                      { value: 'UNDERGRADUATE', label: 'UG', desc: 'Bachelor\'s Degree' },
+                      { value: 'POSTGRADUATE', label: 'PG', desc: 'Master\'s Degree' }
                     ].map((option) => (
                       <button
                         key={option.value}
                         type="button"
                         onClick={() => updateFormData({ educationLevel: option.value as EducationLevel })}
                         className={cn(
-                          "p-4 rounded-2xl border-2 transition-all duration-200 text-center",
+                          "glass-tile p-5 text-center group transition-all duration-300",
                           formData.educationLevel === option.value
-                            ? "border-white bg-white/10 text-white"
-                            : "border-white/20 text-white/70 hover:border-white/40"
+                            ? "active ring-2 ring-white/40"
+                            : ""
                         )}
                       >
-                        {option.label}
+                        <div className="text-lg font-semibold text-white mb-1">{option.label}</div>
+                        <div className="text-sm text-white/70">{option.desc}</div>
                       </button>
                     ))}
                   </div>
