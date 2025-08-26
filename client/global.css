@@ -173,6 +173,66 @@
     color: rgba(255, 255, 255, 0.6);
   }
 
+  /* Enhanced Button Styles for Dark Backgrounds */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid transparent;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 active:scale-95;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-accent {
+    @apply px-6 py-3 rounded-xl font-semibold text-gray-900 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg;
+    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+    border: 2px solid transparent;
+  }
+
+  .btn-accent:hover {
+    background: linear-gradient(135deg, #ff9f43 0%, #ee5a6f 100%);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Dark Mode Toggle */
+  .dark-mode-toggle {
+    @apply relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/20;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .dark-mode-toggle.dark {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark-mode-toggle span {
+    @apply inline-block h-6 w-6 transform rounded-full transition-transform duration-300;
+    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+    margin: 1px;
+  }
+
+  .dark-mode-toggle.dark span {
+    @apply translate-x-6;
+    background: linear-gradient(135deg, #4a90e2 0%, #9013fe 100%);
+  }
+
+  /* Vibrant Gradient Backgrounds */
   .gradient-bg {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
@@ -182,8 +242,30 @@
   }
 
   .gradient-pm {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+    background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
     position: relative;
+    animation: gradient-shift 15s ease infinite;
+    background-size: 400% 400%;
+  }
+
+  .gradient-cyberpunk {
+    background: linear-gradient(135deg, #0f3460 0%, #e94560 25%, #ff6b6b 50%, #4ecdc4 75%, #45b7d1 100%);
+    position: relative;
+    animation: gradient-shift 12s ease infinite;
+    background-size: 400% 400%;
+  }
+
+  .gradient-neon {
+    background: linear-gradient(135deg, #ff0844 0%, #ffb199 25%, #ff6ec7 50%, #c44569 75%, #f8b500 100%);
+    position: relative;
+    animation: gradient-shift 10s ease infinite;
+    background-size: 400% 400%;
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   .floating-elements::before {
