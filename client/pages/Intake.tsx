@@ -322,42 +322,44 @@ export default function Intake() {
 
             {/* Step 4: Location */}
             {currentStep === 4 && (
-              <div className="space-y-6">
-                <div>
-                  <Label htmlFor="residencyPin" className="text-white mb-2 block">PIN Code</Label>
+              <div className="space-y-8">
+                <div className="group">
+                  <Label htmlFor="residencyPin" className="text-white mb-3 block text-lg font-medium">PIN Code</Label>
                   <Input
                     id="residencyPin"
                     value={formData.residencyPin}
                     onChange={(e) => updateFormData({ residencyPin: e.target.value })}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/50"
+                    className="glass-input h-12"
                     placeholder="Enter your PIN code"
                   />
                 </div>
-                
-                <div>
-                  <Label htmlFor="locations" className="text-white mb-2 block">Preferred Work Locations</Label>
+
+                <div className="group">
+                  <Label htmlFor="locations" className="text-white mb-3 block text-lg font-medium">Preferred Work Locations</Label>
                   <Input
                     id="locations"
                     value={formData.preferredLocations.join(', ')}
-                    onChange={(e) => updateFormData({ 
-                      preferredLocations: e.target.value.split(',').map(s => s.trim()).filter(s => s) 
+                    onChange={(e) => updateFormData({
+                      preferredLocations: e.target.value.split(',').map(s => s.trim()).filter(s => s)
                     })}
-                    className="bg-white/10 border-white/20 text-white placeholder-white/50"
+                    className="glass-input h-12"
                     placeholder="e.g. Mumbai, Delhi, Remote"
                   />
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    id="ruralFlag"
-                    checked={formData.ruralFlag}
-                    onChange={(e) => updateFormData({ ruralFlag: e.target.checked })}
-                    className="w-4 h-4 text-white"
-                  />
-                  <Label htmlFor="ruralFlag" className="text-white">
-                    I am from a rural area
-                  </Label>
+                <div className="glass p-4 rounded-2xl">
+                  <label className="flex items-center space-x-4 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      id="ruralFlag"
+                      checked={formData.ruralFlag}
+                      onChange={(e) => updateFormData({ ruralFlag: e.target.checked })}
+                      className="w-5 h-5 rounded border-2 border-white/30 bg-white/10 text-white focus:ring-2 focus:ring-white/20 transition-all"
+                    />
+                    <Label htmlFor="ruralFlag" className="text-white text-lg font-medium group-hover:text-white/90 transition-colors">
+                      I am from a rural area
+                    </Label>
+                  </label>
                 </div>
               </div>
             )}
