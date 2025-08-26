@@ -365,25 +365,27 @@ export default function Intake() {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between pt-6">
+            <div className="flex justify-between pt-8">
               <Button
                 type="button"
-                variant="outline"
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                className="border-white/30 text-white hover:bg-white/10 disabled:opacity-50"
+                className={cn(
+                  "glass-button px-6 py-3 text-lg font-medium transition-all duration-300",
+                  currentStep === 1 ? "opacity-50 cursor-not-allowed" : "hover:scale-105 active:scale-95"
+                )}
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 h-5 w-5" />
                 Previous
               </Button>
-              
+
               <Button
                 type="button"
                 onClick={nextStep}
-                className="bg-white text-purple-600 hover:bg-white/90"
+                className="bg-white text-purple-600 hover:bg-white/90 px-8 py-3 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
               >
                 {currentStep === STEPS.length ? 'Get Recommendations' : 'Next'}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
           </CardContent>
