@@ -221,66 +221,67 @@ export default function Intake() {
 
             {/* Step 2: Education & Skills */}
             {currentStep === 2 && (
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="major" className="text-white mb-2 block">Major/Field</Label>
+              <div className="space-y-8">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="group">
+                    <Label htmlFor="major" className="text-white mb-3 block text-lg font-medium">Major/Field</Label>
                     <Input
                       id="major"
                       value={formData.major}
                       onChange={(e) => updateFormData({ major: e.target.value })}
-                      className="bg-white/10 border-white/20 text-white placeholder-white/50"
+                      className="glass-input h-12"
                       placeholder="e.g. Computer Science"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="year" className="text-white mb-2 block">Year</Label>
+                  <div className="group">
+                    <Label htmlFor="year" className="text-white mb-3 block text-lg font-medium">Year</Label>
                     <Input
                       id="year"
                       type="number"
                       value={formData.year}
                       onChange={(e) => updateFormData({ year: e.target.value ? parseInt(e.target.value) : '' })}
-                      className="bg-white/10 border-white/20 text-white placeholder-white/50"
+                      className="glass-input h-12"
                       placeholder="2024"
                     />
                   </div>
                 </div>
-                
+
                 <div>
-                  <Label className="text-white mb-4 block">Skills</Label>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {COMMON_SKILLS.map((skill) => (
-                      <Badge
-                        key={skill}
-                        variant={formData.skills.includes(skill) ? "default" : "outline"}
-                        className={cn(
-                          "cursor-pointer transition-all duration-200",
-                          formData.skills.includes(skill)
-                            ? "bg-white text-purple-600"
-                            : "border-white/30 text-white hover:bg-white/10"
-                        )}
-                        onClick={() => updateFormData({ 
-                          skills: toggleArrayItem(formData.skills, skill) 
-                        })}
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
+                  <Label className="text-white mb-4 block text-lg font-medium">Skills</Label>
+                  <div className="glass p-4 rounded-2xl mb-6">
+                    <div className="flex flex-wrap gap-3">
+                      {COMMON_SKILLS.map((skill) => (
+                        <button
+                          key={skill}
+                          type="button"
+                          onClick={() => updateFormData({
+                            skills: toggleArrayItem(formData.skills, skill)
+                          })}
+                          className={cn(
+                            "px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300",
+                            formData.skills.includes(skill)
+                              ? "bg-white text-purple-600 shadow-lg transform scale-105"
+                              : "glass-button hover:scale-105"
+                          )}
+                        >
+                          {skill}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  
-                  <div className="flex gap-2">
+
+                  <div className="flex gap-3">
                     <Input
                       value={customSkill}
                       onChange={(e) => setCustomSkill(e.target.value)}
                       placeholder="Add custom skill"
-                      className="bg-white/10 border-white/20 text-white placeholder-white/50"
+                      className="glass-input flex-1"
                       onKeyPress={(e) => e.key === 'Enter' && addCustomSkill()}
                     />
-                    <Button 
-                      type="button" 
+                    <Button
+                      type="button"
                       onClick={addCustomSkill}
-                      variant="outline"
-                      className="border-white/30 text-white hover:bg-white/10"
+                      className="glass-button px-6"
                     >
                       Add
                     </Button>
