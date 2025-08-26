@@ -292,25 +292,27 @@ export default function Intake() {
 
             {/* Step 3: Interests */}
             {currentStep === 3 && (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div>
-                  <Label className="text-white mb-4 block">Sector Interests</Label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <Label className="text-white mb-6 block text-lg font-medium">Sector Interests</Label>
+                  <div className="grid grid-cols-2 gap-4">
                     {SECTORS.map((sector) => (
                       <button
                         key={sector}
                         type="button"
-                        onClick={() => updateFormData({ 
-                          sectorInterests: toggleArrayItem(formData.sectorInterests, sector) 
+                        onClick={() => updateFormData({
+                          sectorInterests: toggleArrayItem(formData.sectorInterests, sector)
                         })}
                         className={cn(
-                          "p-3 rounded-xl border-2 transition-all duration-200 text-sm",
+                          "glass-tile p-4 text-center transition-all duration-300 group",
                           formData.sectorInterests.includes(sector)
-                            ? "border-white bg-white/10 text-white"
-                            : "border-white/20 text-white/70 hover:border-white/40"
+                            ? "active ring-2 ring-white/40 transform scale-105"
+                            : ""
                         )}
                       >
-                        {sector}
+                        <div className="text-white font-medium text-sm group-hover:text-white transition-colors">
+                          {sector}
+                        </div>
                       </button>
                     ))}
                   </div>
