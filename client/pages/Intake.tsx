@@ -133,25 +133,37 @@ export default function Intake() {
 
         {/* Progress Steps */}
         <div className="flex justify-center mb-12">
-          <div className="flex items-center space-x-4">
-            {STEPS.map((step, index) => (
-              <div key={step.id} className="flex items-center">
-                <div className={cn(
-                  "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200",
-                  currentStep >= step.id 
-                    ? "bg-white text-purple-600 shadow-soft" 
-                    : "bg-white/20 text-white"
-                )}>
-                  <step.icon className="h-5 w-5" />
-                </div>
-                {index < STEPS.length - 1 && (
+          <div className="glass-card p-4">
+            <div className="flex items-center space-x-4">
+              {STEPS.map((step, index) => (
+                <div key={step.id} className="flex items-center">
                   <div className={cn(
-                    "w-8 h-1 mx-2 rounded-full transition-colors duration-200",
-                    currentStep > step.id ? "bg-white" : "bg-white/20"
-                  )} />
-                )}
-              </div>
-            ))}
+                    "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 group",
+                    currentStep >= step.id
+                      ? "bg-white text-purple-600 shadow-soft pulse-glow transform scale-110"
+                      : "glass-tile text-white hover:scale-105"
+                  )}>
+                    <step.icon className={cn(
+                      "transition-all duration-300",
+                      currentStep >= step.id ? "h-6 w-6" : "h-5 w-5"
+                    )} />
+                  </div>
+                  {index < STEPS.length - 1 && (
+                    <div className={cn(
+                      "w-12 h-2 mx-3 rounded-full transition-all duration-300",
+                      currentStep > step.id
+                        ? "bg-gradient-to-r from-white to-white/80 shadow-glow"
+                        : "bg-white/20"
+                    )} />
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center mt-4">
+              <p className="text-white/80 text-sm font-medium">
+                {STEPS[currentStep - 1].title}
+              </p>
+            </div>
           </div>
         </div>
 
