@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { ArrowRight, Users, Briefcase, TrendingUp, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +62,7 @@ export default function Index() {
         {
           icon: TrendingUp,
           title: "करियर विकास",
-          description: "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।"
+          description: "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्��ाप्त करें।"
         },
         {
           icon: Globe,
@@ -95,7 +96,7 @@ export default function Index() {
         {
           icon: TrendingUp,
           title: "ক্যারিয়ার বৃদ্ধি",
-          description: "বৃত্তি-ভিত্তিক ইন্টার্নশিপ প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।"
+          description: "বৃত্তি-ভিত্তিক ইন্টার্নশিপ প্রোগ্রামের সাথ��� ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।"
         },
         {
           icon: Globe,
