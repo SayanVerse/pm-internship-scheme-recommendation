@@ -67,13 +67,12 @@ const App = () => (
 
 // Prevent multiple root creation during HMR
 const container = document.getElementById("root")!;
-let root: ReturnType<typeof createRoot>;
 
-if (!container._reactRootContainer) {
-  root = createRoot(container);
-  container._reactRootContainer = root;
+// Check if root already exists (for HMR)
+if (!(container as any)._reactRoot) {
+  const root = createRoot(container);
+  (container as any)._reactRoot = root;
+  root.render(<App />);
 } else {
-  root = container._reactRootContainer;
+  (container as any)._reactRoot.render(<App />);
 }
-
-root.render(<App />);
