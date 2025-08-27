@@ -16,7 +16,7 @@ const InternshipsQuerySchema = z.object({
   active: z
     .string()
     .optional()
-    .transform((val) => val === undefined ? undefined : val === "true"),
+    .transform((val) => (val === undefined ? undefined : val === "true")),
   sector: z.string().optional(),
   search: z.string().optional(),
 });
