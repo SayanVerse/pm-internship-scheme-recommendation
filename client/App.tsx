@@ -6,7 +6,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { DarkModeProvider } from "@/hooks/use-dark-mode";
 import Index from "./pages/Index";
 import Intake from "./pages/Intake";
 import Recommendations from "./pages/Recommendations";
@@ -17,8 +16,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <DarkModeProvider>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -35,7 +33,6 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
-  </DarkModeProvider>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);
