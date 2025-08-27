@@ -21,7 +21,9 @@ export function ProtectedRoute({
     return (
       <div className="min-h-screen bg-gradient-cyberpunk flex items-center justify-center">
         <div className="glass-card p-8 text-center">
-          <p className="text-white text-lg">Authentication system error. Redirecting...</p>
+          <p className="text-white text-lg">
+            Authentication system error. Redirecting...
+          </p>
         </div>
       </div>
     );
