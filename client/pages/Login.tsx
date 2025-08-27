@@ -84,9 +84,9 @@ export default function Login() {
         {/* Back to Home Button */}
         <div className="absolute top-4 left-4 sm:top-8 sm:left-8">
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={() => (window.location.href = "/")}
-            className="text-lg font-medium"
+            className="text-white border-white/30 hover:bg-white/10 text-lg font-medium"
           >
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back to Home
@@ -177,7 +177,7 @@ export default function Login() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors"
+                    className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white transition-colors bg-white/10 hover:bg-white/20 rounded p-1"
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -225,14 +225,14 @@ export default function Login() {
                 {isLogin ? "Don't have an account?" : "Already have an account?"}
               </p>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={() => {
                   setIsLogin(!isLogin);
                   setError("");
                   setFormData({ firstName: "", lastName: "", email: "", password: "" });
                 }}
-                className="text-white hover:text-white/80 text-sm sm:text-base"
+                className="text-white border-white/30 hover:bg-white/10 hover:border-white/50 text-sm sm:text-base"
               >
                 {isLogin ? "Create Account" : "Sign In"}
               </Button>
