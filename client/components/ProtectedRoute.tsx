@@ -10,7 +10,24 @@ export function ProtectedRoute({
   children,
   adminOnly = false,
 }: ProtectedRouteProps) {
-  const { isAuthenticated, isAdmin, isLoading } = useAuth();
+  let authData;
+
+  try {
+    authData = useAuth();
+  } catch (error) {
+    console.error("ProtectedRoute: AuthProvider context not found:", error);
+    // Fallback: redirect to login if no auth context
+    window.location.href = "/login";
+    return (
+      <div className="min-h-screen bg-gradient-cyberpunk flex items-center justify-center">
+        <div className="glass-card p-8 text-center">
+          <p className="text-white text-lg">Authentication system error. Redirecting...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const { isAuthenticated, isAdmin, isLoading } = authData;
 
   useEffect(() => {
     // Don't redirect while loading
