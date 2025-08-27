@@ -52,7 +52,7 @@ export default function Index() {
     hi: {
       hero: "अपना सटीक इंटर्नशिप मैच खोजें",
       subtitle:
-        "पीएम इंटर्नशिप योजना के उम्मीदवारों के लिए AI-संचालित सिफारिशें। अपने कौशल और प्राथमिकताओं के आधा�� पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
+        "पीएम इंटर्नशिप योजना के उम्मीदवारों के लिए AI-संचालित सिफारिशें। अपने कौशल और प्राथमिकताओं के आधार पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
       findCTA: "मेरी 3 सर्वोत्तम इंटर्नशिप खोजें",
       adminCTA: "इंटर्नशिप प्रबंधित करें",
       features: [
@@ -72,7 +72,7 @@ export default function Index() {
           icon: TrendingUp,
           title: "करियर विकास",
           description:
-            "वेतन-आधारित इंटर्नशिप कार्यक��रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।",
+            "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।",
         },
         {
           icon: Globe,
@@ -141,27 +141,28 @@ export default function Index() {
       <div className="absolute bottom-1/4 left-1/2 w-60 h-60 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
 
       {/* Header with Language Switcher and Auth */}
-      <header className="relative z-10 flex justify-between items-center p-6">
-        <div className="flex items-center gap-4">
+      <header className="relative z-10 flex flex-col sm:flex-row justify-between items-center p-4 sm:p-6 gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-1">
           {isAuthenticated && (
-            <div className="glass-card p-3 flex items-center gap-3">
-              <User className="h-5 w-5 text-white" />
-              <span className="text-white font-medium">
-                {user?.firstName} {user?.lastName}
-                {isAdmin && <span className="text-yellow-400 ml-2">(Admin)</span>}
+            <div className="glass-card p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
+              <User className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              <span className="text-white font-medium text-sm sm:text-base">
+                <span className="hidden sm:inline">{user?.firstName} {user?.lastName}</span>
+                <span className="sm:hidden">{user?.firstName}</span>
+                {isAdmin && <span className="text-yellow-400 ml-1 sm:ml-2 text-xs sm:text-sm">(Admin)</span>}
               </span>
             </div>
           )}
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="glass-card p-2 flex gap-1">
+        <div className="flex items-center gap-2 sm:gap-4 order-1 sm:order-2">
+          <div className="glass-card p-1 sm:p-2 flex gap-1">
             {(["en", "hi", "bn"] as const).map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-105",
+                  "px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105",
                   language === lang
                     ? "bg-white/30 text-white shadow-lg"
                     : "text-white/80 hover:text-white hover:bg-white/10",
@@ -172,24 +173,28 @@ export default function Index() {
             ))}
           </div>
 
-          <div className="glass-card p-2">
+          <div className="glass-card p-1 sm:p-2">
             {isAuthenticated ? (
               <Button
                 variant="ghost"
                 onClick={logout}
-                className="text-white hover:text-white/80"
+                size="sm"
+                className="text-white hover:text-white/80 text-xs sm:text-sm"
               >
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
+                <LogOut className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Logout</span>
+                <span className="sm:hidden">Out</span>
               </Button>
             ) : (
               <Button
                 variant="ghost"
                 onClick={() => (window.location.href = "/login")}
-                className="text-white hover:text-white/80"
+                size="sm"
+                className="text-white hover:text-white/80 text-xs sm:text-sm"
               >
-                <LogIn className="mr-2 h-4 w-4" />
-                Login
+                <LogIn className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Login</span>
+                <span className="sm:hidden">In</span>
               </Button>
             )}
           </div>
@@ -197,17 +202,17 @@ export default function Index() {
       </header>
 
       {/* Hero Section */}
-      <main className="relative z-10 container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+      <main className="relative z-10 container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-16">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-6 sm:mb-8 leading-tight px-2">
             {currentContent.hero}
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-12 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4">
             {currentContent.subtitle}
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-8 sm:mb-16 px-4">
             <Button
               variant="accent"
               size="lg"
@@ -230,13 +235,13 @@ export default function Index() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-20 px-2">
             {currentContent.stats.map((stat, index) => (
-              <div key={index} className="glass-card p-6 text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+              <div key={index} className="glass-card p-3 sm:p-6 text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
                   {stat.number}
                 </div>
-                <div className="text-white/80 text-sm md:text-base">
+                <div className="text-white/80 text-xs sm:text-sm md:text-base">
                   {stat.label}
                 </div>
               </div>
@@ -245,21 +250,21 @@ export default function Index() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 max-w-7xl mx-auto px-2 sm:px-0">
           {currentContent.features.map((feature, index) => (
             <Card
               key={index}
               className="glass-card border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105"
             >
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="mb-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-white" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-3 sm:mb-4">
+                    <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-white/80 leading-relaxed">
+                  <p className="text-sm sm:text-base text-white/80 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -269,8 +274,8 @@ export default function Index() {
         </div>
 
         {/* Footer */}
-        <footer className="text-center mt-20 text-white/60">
-          <p>
+        <footer className="text-center mt-12 sm:mt-20 text-white/60 px-4">
+          <p className="text-xs sm:text-sm">
             © 2024 PM Internship Recommender • Government of India Initiative
           </p>
         </footer>
