@@ -6,7 +6,10 @@ interface ProtectedRouteProps {
   adminOnly?: boolean;
 }
 
-export function ProtectedRoute({ children, adminOnly = false }: ProtectedRouteProps) {
+export function ProtectedRoute({
+  children,
+  adminOnly = false,
+}: ProtectedRouteProps) {
   const { isAuthenticated, isAdmin, isLoading } = useAuth();
 
   useEffect(() => {

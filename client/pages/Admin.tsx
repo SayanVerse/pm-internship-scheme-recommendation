@@ -63,7 +63,9 @@ interface AdminStats {
 }
 
 export default function Admin() {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "internships" | "users" | "upload">("dashboard");
+  const [activeTab, setActiveTab] = useState<
+    "dashboard" | "internships" | "users" | "upload"
+  >("dashboard");
   const [internships, setInternships] = useState<Internship[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [stats, setStats] = useState<AdminStats>({
@@ -75,7 +77,8 @@ export default function Admin() {
   });
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInternship, setSelectedInternship] = useState<Internship | null>(null);
+  const [selectedInternship, setSelectedInternship] =
+    useState<Internship | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Fetch data on component mount
@@ -91,10 +94,12 @@ export default function Admin() {
       // In a real app, you'd have dedicated API endpoints for analytics
       const internshipsRes = await fetch("/api/internships");
       const internshipsData = await internshipsRes.json();
-      
+
       setStats({
         totalInternships: internshipsData.total || 0,
-        activeInternships: internshipsData.internships?.filter((i: Internship) => i.active).length || 0,
+        activeInternships:
+          internshipsData.internships?.filter((i: Internship) => i.active)
+            .length || 0,
         totalUsers: 0, // We'll get this from localStorage for now
         totalApplications: 0,
         recentApplications: 0,
@@ -122,18 +127,22 @@ export default function Admin() {
   const fetchUsers = async () => {
     try {
       // For now, get users from localStorage
-      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
-      const transformedUsers = registeredUsers.map((user: any, index: number) => ({
-        id: `user-${index}`,
-        email: user.email,
-        role: "CANDIDATE",
-        name: `${user.firstName} ${user.lastName}`,
-        createdAt: new Date().toISOString(),
-      }));
+      const registeredUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]",
+      );
+      const transformedUsers = registeredUsers.map(
+        (user: any, index: number) => ({
+          id: `user-${index}`,
+          email: user.email,
+          role: "CANDIDATE",
+          name: `${user.firstName} ${user.lastName}`,
+          createdAt: new Date().toISOString(),
+        }),
+      );
       setUsers(transformedUsers);
-      
+
       // Update stats with user count
-      setStats(prev => ({ ...prev, totalUsers: transformedUsers.length }));
+      setStats((prev) => ({ ...prev, totalUsers: transformedUsers.length }));
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -141,7 +150,8 @@ export default function Admin() {
 
   const formatStipend = (min?: number, max?: number) => {
     if (!min && !max) return "Unpaid";
-    if (min && max) return `₹${min.toLocaleString()} - ₹${max.toLocaleString()}`;
+    if (min && max)
+      return `₹${min.toLocaleString()} - ₹${max.toLocaleString()}`;
     if (min) return `₹${min.toLocaleString()}+`;
     return `Up to ₹${max?.toLocaleString()}`;
   };
@@ -150,15 +160,17 @@ export default function Admin() {
     return new Date(dateString).toLocaleDateString();
   };
 
-  const filteredInternships = internships.filter(internship =>
-    internship.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    internship.orgName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    internship.sector.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredInternships = internships.filter(
+    (internship) =>
+      internship.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      internship.orgName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      internship.sector.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const filteredUsers = users.filter(user =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredUsers = users.filter(
+    (user) =>
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   return (
@@ -183,7 +195,9 @@ export default function Admin() {
               <span className="hidden sm:inline">Back to Home</span>
               <span className="sm:hidden">Back</span>
             </Button>
-            <h1 className="text-xl sm:text-3xl font-bold text-white">Admin Dashboard</h1>
+            <h1 className="text-xl sm:text-3xl font-bold text-white">
+              Admin Dashboard
+            </h1>
           </div>
           <Button
             variant="outline"
@@ -199,10 +213,25 @@ export default function Admin() {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-1 sm:gap-2 mb-6 sm:mb-8 overflow-x-auto">
           {[
-            { id: "dashboard", label: "Dashboard", icon: TrendingUp, shortLabel: "Home" },
-            { id: "internships", label: "Internships", icon: Briefcase, shortLabel: "Jobs" },
+            {
+              id: "dashboard",
+              label: "Dashboard",
+              icon: TrendingUp,
+              shortLabel: "Home",
+            },
+            {
+              id: "internships",
+              label: "Internships",
+              icon: Briefcase,
+              shortLabel: "Jobs",
+            },
             { id: "users", label: "Users", icon: Users, shortLabel: "Users" },
-            { id: "upload", label: "Upload CSV", icon: Upload, shortLabel: "Upload" },
+            {
+              id: "upload",
+              label: "Upload CSV",
+              icon: Upload,
+              shortLabel: "Upload",
+            },
           ].map((tab) => (
             <Button
               key={tab.id}
@@ -213,7 +242,7 @@ export default function Admin() {
                 "text-xs sm:text-lg font-medium whitespace-nowrap",
                 activeTab === tab.id
                   ? "bg-white text-purple-600"
-                  : "text-white hover:bg-white/10"
+                  : "text-white hover:bg-white/10",
               )}
             >
               <tab.icon className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
@@ -232,8 +261,12 @@ export default function Admin() {
                 <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-xs sm:text-sm">Total Internships</p>
-                      <p className="text-lg sm:text-3xl font-bold text-white">{stats.totalInternships}</p>
+                      <p className="text-white/70 text-xs sm:text-sm">
+                        Total Internships
+                      </p>
+                      <p className="text-lg sm:text-3xl font-bold text-white">
+                        {stats.totalInternships}
+                      </p>
                     </div>
                     <Briefcase className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
                   </div>
@@ -244,8 +277,12 @@ export default function Admin() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-sm">Active Internships</p>
-                      <p className="text-3xl font-bold text-white">{stats.activeInternships}</p>
+                      <p className="text-white/70 text-sm">
+                        Active Internships
+                      </p>
+                      <p className="text-3xl font-bold text-white">
+                        {stats.activeInternships}
+                      </p>
                     </div>
                     <UserCheck className="h-8 w-8 text-green-400" />
                   </div>
@@ -257,7 +294,9 @@ export default function Admin() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-white/70 text-sm">Registered Users</p>
-                      <p className="text-3xl font-bold text-white">{stats.totalUsers}</p>
+                      <p className="text-3xl font-bold text-white">
+                        {stats.totalUsers}
+                      </p>
                     </div>
                     <Users className="h-8 w-8 text-white/50" />
                   </div>
@@ -269,7 +308,9 @@ export default function Admin() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-white/70 text-sm">Applications</p>
-                      <p className="text-3xl font-bold text-white">{stats.totalApplications}</p>
+                      <p className="text-3xl font-bold text-white">
+                        {stats.totalApplications}
+                      </p>
                     </div>
                     <TrendingUp className="h-8 w-8 text-white/50" />
                   </div>
@@ -281,7 +322,9 @@ export default function Admin() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
               <Card className="glass-card border-white/10">
                 <CardHeader>
-                  <CardTitle className="text-white text-lg sm:text-xl">Quick Actions</CardTitle>
+                  <CardTitle className="text-white text-lg sm:text-xl">
+                    Quick Actions
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 sm:space-y-4">
                   <Button
@@ -313,21 +356,29 @@ export default function Admin() {
 
               <Card className="glass-card border-white/10">
                 <CardHeader>
-                  <CardTitle className="text-white text-xl">Recent Activity</CardTitle>
+                  <CardTitle className="text-white text-xl">
+                    Recent Activity
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-white/80">
                       <UserCheck className="h-5 w-5 text-green-400" />
-                      <span className="text-sm">5 new user registrations today</span>
+                      <span className="text-sm">
+                        5 new user registrations today
+                      </span>
                     </div>
                     <div className="flex items-center gap-3 text-white/80">
                       <Briefcase className="h-5 w-5 text-blue-400" />
-                      <span className="text-sm">3 new internships added this week</span>
+                      <span className="text-sm">
+                        3 new internships added this week
+                      </span>
                     </div>
                     <div className="flex items-center gap-3 text-white/80">
                       <TrendingUp className="h-5 w-5 text-yellow-400" />
-                      <span className="text-sm">15 applications submitted today</span>
+                      <span className="text-sm">
+                        15 applications submitted today
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -371,62 +422,96 @@ export default function Admin() {
                   <CardContent className="p-8 text-center">
                     <Briefcase className="h-12 w-12 text-white/50 mx-auto mb-4" />
                     <p className="text-white text-lg">No internships found</p>
-                    <p className="text-white/70">Try adjusting your search or add a new internship</p>
+                    <p className="text-white/70">
+                      Try adjusting your search or add a new internship
+                    </p>
                   </CardContent>
                 </Card>
               ) : (
                 filteredInternships.map((internship) => (
-                  <Card key={internship.id} className="glass-card border-white/10 hover:border-white/20">
+                  <Card
+                    key={internship.id}
+                    className="glass-card border-white/10 hover:border-white/20"
+                  >
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
                         <div className="flex-1 w-full">
                           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                            <h3 className="text-lg sm:text-xl font-semibold text-white">{internship.title}</h3>
+                            <h3 className="text-lg sm:text-xl font-semibold text-white">
+                              {internship.title}
+                            </h3>
                             <Badge
-                              variant={internship.active ? "default" : "secondary"}
-                              className={internship.active ? "bg-green-500" : "bg-gray-500"}
+                              variant={
+                                internship.active ? "default" : "secondary"
+                              }
+                              className={
+                                internship.active
+                                  ? "bg-green-500"
+                                  : "bg-gray-500"
+                              }
                             >
                               {internship.active ? "Active" : "Inactive"}
                             </Badge>
                           </div>
-                          
+
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-3 sm:mb-4">
                             <div className="flex items-center gap-2 text-white/80">
                               <Building className="h-4 w-4" />
-                              <span className="text-sm">{internship.orgName}</span>
+                              <span className="text-sm">
+                                {internship.orgName}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2 text-white/80">
-                              <Badge variant="outline" className="border-white/30 text-white">
+                              <Badge
+                                variant="outline"
+                                className="border-white/30 text-white"
+                              >
                                 {internship.sector}
                               </Badge>
                             </div>
                             <div className="flex items-center gap-2 text-white/80">
                               <MapPin className="h-4 w-4" />
                               <span className="text-sm">
-                                {internship.remote ? "Remote" : `${internship.city}, ${internship.state}`}
+                                {internship.remote
+                                  ? "Remote"
+                                  : `${internship.city}, ${internship.state}`}
                               </span>
                             </div>
                             <div className="flex items-center gap-2 text-white/80">
                               <IndianRupee className="h-4 w-4" />
                               <span className="text-sm">
-                                {formatStipend(internship.stipendMin, internship.stipendMax)}
+                                {formatStipend(
+                                  internship.stipendMin,
+                                  internship.stipendMax,
+                                )}
                               </span>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 text-white/80 mb-4">
                             <Calendar className="h-4 w-4" />
-                            <span className="text-sm">Deadline: {formatDate(internship.deadline)}</span>
+                            <span className="text-sm">
+                              Deadline: {formatDate(internship.deadline)}
+                            </span>
                           </div>
 
                           <div className="flex flex-wrap gap-2">
-                            {internship.requiredSkills.slice(0, 3).map((skill) => (
-                              <Badge key={skill} variant="outline" className="border-white/30 text-white text-xs">
-                                {skill}
-                              </Badge>
-                            ))}
+                            {internship.requiredSkills
+                              .slice(0, 3)
+                              .map((skill) => (
+                                <Badge
+                                  key={skill}
+                                  variant="outline"
+                                  className="border-white/30 text-white text-xs"
+                                >
+                                  {skill}
+                                </Badge>
+                              ))}
                             {internship.requiredSkills.length > 3 && (
-                              <Badge variant="outline" className="border-white/30 text-white/70 text-xs">
+                              <Badge
+                                variant="outline"
+                                className="border-white/30 text-white/70 text-xs"
+                              >
                                 +{internship.requiredSkills.length - 3} more
                               </Badge>
                             )}
@@ -491,12 +576,17 @@ export default function Admin() {
                   <CardContent className="p-8 text-center">
                     <Users className="h-12 w-12 text-white/50 mx-auto mb-4" />
                     <p className="text-white text-lg">No users found</p>
-                    <p className="text-white/70">Users will appear here once they register</p>
+                    <p className="text-white/70">
+                      Users will appear here once they register
+                    </p>
                   </CardContent>
                 </Card>
               ) : (
                 filteredUsers.map((user) => (
-                  <Card key={user.id} className="glass-card border-white/10 hover:border-white/20">
+                  <Card
+                    key={user.id}
+                    className="glass-card border-white/10 hover:border-white/20"
+                  >
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-3 sm:gap-4 flex-1">
@@ -504,10 +594,17 @@ export default function Admin() {
                             <Users className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <h3 className="text-base sm:text-lg font-semibold text-white truncate">{user.name || "Unknown User"}</h3>
-                            <p className="text-white/70 text-sm truncate">{user.email}</p>
+                            <h3 className="text-base sm:text-lg font-semibold text-white truncate">
+                              {user.name || "Unknown User"}
+                            </h3>
+                            <p className="text-white/70 text-sm truncate">
+                              {user.email}
+                            </p>
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mt-1">
-                              <Badge variant="outline" className="border-white/30 text-white text-xs w-fit">
+                              <Badge
+                                variant="outline"
+                                className="border-white/30 text-white text-xs w-fit"
+                              >
                                 {user.role}
                               </Badge>
                               <span className="text-white/60 text-xs">
@@ -557,16 +654,22 @@ export default function Admin() {
                 <div className="border-2 border-dashed border-white/30 rounded-xl p-8 text-center hover:border-white/50 transition-colors">
                   <Upload className="h-12 w-12 text-white/50 mx-auto mb-4" />
                   <p className="text-white mb-2">Drop your CSV file here or</p>
-                  <Button variant="outline" className="border-white/30 text-white hover:bg-white/10">
+                  <Button
+                    variant="outline"
+                    className="border-white/30 text-white hover:bg-white/10"
+                  >
                     Browse Files
                   </Button>
                 </div>
-                
+
                 <div className="glass p-4 rounded-xl">
-                  <h4 className="text-white font-medium mb-2">Required CSV Format:</h4>
+                  <h4 className="text-white font-medium mb-2">
+                    Required CSV Format:
+                  </h4>
                   <p className="text-white/70 text-sm mb-3">
-                    title, sector, orgName, city, state, pin, remote, minEducation, 
-                    requiredSkills, stipendMin, stipendMax, applicationUrl, deadline, active
+                    title, sector, orgName, city, state, pin, remote,
+                    minEducation, requiredSkills, stipendMin, stipendMax,
+                    applicationUrl, deadline, active
                   </p>
                   <Button
                     variant="ghost"

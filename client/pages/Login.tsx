@@ -29,7 +29,7 @@ export default function Login() {
 
     try {
       let success = false;
-      
+
       if (isLogin) {
         success = await login(formData.email, formData.password);
         if (!success) {
@@ -45,7 +45,7 @@ export default function Login() {
           formData.firstName,
           formData.lastName,
           formData.email,
-          formData.password
+          formData.password,
         );
         if (!success) {
           setError("User with this email already exists");
@@ -69,7 +69,7 @@ export default function Login() {
   };
 
   const updateFormData = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -102,8 +102,7 @@ export default function Login() {
             <p className="text-sm sm:text-base text-white/70">
               {isLogin
                 ? "Sign in to access your internship dashboard"
-                : "Join us to find your perfect internship match"
-              }
+                : "Join us to find your perfect internship match"}
             </p>
           </CardHeader>
 
@@ -113,28 +112,38 @@ export default function Login() {
               {!isLogin && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <Label htmlFor="firstName" className="text-white mb-2 block text-sm sm:text-base">
+                    <Label
+                      htmlFor="firstName"
+                      className="text-white mb-2 block text-sm sm:text-base"
+                    >
                       First Name
                     </Label>
                     <Input
                       id="firstName"
                       type="text"
                       value={formData.firstName}
-                      onChange={(e) => updateFormData("firstName", e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("firstName", e.target.value)
+                      }
                       className="glass-input h-10 sm:h-12"
                       placeholder="John"
                       required={!isLogin}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="lastName" className="text-white mb-2 block text-sm sm:text-base">
+                    <Label
+                      htmlFor="lastName"
+                      className="text-white mb-2 block text-sm sm:text-base"
+                    >
                       Last Name
                     </Label>
                     <Input
                       id="lastName"
                       type="text"
                       value={formData.lastName}
-                      onChange={(e) => updateFormData("lastName", e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("lastName", e.target.value)
+                      }
                       className="glass-input h-10 sm:h-12"
                       placeholder="Doe"
                       required={!isLogin}
@@ -145,7 +154,10 @@ export default function Login() {
 
               {/* Email */}
               <div>
-                <Label htmlFor="email" className="text-white mb-2 block text-sm sm:text-base">
+                <Label
+                  htmlFor="email"
+                  className="text-white mb-2 block text-sm sm:text-base"
+                >
                   Email Address
                 </Label>
                 <Input
@@ -161,7 +173,10 @@ export default function Login() {
 
               {/* Password */}
               <div>
-                <Label htmlFor="password" className="text-white mb-2 block text-sm sm:text-base">
+                <Label
+                  htmlFor="password"
+                  className="text-white mb-2 block text-sm sm:text-base"
+                >
                   Password
                 </Label>
                 <div className="relative">
@@ -222,7 +237,9 @@ export default function Login() {
             {/* Switch Mode */}
             <div className="text-center pt-3 sm:pt-4 border-t border-white/10">
               <p className="text-white/70 mb-2 sm:mb-3 text-sm sm:text-base">
-                {isLogin ? "Don't have an account?" : "Already have an account?"}
+                {isLogin
+                  ? "Don't have an account?"
+                  : "Already have an account?"}
               </p>
               <Button
                 variant="outline"
@@ -230,7 +247,12 @@ export default function Login() {
                 onClick={() => {
                   setIsLogin(!isLogin);
                   setError("");
-                  setFormData({ firstName: "", lastName: "", email: "", password: "" });
+                  setFormData({
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: "",
+                  });
                 }}
                 className="text-white border-white/30 hover:bg-white/10 hover:border-white/50 text-sm sm:text-base"
               >
@@ -241,9 +263,12 @@ export default function Login() {
             {/* Admin Demo */}
             {isLogin && (
               <div className="mt-4 sm:mt-6 p-3 sm:p-4 glass rounded-xl">
-                <p className="text-white/70 text-xs sm:text-sm mb-2">Admin Demo:</p>
+                <p className="text-white/70 text-xs sm:text-sm mb-2">
+                  Admin Demo:
+                </p>
                 <p className="text-white/60 text-xs">
-                  Email: admin@pminternship.in<br />
+                  Email: admin@pminternship.in
+                  <br />
                   Password: Admin@12345
                 </p>
               </div>

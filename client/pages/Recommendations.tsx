@@ -207,7 +207,9 @@ export default function Recommendations() {
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-white/80">
                         <div className="flex items-center gap-1">
                           <Building className="h-4 w-4" />
-                          <span className="text-sm sm:text-base">{match.internship.orgName}</span>
+                          <span className="text-sm sm:text-base">
+                            {match.internship.orgName}
+                          </span>
                         </div>
                         <Badge
                           variant="outline"

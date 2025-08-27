@@ -5,26 +5,28 @@ interface DarkModeContextType {
   toggleDarkMode: () => void;
 }
 
-const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
+const DarkModeContext = createContext<DarkModeContextType | undefined>(
+  undefined,
+);
 
 export function DarkModeProvider({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('darkMode');
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("darkMode");
       if (saved !== null) return JSON.parse(saved);
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
     return true; // Default to dark mode
   });
 
   useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-    
+    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+
     // Apply dark mode class to document
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
 

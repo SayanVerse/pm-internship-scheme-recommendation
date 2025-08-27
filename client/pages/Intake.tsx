@@ -270,7 +270,9 @@ export default function Intake() {
                     <step.icon
                       className={cn(
                         "transition-all duration-300",
-                        currentStep >= step.id ? "h-4 w-4 sm:h-6 sm:w-6" : "h-3 w-3 sm:h-5 sm:w-5",
+                        currentStep >= step.id
+                          ? "h-4 w-4 sm:h-6 sm:w-6"
+                          : "h-3 w-3 sm:h-5 sm:w-5",
                       )}
                     />
                   </div>
@@ -597,7 +599,9 @@ export default function Intake() {
                 className="text-sm sm:text-lg font-bold shadow-2xl flex-1 sm:flex-none"
               >
                 <span className="hidden sm:inline">
-                  {currentStep === STEPS.length ? "Get Recommendations" : "Next"}
+                  {currentStep === STEPS.length
+                    ? "Get Recommendations"
+                    : "Next"}
                 </span>
                 <span className="sm:hidden">
                   {currentStep === STEPS.length ? "Get Results" : "Next"}

@@ -11,8 +11,8 @@ export function DarkModeToggle({ className }: { className?: string }) {
       onClick={toggleDarkMode}
       className={cn(
         "relative inline-flex h-8 w-14 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/20 group",
-        isDarkMode 
-          ? "bg-gradient-to-r from-blue-600 to-purple-600" 
+        isDarkMode
+          ? "bg-gradient-to-r from-blue-600 to-purple-600"
           : "bg-gradient-to-r from-yellow-400 to-orange-500",
         className,
       )}
@@ -21,9 +21,9 @@ export function DarkModeToggle({ className }: { className?: string }) {
       <span
         className={cn(
           "inline-block h-6 w-6 transform rounded-full transition-all duration-300 flex items-center justify-center",
-          isDarkMode 
-            ? "translate-x-7 bg-gray-800 text-blue-200" 
-            : "translate-x-1 bg-white text-yellow-600"
+          isDarkMode
+            ? "translate-x-7 bg-gray-800 text-blue-200"
+            : "translate-x-1 bg-white text-yellow-600",
         )}
       >
         {isDarkMode ? (

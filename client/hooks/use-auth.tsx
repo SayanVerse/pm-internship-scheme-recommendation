@@ -10,7 +10,12 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (firstName: string, lastName: string, email: string, password: string) => Promise<boolean>;
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+  ) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -56,9 +61,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Check regular user credentials
-      const storedUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+      const storedUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]",
+      );
       const foundUser = storedUsers.find(
-        (u: any) => u.email === email && u.password === password
+        (u: any) => u.email === email && u.password === password,
       );
 
       if (foundUser) {
@@ -84,11 +91,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
   ): Promise<boolean> => {
     try {
       // Check if user already exists
-      const storedUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+      const storedUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]",
+      );
       const existingUser = storedUsers.find((u: any) => u.email === email);
 
       if (existingUser) {

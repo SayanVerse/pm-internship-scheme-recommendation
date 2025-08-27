@@ -3,7 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowRight, Users, Briefcase, TrendingUp, Globe, LogOut, LogIn, User } from "lucide-react";
+import {
+  ArrowRight,
+  Users,
+  Briefcase,
+  TrendingUp,
+  Globe,
+  LogOut,
+  LogIn,
+  User,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Index() {
@@ -148,9 +157,15 @@ export default function Index() {
             <div className="glass-card p-2 sm:p-3 flex items-center gap-2 sm:gap-3">
               <User className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               <span className="text-white font-medium text-sm sm:text-base">
-                <span className="hidden sm:inline">{user?.firstName} {user?.lastName}</span>
+                <span className="hidden sm:inline">
+                  {user?.firstName} {user?.lastName}
+                </span>
                 <span className="sm:hidden">{user?.firstName}</span>
-                {isAdmin && <span className="text-yellow-400 ml-1 sm:ml-2 text-xs sm:text-sm">(Admin)</span>}
+                {isAdmin && (
+                  <span className="text-yellow-400 ml-1 sm:ml-2 text-xs sm:text-sm">
+                    (Admin)
+                  </span>
+                )}
               </span>
             </div>
           )}
@@ -286,9 +301,7 @@ export default function Index() {
 
         {/* Footer */}
         <footer className="text-center mt-12 sm:mt-20 text-white/60 px-4">
-          <p className="text-xs sm:text-sm">
-            Developed by: Team "Tech Titans"
-          </p>
+          <p className="text-xs sm:text-sm">Developed by: Team "Tech Titans"</p>
         </footer>
       </main>
     </div>
