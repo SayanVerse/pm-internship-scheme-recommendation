@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight, Users, Briefcase, TrendingUp, Globe, LogOut, LogIn, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -91,7 +92,7 @@ export default function Index() {
     bn: {
       hero: "আপনার নিখুঁত ইন্টার্নশিপ ম্যাচ খুঁজে নিন",
       subtitle:
-        "PM ইন্টার্নশিপ স্কিমের প্রার্থীদের জন্য AI-চালিত সুপারিশ। আপনার দক্ষতা এবং পছন্দের উপর ভিত্তি করে ৩-৫টি ব্যক্তিগতকৃত ইন্টার্নশিপ পরামর্শ পান।",
+        "PM ইন্টার্নশি��� স্কিমের প্রার্থীদের জন্য AI-চালিত সুপারিশ। আপনার দক্ষতা এবং পছন্দের উপর ভিত্তি করে ৩-৫টি ব্যক্তিগতকৃত ইন্টার্নশিপ পরামর্শ পান।",
       findCTA: "আমার ৩টি সেরা ইন্টার্নশিপ খুঁজুন",
       adminCTA: "ইন্টার্নশিপ পরিচালনা করুন",
       features: [
@@ -105,7 +106,7 @@ export default function Index() {
           icon: Briefcase,
           title: "মানসম্পন্ন সুযোগ",
           description:
-            "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউরেটেড ইন্টার্নশিপ।",
+            "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন স���ক্টরে কিউরেটেড ইন্টার্নশিপ।",
         },
         {
           icon: TrendingUp,
@@ -124,7 +125,7 @@ export default function Index() {
         { number: "৫০০+", label: "সক্রিয় ইন্টার্নশিপ" },
         { number: "১০K+", label: "ছাত্র স্থাপিত" },
         { number: "৫০+", label: "অংশীদার সংস্থা" },
-        { number: "৯৫%", label: "সন্তুষ্টির হার" },
+        { number: "��৫%", label: "সন্তুষ্টির হার" },
       ],
     },
   };
@@ -171,6 +172,10 @@ export default function Index() {
                 {lang.toUpperCase()}
               </button>
             ))}
+          </div>
+
+          <div className="glass-card p-2">
+            <DarkModeToggle />
           </div>
 
           <div className="glass-card p-1 sm:p-2">
