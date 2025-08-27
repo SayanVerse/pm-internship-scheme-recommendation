@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { ArrowRight, Users, Briefcase, TrendingUp, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -71,7 +70,7 @@ export default function Index() {
           icon: TrendingUp,
           title: "करियर विकास",
           description:
-            "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।",
+            "वेत��-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।",
         },
         {
           icon: Globe,
@@ -90,7 +89,7 @@ export default function Index() {
     bn: {
       hero: "আপনার নিখুঁত ইন্টার্নশিপ ম্যাচ খুঁজে নিন",
       subtitle:
-        "PM ইন্টার্নশিপ স্কিমের প্রার্থীদের জন্য AI-চালিত সুপারিশ। আপনার দক্ষতা এবং পছন্দের উপর ভিত্তি করে ৩-৫টি ব্যক্তিগতকৃত ইন্টার্নশিপ পরামর্শ পান।",
+        "PM ইন্টার্নশিপ স্কিমের প্রার্থীদের জন���য AI-চালিত সুপারিশ। আপনার দক্ষতা এবং পছন্দের উপর ভিত্তি করে ৩-৫টি ব্যক্তিগতকৃত ইন্টার্নশিপ পরামর্শ পান।",
       findCTA: "আমার ৩টি সেরা ইন্টার্নশিপ খুঁজুন",
       adminCTA: "ইন্টার্নশিপ পরিচালনা করুন",
       features: [
@@ -104,7 +103,7 @@ export default function Index() {
           icon: Briefcase,
           title: "মানসম্পন্ন সুযোগ",
           description:
-            "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউরেটেড ইন্টার্নশিপ।",
+            "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউরেটেড ইন্টার্��শিপ।",
         },
         {
           icon: TrendingUp,
@@ -139,11 +138,8 @@ export default function Index() {
       <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-gradient-to-r from-green-400/15 to-cyan-500/15 rounded-full blur-3xl"></div>
       <div className="absolute bottom-1/4 left-1/2 w-60 h-60 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
 
-      {/* Header with Language Switcher and Dark Mode Toggle */}
-      <header className="relative z-10 flex justify-between items-center p-6">
-        <div className="flex items-center">
-          <DarkModeToggle className="mr-4" />
-        </div>
+      {/* Header with Language Switcher */}
+      <header className="relative z-10 flex justify-end items-center p-6">
         <div className="glass-card p-2 flex gap-1">
           {(["en", "hi", "bn"] as const).map((lang) => (
             <button
