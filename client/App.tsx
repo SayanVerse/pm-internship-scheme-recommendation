@@ -37,7 +37,14 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route path="/recommendations" element={<Recommendations />} />
+            <Route
+              path="/recommendations"
+              element={
+                <ProtectedRoute>
+                  <Recommendations />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route
               path="/admin"
