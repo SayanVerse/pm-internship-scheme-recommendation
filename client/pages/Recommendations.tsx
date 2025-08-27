@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import {
   ArrowLeft,
   ExternalLink,
@@ -127,6 +128,7 @@ export default function Recommendations() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-6 sm:mb-8 gap-3 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-4">
+            <DarkModeToggle />
             <Button
               variant="ghost"
               onClick={() => (window.location.href = "/intake")}
