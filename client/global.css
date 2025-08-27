@@ -327,4 +327,43 @@
       box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
     }
   }
+
+  /* Dark mode specific improvements */
+  .dark .glass-input {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+
+  .dark .glass-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .dark .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Ensure buttons are always visible */
+  .dark button[variant="ghost"] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .dark button[variant="ghost"]:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  /* Better visibility for light mode as well */
+  .light .glass-input {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: black;
+  }
+
+  .light .glass-input:focus {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.3);
+  }
 }
