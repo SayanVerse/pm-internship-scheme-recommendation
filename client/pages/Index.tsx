@@ -52,7 +52,7 @@ export default function Index() {
     hi: {
       hero: "अपना सटीक इंटर्नशिप मैच खोजें",
       subtitle:
-        "पीएम इंटर्नशिप योजना के उम्मीदवारों के लिए AI-संचालित सिफारिशें। अपने कौशल और प्राथमिकताओं के आधार पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
+        "पीएम इंटर्नशिप योजना के उम्मीदवारों के लिए AI-संचालित सिफारिशें। अपने कौशल और प्राथमिकताओं के आधा�� पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
       findCTA: "मेरी 3 सर्वोत्तम इंटर्नशिप खोजें",
       adminCTA: "इंटर्नशिप प्रबंधित करें",
       features: [
@@ -60,7 +60,7 @@ export default function Index() {
           icon: Users,
           title: "स्मार्ट मैचिंग",
           description:
-            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा ���र स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
+            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
         },
         {
           icon: Briefcase,
@@ -72,13 +72,13 @@ export default function Index() {
           icon: TrendingUp,
           title: "करियर विकास",
           description:
-            "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।",
+            "वेतन-आधारित इंटर्नशिप कार्यक��रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्त करें।",
         },
         {
           icon: Globe,
           title: "राष्ट्रव्यापी पहुंच",
           description:
-            "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित विकल्पों के साथ भारत भर में इंटर्नश���प का उपयोग करें।",
+            "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।",
         },
       ],
       stats: [
@@ -217,14 +217,16 @@ export default function Index() {
               {currentContent.findCTA}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="text-lg font-semibold"
-              onClick={() => (window.location.href = "/admin")}
-            >
-              {currentContent.adminCTA}
-            </Button>
+            {isAdmin && (
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-lg font-semibold"
+                onClick={() => (window.location.href = "/admin")}
+              >
+                {currentContent.adminCTA}
+              </Button>
+            )}
           </div>
 
           {/* Stats */}
