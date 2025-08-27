@@ -112,7 +112,49 @@ export default function Intake() {
     }
   };
 
+  const validateCurrentStep = () => {
+    if (currentStep === 1) {
+      return formData.name.trim() !== "" && formData.educationLevel !== "";
+    }
+    if (currentStep === 2) {
+      return formData.major.trim() !== "" && formData.year !== "";
+    }
+    if (currentStep === 3) {
+      return formData.sectorInterests.length > 0;
+    }
+    if (currentStep === 4) {
+      return formData.residencyPin.trim() !== "";
+    }
+    return true;
+  };
+
   const submitForm = async () => {
+    // Final validation before submission
+    if (!formData.name.trim()) {
+      alert("Please enter your name");
+      return;
+    }
+    if (!formData.educationLevel) {
+      alert("Please select your education level");
+      return;
+    }
+    if (!formData.major.trim()) {
+      alert("Please enter your major/field");
+      return;
+    }
+    if (formData.year === "") {
+      alert("Please enter your year");
+      return;
+    }
+    if (formData.sectorInterests.length === 0) {
+      alert("Please select at least one sector interest");
+      return;
+    }
+    if (!formData.residencyPin.trim()) {
+      alert("Please enter your PIN code");
+      return;
+    }
+
     try {
       const response = await fetch("/api/intake", {
         method: "POST",
@@ -123,9 +165,13 @@ export default function Intake() {
       if (response.ok) {
         const data = await response.json();
         window.location.href = `/recommendations?profileId=${data.profileId}`;
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message || "Failed to submit form"}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert("Network error. Please try again.");
     }
   };
 
