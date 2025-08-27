@@ -150,35 +150,37 @@ export default function Intake() {
       <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-r from-green-400/15 to-purple-500/15 rounded-full blur-3xl"></div>
 
-      <div className="relative z-10 container mx-auto px-6 py-8">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 sm:mb-8 gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Button
               variant="ghost"
               onClick={() => (window.location.href = "/")}
-              className="text-lg font-medium"
+              className="text-sm sm:text-lg font-medium"
+              size="sm"
             >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Back to Home
+              <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Back</span>
             </Button>
           </div>
-          <div className="glass px-6 py-3 rounded-2xl">
-            <span className="text-white text-lg font-semibold">
+          <div className="glass px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl">
+            <span className="text-white text-sm sm:text-lg font-semibold">
               Step {currentStep} of {STEPS.length}
             </span>
           </div>
         </div>
 
         {/* Progress Steps */}
-        <div className="flex justify-center mb-12">
-          <div className="glass-card p-4">
-            <div className="flex items-center space-x-4">
+        <div className="flex justify-center mb-8 sm:mb-12 px-2">
+          <div className="glass-card p-2 sm:p-4 w-full max-w-2xl">
+            <div className="flex items-center justify-between sm:space-x-4">
               {STEPS.map((step, index) => (
-                <div key={step.id} className="flex items-center">
+                <div key={step.id} className="flex items-center flex-1">
                   <div
                     className={cn(
-                      "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 group",
+                      "w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all duration-300 group mx-auto",
                       currentStep >= step.id
                         ? "bg-white text-purple-600 shadow-soft pulse-glow transform scale-110"
                         : "glass-tile text-white hover:scale-105",
@@ -187,14 +189,14 @@ export default function Intake() {
                     <step.icon
                       className={cn(
                         "transition-all duration-300",
-                        currentStep >= step.id ? "h-6 w-6" : "h-5 w-5",
+                        currentStep >= step.id ? "h-4 w-4 sm:h-6 sm:w-6" : "h-3 w-3 sm:h-5 sm:w-5",
                       )}
                     />
                   </div>
                   {index < STEPS.length - 1 && (
                     <div
                       className={cn(
-                        "w-12 h-2 mx-3 rounded-full transition-all duration-300",
+                        "w-4 sm:w-12 h-1 sm:h-2 mx-1 sm:mx-3 rounded-full transition-all duration-300 flex-shrink-0",
                         currentStep > step.id
                           ? "bg-gradient-to-r from-white to-white/80 shadow-glow"
                           : "bg-white/20",
@@ -204,8 +206,8 @@ export default function Intake() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-center mt-4">
-              <p className="text-white/80 text-sm font-medium">
+            <div className="flex justify-center mt-2 sm:mt-4">
+              <p className="text-white/80 text-xs sm:text-sm font-medium text-center">
                 {STEPS[currentStep - 1].title}
               </p>
             </div>
@@ -213,21 +215,21 @@ export default function Intake() {
         </div>
 
         {/* Form Card */}
-        <Card className="max-w-2xl mx-auto glass-card border-white/20 hover:border-white/30 transition-all duration-500">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="text-3xl text-white font-bold mb-2">
+        <Card className="max-w-2xl mx-auto glass-card border-white/20 hover:border-white/30 transition-all duration-500 mx-4 sm:mx-auto">
+          <CardHeader className="text-center pb-4 sm:pb-6">
+            <CardTitle className="text-2xl sm:text-3xl text-white font-bold mb-2">
               {STEPS[currentStep - 1].title}
             </CardTitle>
-            <div className="w-16 h-1 bg-gradient-to-r from-white/50 to-white/20 rounded-full mx-auto"></div>
+            <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-white/50 to-white/20 rounded-full mx-auto"></div>
           </CardHeader>
-          <CardContent className="p-8 space-y-8">
+          <CardContent className="p-4 sm:p-8 space-y-6 sm:space-y-8">
             {/* Step 1: Personal Info */}
             {currentStep === 1 && (
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 <div className="group">
                   <Label
                     htmlFor="name"
-                    className="text-white mb-3 block text-lg font-medium"
+                    className="text-white mb-2 sm:mb-3 block text-base sm:text-lg font-medium"
                   >
                     Full Name
                   </Label>
@@ -235,15 +237,15 @@ export default function Intake() {
                     id="name"
                     value={formData.name}
                     onChange={(e) => updateFormData({ name: e.target.value })}
-                    className="glass-input h-12 text-lg"
+                    className="glass-input h-10 sm:h-12 text-base sm:text-lg"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <Label className="text-white mb-4 block text-lg font-medium">
+                  <Label className="text-white mb-3 sm:mb-4 block text-base sm:text-lg font-medium">
                     Education Level
                   </Label>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {[
                       {
                         value: "TENTH_PLUS_TWO",
@@ -275,16 +277,16 @@ export default function Intake() {
                           })
                         }
                         className={cn(
-                          "glass-tile p-5 text-center group transition-all duration-300",
+                          "glass-tile p-3 sm:p-5 text-center group transition-all duration-300",
                           formData.educationLevel === option.value
                             ? "active ring-2 ring-white/40"
                             : "",
                         )}
                       >
-                        <div className="text-lg font-semibold text-white mb-1">
+                        <div className="text-base sm:text-lg font-semibold text-white mb-1">
                           {option.label}
                         </div>
-                        <div className="text-sm text-white/70">
+                        <div className="text-xs sm:text-sm text-white/70">
                           {option.desc}
                         </div>
                       </button>
@@ -489,7 +491,7 @@ export default function Intake() {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between pt-8">
+            <div className="flex justify-between pt-6 sm:pt-8 gap-4">
               <Button
                 type="button"
                 variant="ghost"
@@ -497,12 +499,13 @@ export default function Intake() {
                 disabled={currentStep === 1}
                 size="lg"
                 className={cn(
-                  "text-lg font-medium",
+                  "text-sm sm:text-lg font-medium flex-1 sm:flex-none",
                   currentStep === 1 && "opacity-50 cursor-not-allowed",
                 )}
               >
-                <ArrowLeft className="mr-2 h-5 w-5" />
-                Previous
+                <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Previous</span>
+                <span className="sm:hidden">Prev</span>
               </Button>
 
               <Button
@@ -510,10 +513,15 @@ export default function Intake() {
                 variant="accent"
                 onClick={nextStep}
                 size="lg"
-                className="text-lg font-bold shadow-2xl"
+                className="text-sm sm:text-lg font-bold shadow-2xl flex-1 sm:flex-none"
               >
-                {currentStep === STEPS.length ? "Get Recommendations" : "Next"}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <span className="hidden sm:inline">
+                  {currentStep === STEPS.length ? "Get Recommendations" : "Next"}
+                </span>
+                <span className="sm:hidden">
+                  {currentStep === STEPS.length ? "Get Results" : "Next"}
+                </span>
+                <ArrowRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </div>
           </CardContent>
