@@ -1,5 +1,5 @@
 [build]
-  command = "npx prisma generate && npm run build:client"
+  command = "npx prisma generate && vite build --config vite.config.client.ts"
   functions = "netlify/functions"
   publish = "dist/spa"
 
