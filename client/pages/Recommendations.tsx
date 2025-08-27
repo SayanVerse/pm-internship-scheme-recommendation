@@ -123,35 +123,38 @@ export default function Recommendations() {
       <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
       <div className="absolute top-1/3 right-1/3 w-72 h-72 bg-gradient-to-r from-green-400/15 to-purple-500/15 rounded-full blur-3xl"></div>
 
-      <div className="relative z-10 container mx-auto px-6 py-8">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-6 sm:mb-8 gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Button
               variant="ghost"
               onClick={() => (window.location.href = "/intake")}
-              className="text-lg font-medium"
+              className="text-sm sm:text-lg font-medium"
+              size="sm"
             >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Adjust Preferences
+              <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Adjust Preferences</span>
+              <span className="sm:hidden">Adjust</span>
             </Button>
           </div>
           <Button
             variant="outline"
             onClick={fetchRecommendations}
-            className="text-lg font-medium"
+            className="text-sm sm:text-lg font-medium"
+            size="sm"
           >
-            <RefreshCw className="mr-2 h-5 w-5" />
+            <RefreshCw className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
             Refresh
           </Button>
         </div>
 
         {/* Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <div className="text-center mb-8 sm:mb-12 px-2">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">
             Your Top Internship Matches
           </h1>
-          <p className="text-xl text-white/80">
+          <p className="text-lg sm:text-xl text-white/80">
             Found {recommendations.length} perfect opportunities for you
           </p>
         </div>
@@ -174,39 +177,39 @@ export default function Recommendations() {
             </CardContent>
           </Card>
         ) : (
-          <div className="max-w-4xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-2 sm:px-0">
             {recommendations.map((match, index) => (
               <Card
                 key={match.internship.id}
                 className="glass-card border-white/10 hover:border-white/20 transition-all duration-300"
               >
-                <CardHeader className="pb-4">
+                <CardHeader className="pb-3 sm:pb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-2xl font-bold text-white">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                        <span className="text-lg sm:text-2xl font-bold text-white">
                           #{index + 1}
                         </span>
                         <div
                           className={cn(
-                            "text-2xl font-bold",
+                            "text-lg sm:text-2xl font-bold",
                             getScoreColor(match.score),
                           )}
                         >
                           {Math.round(match.score)}% Match
                         </div>
                       </div>
-                      <CardTitle className="text-2xl text-white mb-2">
+                      <CardTitle className="text-lg sm:text-2xl text-white mb-2">
                         {match.internship.title}
                       </CardTitle>
-                      <div className="flex items-center gap-4 text-white/80">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-white/80">
                         <div className="flex items-center gap-1">
                           <Building className="h-4 w-4" />
-                          {match.internship.orgName}
+                          <span className="text-sm sm:text-base">{match.internship.orgName}</span>
                         </div>
                         <Badge
                           variant="outline"
-                          className="border-white/30 text-white"
+                          className="border-white/30 text-white w-fit"
                         >
                           {match.internship.sector}
                         </Badge>
@@ -215,15 +218,15 @@ export default function Recommendations() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3 sm:space-y-4">
                   {/* Key Info */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="glass p-3 rounded-xl">
-                      <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
-                        <IndianRupee className="h-4 w-4" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <div className="glass p-2 sm:p-3 rounded-xl">
+                      <div className="flex items-center gap-2 text-white/70 text-xs sm:text-sm mb-1">
+                        <IndianRupee className="h-3 w-3 sm:h-4 sm:w-4" />
                         Stipend
                       </div>
-                      <div className="text-white font-semibold">
+                      <div className="text-white font-semibold text-sm sm:text-base">
                         {formatStipend(
                           match.internship.stipendMin,
                           match.internship.stipendMax,
@@ -253,33 +256,34 @@ export default function Recommendations() {
                       </div>
                     </div>
 
-                    <div className="glass p-3 rounded-xl">
+                    <div className="glass p-2 sm:p-3 rounded-xl">
                       <Button
                         variant="vibrant"
-                        className="w-full text-lg font-bold shadow-lg"
+                        className="w-full text-sm sm:text-lg font-bold shadow-lg h-10 sm:h-auto"
                         onClick={() =>
                           window.open(match.internship.applicationUrl, "_blank")
                         }
                       >
-                        Apply Now
-                        <ExternalLink className="ml-2 h-5 w-5" />
+                        <span className="hidden sm:inline">Apply Now</span>
+                        <span className="sm:hidden">Apply</span>
+                        <ExternalLink className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                       </Button>
                     </div>
                   </div>
 
                   {/* Skills */}
                   <div>
-                    <p className="text-white/70 text-sm mb-2">
+                    <p className="text-white/70 text-xs sm:text-sm mb-2">
                       Required Skills
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
                       {match.internship.requiredSkills
                         .slice(0, 5)
                         .map((skill) => (
                           <Badge
                             key={skill}
                             variant="outline"
-                            className="border-white/30 text-white"
+                            className="border-white/30 text-white text-xs"
                           >
                             {skill}
                           </Badge>
@@ -287,7 +291,7 @@ export default function Recommendations() {
                       {match.internship.requiredSkills.length > 5 && (
                         <Badge
                           variant="outline"
-                          className="border-white/30 text-white/70"
+                          className="border-white/30 text-white/70 text-xs"
                         >
                           +{match.internship.requiredSkills.length - 5} more
                         </Badge>
@@ -349,11 +353,12 @@ export default function Recommendations() {
         )}
 
         {/* Footer */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 sm:mt-12">
           <Button
             variant="ghost"
             onClick={() => (window.location.href = "/")}
-            className="text-lg font-medium"
+            className="text-sm sm:text-lg font-medium"
+            size="sm"
           >
             Back to Home
           </Button>
