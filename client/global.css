@@ -209,28 +209,6 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   }
 
-  /* Dark Mode Toggle */
-  .dark-mode-toggle {
-    @apply relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/20;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-
-  .dark-mode-toggle.dark {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .dark-mode-toggle span {
-    @apply inline-block h-6 w-6 transform rounded-full transition-transform duration-300;
-    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
-    margin: 1px;
-  }
-
-  .dark-mode-toggle.dark span {
-    @apply translate-x-6;
-    background: linear-gradient(135deg, #4a90e2 0%, #9013fe 100%);
-  }
 
   /* Vibrant Gradient Backgrounds */
   .gradient-bg {
