@@ -93,19 +93,42 @@ export default function Admin() {
       // For now, we'll calculate stats from the data we have
       // In a real app, you'd have dedicated API endpoints for analytics
       const internshipsRes = await fetch("/api/internships");
+      if (!internshipsRes.ok) {
+        throw new Error(`HTTP error! status: ${internshipsRes.status}`);
+      }
       const internshipsData = await internshipsRes.json();
 
+      if (internshipsData.success) {
+        setStats({
+          totalInternships: internshipsData.total || 0,
+          activeInternships:
+            internshipsData.internships?.filter((i: Internship) => i.active)
+              .length || 0,
+          totalUsers: 0, // We'll get this from localStorage for now
+          totalApplications: 0,
+          recentApplications: 0,
+        });
+      } else {
+        console.error("API returned error:", internshipsData);
+        // Set default stats on error
+        setStats({
+          totalInternships: 0,
+          activeInternships: 0,
+          totalUsers: 0,
+          totalApplications: 0,
+          recentApplications: 0,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+      // Set default stats on error
       setStats({
-        totalInternships: internshipsData.total || 0,
-        activeInternships:
-          internshipsData.internships?.filter((i: Internship) => i.active)
-            .length || 0,
-        totalUsers: 0, // We'll get this from localStorage for now
+        totalInternships: 0,
+        activeInternships: 0,
+        totalUsers: 0,
         totalApplications: 0,
         recentApplications: 0,
       });
-    } catch (error) {
-      console.error("Error fetching stats:", error);
     }
   };
 
