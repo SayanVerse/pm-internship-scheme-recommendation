@@ -23,6 +23,8 @@ const InternshipsQuerySchema = z.object({
 
 export const handleInternshipsList: RequestHandler = async (req, res) => {
   try {
+    console.log("🔍 Internships API called with query:", req.query);
+
     const { page, limit, active, sector, search } =
       InternshipsQuerySchema.parse(req.query);
 
@@ -47,8 +49,11 @@ export const handleInternshipsList: RequestHandler = async (req, res) => {
       ];
     }
 
+    console.log("📊 Query where clause:", where);
+
     // Get total count
     const total = await db.internship.count({ where });
+    console.log("📈 Total internships count:", total);
 
     // Get paginated results
     const internships = await db.internship.findMany({
@@ -64,6 +69,8 @@ export const handleInternshipsList: RequestHandler = async (req, res) => {
       skip: (page - 1) * limit,
       take: limit,
     });
+
+    console.log("🎯 Found internships:", internships.length);
 
     // Transform data
     const transformedInternships = internships.map((internship) => ({
