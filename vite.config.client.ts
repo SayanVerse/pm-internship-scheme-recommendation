@@ -12,7 +12,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./client"),
       "@shared": path.resolve(__dirname, "./shared"),
-    }
+    },
   },
   define: {
     "process.env.NODE_ENV": '"production"',
