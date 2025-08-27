@@ -113,12 +113,20 @@ export default function Admin() {
     setLoading(true);
     try {
       const response = await fetch("/api/internships");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
       if (data.success) {
         setInternships(data.internships || []);
+      } else {
+        console.error("API returned error:", data);
+        setInternships([]);
       }
     } catch (error) {
       console.error("Error fetching internships:", error);
+      setInternships([]);
+      // You could also show a toast notification here
     } finally {
       setLoading(false);
     }
