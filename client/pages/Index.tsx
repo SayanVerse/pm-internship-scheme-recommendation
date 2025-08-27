@@ -100,7 +100,7 @@ export default function Index() {
           icon: Users,
           title: "স্মার্ট ম্যাচিং",
           description:
-            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দের উপর ভিত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
+            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দের ��পর ভিত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
         },
         {
           icon: Briefcase,
@@ -118,7 +118,7 @@ export default function Index() {
           icon: Globe,
           title: "দেশব���যাপী অ্যাক্সেস",
           description:
-            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্তিক বিকল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
+            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্তিক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
         },
       ],
       stats: [
@@ -222,7 +222,13 @@ export default function Index() {
               variant="accent"
               size="lg"
               className="text-lg font-bold group shadow-2xl"
-              onClick={() => (window.location.href = "/intake")}
+              onClick={() => {
+                if (isAuthenticated) {
+                  window.location.href = "/intake";
+                } else {
+                  window.location.href = "/login";
+                }
+              }}
             >
               {currentContent.findCTA}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
