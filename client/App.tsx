@@ -6,17 +6,21 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/use-auth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Intake from "./pages/Intake";
 import Recommendations from "./pages/Recommendations";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 import InternshipDetail from "./pages/InternshipDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
+  <AuthProvider>
+    <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -25,7 +29,15 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/intake" element={<Intake />} />
             <Route path="/recommendations" element={<Recommendations />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute adminOnly>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/internships/:id" element={<InternshipDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
@@ -33,6 +45,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
+  </AuthProvider>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);
