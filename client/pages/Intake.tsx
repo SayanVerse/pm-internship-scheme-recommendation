@@ -177,6 +177,39 @@ export default function Intake() {
 
   const nextStep = () => {
     if (currentStep < STEPS.length) {
+      if (!validateCurrentStep()) {
+        // Show specific validation messages for each step
+        if (currentStep === 1) {
+          if (!formData.name.trim()) {
+            alert("Please enter your name");
+            return;
+          }
+          if (!formData.educationLevel) {
+            alert("Please select your education level");
+            return;
+          }
+        } else if (currentStep === 2) {
+          if (!formData.major.trim()) {
+            alert("Please enter your major/field");
+            return;
+          }
+          if (formData.year === "") {
+            alert("Please enter your year");
+            return;
+          }
+        } else if (currentStep === 3) {
+          if (formData.sectorInterests.length === 0) {
+            alert("Please select at least one sector interest");
+            return;
+          }
+        } else if (currentStep === 4) {
+          if (!formData.residencyPin.trim()) {
+            alert("Please enter your PIN code");
+            return;
+          }
+        }
+        return;
+      }
       setCurrentStep(currentStep + 1);
     } else {
       submitForm();
