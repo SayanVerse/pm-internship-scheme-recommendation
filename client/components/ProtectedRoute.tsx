@@ -7,9 +7,12 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, adminOnly = false }: ProtectedRouteProps) {
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { isAuthenticated, isAdmin, isLoading } = useAuth();
 
   useEffect(() => {
+    // Don't redirect while loading
+    if (isLoading) return;
+
     if (!isAuthenticated) {
       window.location.href = "/login";
       return;
@@ -19,7 +22,18 @@ export function ProtectedRoute({ children, adminOnly = false }: ProtectedRoutePr
       window.location.href = "/";
       return;
     }
-  }, [isAuthenticated, isAdmin, adminOnly]);
+  }, [isAuthenticated, isAdmin, adminOnly, isLoading]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-cyberpunk flex items-center justify-center">
+        <div className="glass-card p-8 text-center">
+          <p className="text-white text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
