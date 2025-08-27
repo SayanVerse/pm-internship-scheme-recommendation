@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import {
   ArrowLeft,
   Upload,
@@ -171,6 +172,7 @@ export default function Admin() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
           <div className="flex items-center gap-2 sm:gap-4">
+            <DarkModeToggle />
             <Button
               variant="ghost"
               onClick={() => (window.location.href = "/")}
