@@ -80,9 +80,9 @@ export default function Login() {
       <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-gradient-to-r from-green-400/15 to-purple-500/15 rounded-full blur-3xl"></div>
 
-      <div className="relative z-10 container mx-auto px-6 py-8 flex items-center justify-center min-h-screen">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-4 sm:py-8 flex items-center justify-center min-h-screen">
         {/* Back to Home Button */}
-        <div className="absolute top-8 left-8">
+        <div className="absolute top-4 left-4 sm:top-8 sm:left-8">
           <Button
             variant="ghost"
             onClick={() => (window.location.href = "/")}
@@ -94,26 +94,26 @@ export default function Login() {
         </div>
 
         {/* Login/Register Form */}
-        <Card className="w-full max-w-md glass-card border-white/20">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="text-3xl text-white font-bold mb-2">
+        <Card className="w-full max-w-md mx-4 sm:mx-auto glass-card border-white/20">
+          <CardHeader className="text-center pb-4 sm:pb-6">
+            <CardTitle className="text-2xl sm:text-3xl text-white font-bold mb-2">
               {isLogin ? "Welcome Back" : "Create Account"}
             </CardTitle>
-            <p className="text-white/70">
-              {isLogin 
-                ? "Sign in to access your internship dashboard" 
+            <p className="text-sm sm:text-base text-white/70">
+              {isLogin
+                ? "Sign in to access your internship dashboard"
                 : "Join us to find your perfect internship match"
               }
             </p>
           </CardHeader>
 
-          <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="space-y-4 sm:space-y-6 p-4 sm:p-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Registration Fields */}
               {!isLogin && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <Label htmlFor="firstName" className="text-white mb-2 block">
+                    <Label htmlFor="firstName" className="text-white mb-2 block text-sm sm:text-base">
                       First Name
                     </Label>
                     <Input
@@ -121,13 +121,13 @@ export default function Login() {
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => updateFormData("firstName", e.target.value)}
-                      className="glass-input"
+                      className="glass-input h-10 sm:h-12"
                       placeholder="John"
                       required={!isLogin}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="lastName" className="text-white mb-2 block">
+                    <Label htmlFor="lastName" className="text-white mb-2 block text-sm sm:text-base">
                       Last Name
                     </Label>
                     <Input
@@ -135,7 +135,7 @@ export default function Login() {
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => updateFormData("lastName", e.target.value)}
-                      className="glass-input"
+                      className="glass-input h-10 sm:h-12"
                       placeholder="Doe"
                       required={!isLogin}
                     />
@@ -145,7 +145,7 @@ export default function Login() {
 
               {/* Email */}
               <div>
-                <Label htmlFor="email" className="text-white mb-2 block">
+                <Label htmlFor="email" className="text-white mb-2 block text-sm sm:text-base">
                   Email Address
                 </Label>
                 <Input
@@ -153,7 +153,7 @@ export default function Login() {
                   type="email"
                   value={formData.email}
                   onChange={(e) => updateFormData("email", e.target.value)}
-                  className="glass-input"
+                  className="glass-input h-10 sm:h-12"
                   placeholder="your@email.com"
                   required
                 />
@@ -161,7 +161,7 @@ export default function Login() {
 
               {/* Password */}
               <div>
-                <Label htmlFor="password" className="text-white mb-2 block">
+                <Label htmlFor="password" className="text-white mb-2 block text-sm sm:text-base">
                   Password
                 </Label>
                 <div className="relative">
@@ -170,19 +170,19 @@ export default function Login() {
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={(e) => updateFormData("password", e.target.value)}
-                    className="glass-input pr-12"
+                    className="glass-input h-10 sm:h-12 pr-10 sm:pr-12"
                     placeholder="••••••••"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors"
+                    className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-colors"
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
+                      <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" />
                     ) : (
-                      <Eye className="h-5 w-5" />
+                      <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
                     )}
                   </button>
                 </div>
@@ -200,7 +200,7 @@ export default function Login() {
                 type="submit"
                 variant="accent"
                 size="lg"
-                className="w-full text-lg font-bold"
+                className="w-full text-base sm:text-lg font-bold h-12"
                 disabled={loading}
               >
                 {loading ? (
@@ -220,18 +220,19 @@ export default function Login() {
             </form>
 
             {/* Switch Mode */}
-            <div className="text-center pt-4 border-t border-white/10">
-              <p className="text-white/70 mb-3">
+            <div className="text-center pt-3 sm:pt-4 border-t border-white/10">
+              <p className="text-white/70 mb-2 sm:mb-3 text-sm sm:text-base">
                 {isLogin ? "Don't have an account?" : "Already have an account?"}
               </p>
               <Button
                 variant="ghost"
+                size="sm"
                 onClick={() => {
                   setIsLogin(!isLogin);
                   setError("");
                   setFormData({ firstName: "", lastName: "", email: "", password: "" });
                 }}
-                className="text-white hover:text-white/80"
+                className="text-white hover:text-white/80 text-sm sm:text-base"
               >
                 {isLogin ? "Create Account" : "Sign In"}
               </Button>
@@ -239,8 +240,8 @@ export default function Login() {
 
             {/* Admin Demo */}
             {isLogin && (
-              <div className="mt-6 p-4 glass rounded-xl">
-                <p className="text-white/70 text-sm mb-2">Admin Demo:</p>
+              <div className="mt-4 sm:mt-6 p-3 sm:p-4 glass rounded-xl">
+                <p className="text-white/70 text-xs sm:text-sm mb-2">Admin Demo:</p>
                 <p className="text-white/60 text-xs">
                   Email: admin@pminternship.in<br />
                   Password: Admin@12345
