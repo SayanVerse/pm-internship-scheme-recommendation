@@ -74,8 +74,25 @@ interface AdminStats {
   totalInternships: number;
   activeInternships: number;
   totalUsers: number;
+  registeredUsers: number;
+  internUsers: number;
   totalApplications: number;
   recentApplications: number;
+}
+
+interface Application {
+  id: string;
+  createdAt: string;
+  user: {
+    candidateProfile?: {
+      name: string;
+    };
+    email: string;
+  };
+  internship: {
+    title: string;
+    orgName: string;
+  };
 }
 
 export default function Admin() {
@@ -88,9 +105,12 @@ export default function Admin() {
     totalInternships: 0,
     activeInternships: 0,
     totalUsers: 0,
+    registeredUsers: 0,
+    internUsers: 0,
     totalApplications: 0,
     recentApplications: 0,
   });
+  const [recentApplications, setRecentApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedInternship, setSelectedInternship] =
@@ -110,12 +130,14 @@ export default function Admin() {
     fetchStats();
     fetchInternships();
     fetchUsers();
+    fetchApplications();
 
     // Set up auto-refresh for real-time updates every 30 seconds
     const interval = setInterval(() => {
       fetchStats();
       fetchInternships();
       fetchUsers();
+      fetchApplications();
     }, 30000);
 
     return () => clearInterval(interval);
@@ -132,36 +154,30 @@ export default function Admin() {
       const internshipsData = await internshipsRes.json();
 
       if (internshipsData.success) {
-        setStats({
+        setStats(prev => ({
+          ...prev,
           totalInternships: internshipsData.total || 0,
           activeInternships:
             internshipsData.internships?.filter((i: Internship) => i.active)
               .length || 0,
-          totalUsers: 0, // We'll get this from localStorage for now
-          totalApplications: 0,
-          recentApplications: 0,
-        });
+        }));
       } else {
         console.error("API returned error:", internshipsData);
         // Set default stats on error
-        setStats({
+        setStats(prev => ({
+          ...prev,
           totalInternships: 0,
           activeInternships: 0,
-          totalUsers: 0,
-          totalApplications: 0,
-          recentApplications: 0,
-        });
+        }));
       }
     } catch (error) {
       console.error("Error fetching stats:", error);
       // Set default stats on error
-      setStats({
+      setStats(prev => ({
+        ...prev,
         totalInternships: 0,
         activeInternships: 0,
-        totalUsers: 0,
-        totalApplications: 0,
-        recentApplications: 0,
-      });
+      }));
     }
   };
 
@@ -223,9 +239,15 @@ export default function Admin() {
 
       setUsers(transformedUsers);
 
-      // Update stats with user count (add 1 for any authenticated users)
+      // Count registered users (excluding admin)
+      const registeredUserCount = transformedUsers.filter(u => u.role !== "ADMIN").length;
       const totalUserCount = transformedUsers.length;
-      setStats((prev) => ({ ...prev, totalUsers: totalUserCount }));
+
+      setStats((prev) => ({
+        ...prev,
+        totalUsers: totalUserCount,
+        registeredUsers: registeredUserCount
+      }));
     } catch (error) {
       console.error("Error fetching users:", error);
     }
