@@ -789,7 +789,7 @@ export default function Admin() {
 
         {/* Upload CSV Tab */}
         {activeTab === "upload" && (
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto space-y-6">
             <Card className="glass-card border-white/10">
               <CardHeader>
                 <CardTitle className="text-white text-2xl text-center">
@@ -803,11 +803,28 @@ export default function Admin() {
                 <div className="border-2 border-dashed border-white/30 rounded-xl p-8 text-center hover:border-white/50 transition-colors">
                   <Upload className="h-12 w-12 text-white/50 mx-auto mb-4" />
                   <p className="text-white mb-2">Drop your CSV file here or</p>
+                  <input
+                    type="file"
+                    accept=".csv"
+                    onChange={handleCSVUpload}
+                    className="hidden"
+                    id="csv-upload"
+                    disabled={uploadLoading}
+                  />
                   <Button
                     variant="outline"
                     className="border-white/30 text-white hover:bg-white/10"
+                    onClick={() => document.getElementById('csv-upload')?.click()}
+                    disabled={uploadLoading}
                   >
-                    Browse Files
+                    {uploadLoading ? (
+                      <>
+                        <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                        Uploading...
+                      </>
+                    ) : (
+                      'Browse Files'
+                    )}
                   </Button>
                 </div>
 
@@ -816,7 +833,7 @@ export default function Admin() {
                     Required CSV Format:
                   </h4>
                   <p className="text-white/70 text-sm mb-3">
-                    title, sector, orgName, city, state, pin, remote,
+                    title, sector, orgName, description, city, state, pin, remote,
                     minEducation, requiredSkills, stipendMin, stipendMax,
                     applicationUrl, deadline, active
                   </p>
@@ -824,18 +841,43 @@ export default function Admin() {
                     variant="ghost"
                     size="sm"
                     className="text-white hover:bg-white/10"
+                    onClick={downloadSampleCSV}
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Download Sample CSV
                   </Button>
                 </div>
-
-                <Button className="w-full btn-primary text-lg">
-                  <Upload className="mr-2 h-5 w-5" />
-                  Upload CSV File
-                </Button>
               </CardContent>
             </Card>
+
+            {/* Upload Results */}
+            {uploadResults && (
+              <Card className="glass-card border-white/10">
+                <CardContent className="p-6">
+                  <Alert className={uploadResults.success ? "border-green-500/50 bg-green-500/10" : "border-red-500/50 bg-red-500/10"}>
+                    <AlertDescription className="text-white">
+                      <strong>{uploadResults.message}</strong>
+                      {uploadResults.uploaded > 0 && (
+                        <p className="mt-2">Successfully uploaded {uploadResults.uploaded} internships</p>
+                      )}
+                      {uploadResults.errors.length > 0 && (
+                        <div className="mt-2">
+                          <p className="font-medium">Errors:</p>
+                          <ul className="list-disc list-inside space-y-1 text-sm">
+                            {uploadResults.errors.slice(0, 5).map((error, index) => (
+                              <li key={index} className="text-red-300">{error}</li>
+                            ))}
+                            {uploadResults.errors.length > 5 && (
+                              <li className="text-red-300">... and {uploadResults.errors.length - 5} more errors</li>
+                            )}
+                          </ul>
+                        </div>
+                      )}
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
+            )}
           </div>
         )}
       </div>
