@@ -162,3 +162,113 @@ export const handleInternshipById: RequestHandler = async (req, res) => {
     });
   }
 };
+
+// Create new internship
+export const handleInternshipCreate: RequestHandler = async (req, res) => {
+  try {
+    const {
+      title,
+      sector,
+      orgName,
+      description,
+      city,
+      state,
+      pin,
+      remote,
+      minEducation,
+      stipendMin,
+      stipendMax,
+      applicationUrl,
+      deadline,
+      active,
+      requiredSkills,
+    } = req.body;
+
+    // Validate required fields
+    if (!title || !sector || !orgName || !minEducation || !applicationUrl || !deadline) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
+    }
+
+    // Create internship
+    const internship = await db.internship.create({
+      data: {
+        title,
+        sector,
+        orgName,
+        description,
+        city,
+        state,
+        pin,
+        remote: Boolean(remote),
+        minEducation,
+        stipendMin: stipendMin ? parseInt(stipendMin) : null,
+        stipendMax: stipendMax ? parseInt(stipendMax) : null,
+        applicationUrl,
+        deadline: new Date(deadline),
+        active: Boolean(active),
+      },
+    });
+
+    // Handle required skills
+    if (requiredSkills && Array.isArray(requiredSkills)) {
+      for (const skillName of requiredSkills) {
+        if (!skillName.trim()) continue;
+
+        // Find or create skill
+        let skill = await db.skill.findUnique({
+          where: { name: skillName.trim() },
+        });
+
+        if (!skill) {
+          skill = await db.skill.create({
+            data: {
+              name: skillName.trim(),
+              slug: skillName.trim().toLowerCase().replace(/[^a-z0-9]/g, "-"),
+            },
+          });
+        }
+
+        // Link skill to internship
+        await db.internshipSkill.create({
+          data: {
+            internshipId: internship.id,
+            skillId: skill.id,
+          },
+        });
+      }
+    }
+
+    res.json({
+      success: true,
+      internship: {
+        id: internship.id,
+        title: internship.title,
+        sector: internship.sector,
+        orgName: internship.orgName,
+        description: internship.description,
+        stipendMin: internship.stipendMin,
+        stipendMax: internship.stipendMax,
+        city: internship.city,
+        state: internship.state,
+        pin: internship.pin,
+        remote: internship.remote,
+        minEducation: internship.minEducation,
+        applicationUrl: internship.applicationUrl,
+        deadline: internship.deadline.toISOString(),
+        active: internship.active,
+        requiredSkills: requiredSkills || [],
+      },
+      message: "Internship created successfully",
+    });
+  } catch (error) {
+    console.error("Internship create error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
