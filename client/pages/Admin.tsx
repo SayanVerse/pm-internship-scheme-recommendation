@@ -229,6 +229,91 @@ export default function Admin() {
       (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
+  const handleCSVUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadLoading(true);
+    setUploadResults(null);
+
+    try {
+      const text = await file.text();
+      const lines = text.split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+
+      const csvData = lines.slice(1)
+        .filter(line => line.trim())
+        .map(line => {
+          const values = line.split(',').map(v => v.trim());
+          const row: any = {};
+          headers.forEach((header, index) => {
+            row[header] = values[index] || '';
+          });
+          return row;
+        });
+
+      const response = await fetch('/api/internships/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ csvData }),
+      });
+
+      const result = await response.json();
+      setUploadResults(result);
+
+      if (result.success) {
+        // Refresh data
+        await fetchStats();
+        await fetchInternships();
+      }
+    } catch (error) {
+      console.error('CSV upload error:', error);
+      setUploadResults({
+        success: false,
+        uploaded: 0,
+        errors: ['Failed to process CSV file'],
+        message: 'Error uploading CSV file',
+      });
+    } finally {
+      setUploadLoading(false);
+      // Reset file input
+      event.target.value = '';
+    }
+  };
+
+  const handleAddInternship = async (formData: any) => {
+    try {
+      const response = await fetch('/api/internships', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsAddModalOpen(false);
+        await fetchStats();
+        await fetchInternships();
+      }
+    } catch (error) {
+      console.error('Error adding internship:', error);
+    }
+  };
+
+  const downloadSampleCSV = () => {
+    const sampleData = [
+      'title,sector,orgName,description,city,state,pin,remote,minEducation,requiredSkills,stipendMin,stipendMax,applicationUrl,deadline,active',
+      'Software Intern,IT,TechCorp,Develop web applications,Mumbai,Maharashtra,400001,false,UNDERGRADUATE,"JavaScript,React,Node.js",15000,25000,https://example.com/apply,2024-12-31,true'
+    ].join('\n');
+
+    const blob = new Blob([sampleData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'internships_sample.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
       {/* Background */}
