@@ -7,6 +7,7 @@ import { handleRecommend } from "./routes/recommend";
 import {
   handleInternshipsList,
   handleInternshipById,
+  handleInternshipCreate,
 } from "./routes/internships";
 import { handleCSVUpload } from "./routes/upload";
 
