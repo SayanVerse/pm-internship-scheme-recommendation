@@ -165,7 +165,7 @@ export default function Admin() {
 
   const fetchUsers = async () => {
     try {
-      // For now, get users from localStorage
+      // Get users from localStorage
       const registeredUsers = JSON.parse(
         localStorage.getItem("registeredUsers") || "[]",
       );
@@ -178,10 +178,27 @@ export default function Admin() {
           createdAt: new Date().toISOString(),
         }),
       );
+
+      // Add the admin user if it exists in localStorage
+      const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+      if (currentUser && currentUser.isAdmin) {
+        const adminExists = transformedUsers.find(u => u.email === currentUser.email);
+        if (!adminExists) {
+          transformedUsers.push({
+            id: "admin-user",
+            email: currentUser.email,
+            role: "ADMIN",
+            name: `${currentUser.firstName} ${currentUser.lastName}`,
+            createdAt: new Date().toISOString(),
+          });
+        }
+      }
+
       setUsers(transformedUsers);
 
-      // Update stats with user count
-      setStats((prev) => ({ ...prev, totalUsers: transformedUsers.length }));
+      // Update stats with user count (add 1 for any authenticated users)
+      const totalUserCount = transformedUsers.length;
+      setStats((prev) => ({ ...prev, totalUsers: totalUserCount }));
     } catch (error) {
       console.error("Error fetching users:", error);
     }
