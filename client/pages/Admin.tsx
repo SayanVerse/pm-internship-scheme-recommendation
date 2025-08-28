@@ -546,7 +546,11 @@ export default function Admin() {
                   className="glass-input pl-9 sm:pl-10 h-10 sm:h-12"
                 />
               </div>
-              <Button className="btn-primary" size="sm">
+              <Button
+                className="btn-primary"
+                size="sm"
+                onClick={() => setIsAddModalOpen(true)}
+              >
                 <Plus className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Add Internship</span>
                 <span className="sm:hidden">Add</span>
