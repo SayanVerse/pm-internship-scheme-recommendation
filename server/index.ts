@@ -40,5 +40,10 @@ export function createServer() {
   app.get("/api/internships/:id", handleInternshipById);
   app.post("/api/internships/upload", handleCSVUpload);
 
+  // Applications API routes
+  app.post("/api/applications", handleCreateApplication);
+  app.get("/api/applications", handleGetApplications);
+  app.get("/api/applications/stats", handleGetApplicationStats);
+
   return app;
 }
