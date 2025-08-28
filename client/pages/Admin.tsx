@@ -98,6 +98,15 @@ export default function Admin() {
     fetchStats();
     fetchInternships();
     fetchUsers();
+
+    // Set up auto-refresh for real-time updates every 30 seconds
+    const interval = setInterval(() => {
+      fetchStats();
+      fetchInternships();
+      fetchUsers();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchStats = async () => {
