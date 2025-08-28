@@ -1,0 +1,6 @@
+title,sector,orgName,description,city,state,pin,remote,minEducation,requiredSkills,stipendMin,stipendMax,applicationUrl,deadline,active
+Software Development Intern,IT,TechCorp,Develop web applications using modern frameworks,Mumbai,Maharashtra,400001,false,UNDERGRADUATE,"JavaScript,React,Node.js",15000,25000,https://techcorp.com/apply,2024-12-31,true
+Data Science Intern,IT,DataAnalytics Inc,Work on machine learning projects and data visualization,Bangalore,Karnataka,560001,true,POSTGRADUATE,"Python,SQL,Machine Learning",20000,30000,https://dataanalytics.com/careers,2024-11-30,true
+Marketing Intern,Marketing,BrandBoost,Create digital marketing campaigns and social media content,Delhi,Delhi,110001,false,UNDERGRADUATE,"Digital Marketing,Content Writing,Social Media",8000,12000,https://brandboost.in/internships,2024-10-15,true
+Finance Intern,Finance,InvestWise,Support financial analysis and portfolio management,Pune,Maharashtra,411001,false,UNDERGRADUATE,"Excel,Financial Analysis,Research",12000,18000,https://investwise.com/apply,2024-12-15,true
+Healthcare Intern,Healthcare,MedTech Solutions,Assist in medical device testing and documentation,Chennai,Tamil Nadu,600001,false,DIPLOMA,"Healthcare,Research,Documentation",10000,15000,https://medtech.com/careers,2024-11-20,true
