@@ -31,6 +31,7 @@ export function createServer() {
   app.post("/api/intake", handleIntake);
   app.post("/api/recommend", handleRecommend);
   app.get("/api/internships", handleInternshipsList);
+  app.post("/api/internships", handleInternshipCreate);
   app.get("/api/internships/:id", handleInternshipById);
   app.post("/api/internships/upload", handleCSVUpload);
 
