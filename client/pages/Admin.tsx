@@ -593,25 +593,55 @@ export default function Admin() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-white/80">
-                      <UserCheck className="h-5 w-5 text-green-400" />
-                      <span className="text-sm">
-                        {stats.totalUsers} registered users
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 text-white/80">
-                      <Briefcase className="h-5 w-5 text-blue-400" />
-                      <span className="text-sm">
-                        {stats.activeInternships} active internships
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 text-white/80">
-                      <TrendingUp className="h-5 w-5 text-yellow-400" />
-                      <span className="text-sm">
-                        {stats.totalInternships} total opportunities
-                      </span>
-                    </div>
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {recentApplications.length > 0 ? (
+                      recentApplications.map((application) => (
+                        <div key={application.id} className="flex items-start gap-3 text-white/80 text-sm">
+                          <UserCheck className="h-4 w-4 text-green-400 mt-0.5 flex-shrink-0" />
+                          <span>
+                            User{" "}
+                            <span className="text-white font-medium">
+                              {application.user.candidateProfile?.name ||
+                               application.user.email.split('@')[0]}
+                            </span>{" "}
+                            applied internship at{" "}
+                            <span className="text-white font-medium">
+                              {application.internship.orgName}
+                            </span>
+                            <div className="text-white/50 text-xs mt-1">
+                              {new Date(application.createdAt).toLocaleString()}
+                            </div>
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-3 text-white/80">
+                          <UserCheck className="h-5 w-5 text-green-400" />
+                          <span className="text-sm">
+                            {stats.registeredUsers} registered users
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 text-white/80">
+                          <Users className="h-5 w-5 text-purple-400" />
+                          <span className="text-sm">
+                            {stats.internUsers} intern users
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 text-white/80">
+                          <Briefcase className="h-5 w-5 text-blue-400" />
+                          <span className="text-sm">
+                            {stats.activeInternships} active internships
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 text-white/80">
+                          <TrendingUp className="h-5 w-5 text-yellow-400" />
+                          <span className="text-sm">
+                            {stats.totalInternships} total opportunities
+                          </span>
+                        </div>
+                      </>
+                    )}
                     {uploadResults && uploadResults.success && (
                       <div className="flex items-center gap-3 text-white/80">
                         <Upload className="h-5 w-5 text-green-400" />
