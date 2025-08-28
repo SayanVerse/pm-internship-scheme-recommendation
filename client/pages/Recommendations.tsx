@@ -47,6 +47,25 @@ export default function Recommendations() {
   const urlParams = new URLSearchParams(window.location.search);
   const profileId = urlParams.get("profileId");
 
+  const handleApplyNow = async (internshipId: string, applicationUrl: string) => {
+    try {
+      // Track the application
+      await fetch("/api/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profileId,
+          internshipId,
+        }),
+      });
+    } catch (error) {
+      console.error("Error tracking application:", error);
+    }
+
+    // Open the external application URL
+    window.open(applicationUrl, "_blank");
+  };
+
   const fetchRecommendations = async () => {
     setLoading(true);
     try {
