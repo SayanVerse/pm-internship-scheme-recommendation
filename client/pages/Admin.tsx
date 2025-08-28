@@ -416,7 +416,12 @@ export default function Admin() {
           </div>
           <Button
             variant="outline"
-            onClick={fetchStats}
+            onClick={() => {
+              fetchStats();
+              fetchInternships();
+              fetchUsers();
+              fetchApplications();
+            }}
             className="border-white/30 text-white hover:bg-white/10"
             size="sm"
           >
