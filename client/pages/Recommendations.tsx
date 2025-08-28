@@ -284,7 +284,7 @@ export default function Recommendations() {
                         variant="vibrant"
                         className="w-full text-sm sm:text-lg font-bold shadow-lg h-10 sm:h-auto"
                         onClick={() =>
-                          window.open(match.internship.applicationUrl, "_blank")
+                          handleApplyNow(match.internship.id, match.internship.applicationUrl)
                         }
                       >
                         <span className="hidden sm:inline">Apply Now</span>
