@@ -413,6 +413,9 @@ export default function Admin() {
                       <p className="text-lg sm:text-3xl font-bold text-white">
                         {stats.totalInternships}
                       </p>
+                      <p className="text-white/50 text-xs">
+                        {internships.length} loaded
+                      </p>
                     </div>
                     <Briefcase className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
                   </div>
@@ -420,45 +423,54 @@ export default function Admin() {
               </Card>
 
               <Card className="glass-card border-white/10">
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-sm">
+                      <p className="text-white/70 text-xs sm:text-sm">
                         Active Internships
                       </p>
-                      <p className="text-3xl font-bold text-white">
+                      <p className="text-lg sm:text-3xl font-bold text-white">
                         {stats.activeInternships}
                       </p>
+                      <p className="text-white/50 text-xs">
+                        {internships.filter(i => i.active).length} active
+                      </p>
                     </div>
-                    <UserCheck className="h-8 w-8 text-green-400" />
+                    <UserCheck className="h-5 w-5 sm:h-8 sm:w-8 text-green-400" />
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="glass-card border-white/10">
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-sm">Registered Users</p>
-                      <p className="text-3xl font-bold text-white">
+                      <p className="text-white/70 text-xs sm:text-sm">Registered Users</p>
+                      <p className="text-lg sm:text-3xl font-bold text-white">
                         {stats.totalUsers}
                       </p>
+                      <p className="text-white/50 text-xs">
+                        {users.length} in system
+                      </p>
                     </div>
-                    <Users className="h-8 w-8 text-white/50" />
+                    <Users className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="glass-card border-white/10">
-                <CardContent className="p-6">
+                <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-sm">Applications</p>
-                      <p className="text-3xl font-bold text-white">
-                        {stats.totalApplications}
+                      <p className="text-white/70 text-xs sm:text-sm">Last Update</p>
+                      <p className="text-lg sm:text-3xl font-bold text-white">
+                        {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                      </p>
+                      <p className="text-white/50 text-xs">
+                        Auto-refresh: 30s
                       </p>
                     </div>
-                    <TrendingUp className="h-8 w-8 text-white/50" />
+                    <TrendingUp className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
                   </div>
                 </CardContent>
               </Card>
