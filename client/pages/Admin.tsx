@@ -519,21 +519,29 @@ export default function Admin() {
                     <div className="flex items-center gap-3 text-white/80">
                       <UserCheck className="h-5 w-5 text-green-400" />
                       <span className="text-sm">
-                        5 new user registrations today
+                        {stats.totalUsers} registered users
                       </span>
                     </div>
                     <div className="flex items-center gap-3 text-white/80">
                       <Briefcase className="h-5 w-5 text-blue-400" />
                       <span className="text-sm">
-                        3 new internships added this week
+                        {stats.activeInternships} active internships
                       </span>
                     </div>
                     <div className="flex items-center gap-3 text-white/80">
                       <TrendingUp className="h-5 w-5 text-yellow-400" />
                       <span className="text-sm">
-                        15 applications submitted today
+                        {stats.totalInternships} total opportunities
                       </span>
                     </div>
+                    {uploadResults && uploadResults.success && (
+                      <div className="flex items-center gap-3 text-white/80">
+                        <Upload className="h-5 w-5 text-green-400" />
+                        <span className="text-sm">
+                          Last upload: {uploadResults.uploaded} internships added
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
