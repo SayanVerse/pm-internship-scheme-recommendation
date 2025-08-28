@@ -482,7 +482,7 @@ export default function Admin() {
                 </CardHeader>
                 <CardContent className="space-y-3 sm:space-y-4">
                   <Button
-                    onClick={() => setActiveTab("internships")}
+                    onClick={() => setIsAddModalOpen(true)}
                     className="w-full btn-primary text-sm sm:text-lg"
                     size="sm"
                   >
