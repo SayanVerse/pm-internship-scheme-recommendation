@@ -80,6 +80,14 @@ export default function Admin() {
   const [selectedInternship, setSelectedInternship] =
     useState<Internship | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [uploadResults, setUploadResults] = useState<{
+    success: boolean;
+    uploaded: number;
+    errors: string[];
+    message: string;
+  } | null>(null);
 
   // Fetch data on component mount
   useEffect(() => {
