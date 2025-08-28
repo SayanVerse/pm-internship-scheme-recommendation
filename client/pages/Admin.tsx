@@ -515,13 +515,13 @@ export default function Admin() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-white/70 text-xs sm:text-sm">
-                        Registered Users
+                        Intern Users
                       </p>
                       <p className="text-lg sm:text-3xl font-bold text-white">
-                        {stats.totalUsers}
+                        {stats.internUsers}
                       </p>
                       <p className="text-white/50 text-xs">
-                        {users.length} in system
+                        Registered user
                       </p>
                     </div>
                     <Users className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
