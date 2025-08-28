@@ -20,9 +20,9 @@ export const handleCreateApplication: RequestHandler = async (req, res) => {
     if (!userId && validatedData.profileId) {
       const profile = await db.candidateProfile.findUnique({
         where: { id: validatedData.profileId },
-        include: { user: true }
+        include: { user: true },
       });
-      
+
       if (profile) {
         userId = profile.userId;
       }
@@ -46,8 +46,8 @@ export const handleCreateApplication: RequestHandler = async (req, res) => {
         userId_internshipId: {
           userId,
           internshipId: validatedData.internshipId,
-        }
-      }
+        },
+      },
     });
 
     if (existingApplication) {
@@ -68,7 +68,7 @@ export const handleCreateApplication: RequestHandler = async (req, res) => {
       include: {
         user: true,
         internship: true,
-      }
+      },
     });
 
     res.json({
@@ -101,14 +101,14 @@ export const handleGetApplications: RequestHandler = async (req, res) => {
       include: {
         user: {
           include: {
-            candidateProfile: true
-          }
+            candidateProfile: true,
+          },
         },
         internship: true,
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: "desc",
+      },
     });
 
     res.json({
@@ -130,13 +130,13 @@ export const handleGetApplicationStats: RequestHandler = async (req, res) => {
     const recentApplications = await db.application.count({
       where: {
         createdAt: {
-          gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // Last 7 days
-        }
-      }
+          gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last 7 days
+        },
+      },
     });
 
     const uniqueApplicants = await db.application.groupBy({
-      by: ['userId'],
+      by: ["userId"],
     });
 
     res.json({
@@ -145,7 +145,7 @@ export const handleGetApplicationStats: RequestHandler = async (req, res) => {
         totalApplications,
         recentApplications,
         uniqueApplicants: uniqueApplicants.length,
-      }
+      },
     });
   } catch (error) {
     console.error("Get application stats error:", error);

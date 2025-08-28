@@ -47,7 +47,10 @@ export default function Recommendations() {
   const urlParams = new URLSearchParams(window.location.search);
   const profileId = urlParams.get("profileId");
 
-  const handleApplyNow = async (internshipId: string, applicationUrl: string) => {
+  const handleApplyNow = async (
+    internshipId: string,
+    applicationUrl: string,
+  ) => {
     try {
       // Track the application
       await fetch("/api/applications", {
@@ -284,7 +287,10 @@ export default function Recommendations() {
                         variant="vibrant"
                         className="w-full text-sm sm:text-lg font-bold shadow-lg h-10 sm:h-auto"
                         onClick={() =>
-                          handleApplyNow(match.internship.id, match.internship.applicationUrl)
+                          handleApplyNow(
+                            match.internship.id,
+                            match.internship.applicationUrl,
+                          )
                         }
                       >
                         <span className="hidden sm:inline">Apply Now</span>

@@ -110,7 +110,9 @@ export default function Admin() {
     totalApplications: 0,
     recentApplications: 0,
   });
-  const [recentApplications, setRecentApplications] = useState<Application[]>([]);
+  const [recentApplications, setRecentApplications] = useState<Application[]>(
+    [],
+  );
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedInternship, setSelectedInternship] =
@@ -154,7 +156,7 @@ export default function Admin() {
       const internshipsData = await internshipsRes.json();
 
       if (internshipsData.success) {
-        setStats(prev => ({
+        setStats((prev) => ({
           ...prev,
           totalInternships: internshipsData.total || 0,
           activeInternships:
@@ -164,7 +166,7 @@ export default function Admin() {
       } else {
         console.error("API returned error:", internshipsData);
         // Set default stats on error
-        setStats(prev => ({
+        setStats((prev) => ({
           ...prev,
           totalInternships: 0,
           activeInternships: 0,
@@ -173,7 +175,7 @@ export default function Admin() {
     } catch (error) {
       console.error("Error fetching stats:", error);
       // Set default stats on error
-      setStats(prev => ({
+      setStats((prev) => ({
         ...prev,
         totalInternships: 0,
         activeInternships: 0,
@@ -240,13 +242,15 @@ export default function Admin() {
       setUsers(transformedUsers);
 
       // Count registered users (excluding admin)
-      const registeredUserCount = transformedUsers.filter(u => u.role !== "ADMIN").length;
+      const registeredUserCount = transformedUsers.filter(
+        (u) => u.role !== "ADMIN",
+      ).length;
       const totalUserCount = transformedUsers.length;
 
       setStats((prev) => ({
         ...prev,
         totalUsers: totalUserCount,
-        registeredUsers: registeredUserCount
+        registeredUsers: registeredUserCount,
       }));
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -257,7 +261,7 @@ export default function Admin() {
     try {
       const [applicationsResponse, statsResponse] = await Promise.all([
         fetch("/api/applications"),
-        fetch("/api/applications/stats")
+        fetch("/api/applications/stats"),
       ]);
 
       if (applicationsResponse.ok) {
@@ -525,9 +529,7 @@ export default function Admin() {
                       <p className="text-lg sm:text-3xl font-bold text-white">
                         {stats.internUsers}
                       </p>
-                      <p className="text-white/50 text-xs">
-                        Registered user
-                      </p>
+                      <p className="text-white/50 text-xs">Registered user</p>
                     </div>
                     <Users className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
                   </div>
@@ -601,13 +603,16 @@ export default function Admin() {
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {recentApplications.length > 0 ? (
                       recentApplications.map((application) => (
-                        <div key={application.id} className="flex items-start gap-3 text-white/80 text-sm">
+                        <div
+                          key={application.id}
+                          className="flex items-start gap-3 text-white/80 text-sm"
+                        >
                           <UserCheck className="h-4 w-4 text-green-400 mt-0.5 flex-shrink-0" />
                           <span>
                             User{" "}
                             <span className="text-white font-medium">
                               {application.user.candidateProfile?.name ||
-                               application.user.email.split('@')[0]}
+                                application.user.email.split("@")[0]}
                             </span>{" "}
                             applied internship at{" "}
                             <span className="text-white font-medium">
