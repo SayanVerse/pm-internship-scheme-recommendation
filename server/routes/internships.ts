@@ -185,7 +185,14 @@ export const handleInternshipCreate: RequestHandler = async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!title || !sector || !orgName || !minEducation || !applicationUrl || !deadline) {
+    if (
+      !title ||
+      !sector ||
+      !orgName ||
+      !minEducation ||
+      !applicationUrl ||
+      !deadline
+    ) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields",
@@ -226,7 +233,10 @@ export const handleInternshipCreate: RequestHandler = async (req, res) => {
           skill = await db.skill.create({
             data: {
               name: skillName.trim(),
-              slug: skillName.trim().toLowerCase().replace(/[^a-z0-9]/g, "-"),
+              slug: skillName
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, "-"),
             },
           });
         }

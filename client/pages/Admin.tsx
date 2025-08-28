@@ -5,9 +5,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   ArrowLeft,
@@ -195,7 +207,9 @@ export default function Admin() {
       // Add the admin user if it exists in localStorage
       const currentUser = JSON.parse(localStorage.getItem("user") || "null");
       if (currentUser && currentUser.isAdmin) {
-        const adminExists = transformedUsers.find(u => u.email === currentUser.email);
+        const adminExists = transformedUsers.find(
+          (u) => u.email === currentUser.email,
+        );
         if (!adminExists) {
           transformedUsers.push({
             id: "admin-user",
@@ -242,7 +256,9 @@ export default function Admin() {
       (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
-  const handleCSVUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCSVUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -251,23 +267,24 @@ export default function Admin() {
 
     try {
       const text = await file.text();
-      const lines = text.split('\n');
-      const headers = lines[0].split(',').map(h => h.trim());
+      const lines = text.split("\n");
+      const headers = lines[0].split(",").map((h) => h.trim());
 
-      const csvData = lines.slice(1)
-        .filter(line => line.trim())
-        .map(line => {
-          const values = line.split(',').map(v => v.trim());
+      const csvData = lines
+        .slice(1)
+        .filter((line) => line.trim())
+        .map((line) => {
+          const values = line.split(",").map((v) => v.trim());
           const row: any = {};
           headers.forEach((header, index) => {
-            row[header] = values[index] || '';
+            row[header] = values[index] || "";
           });
           return row;
         });
 
-      const response = await fetch('/api/internships/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/internships/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ csvData }),
       });
 
@@ -280,25 +297,25 @@ export default function Admin() {
         await fetchInternships();
       }
     } catch (error) {
-      console.error('CSV upload error:', error);
+      console.error("CSV upload error:", error);
       setUploadResults({
         success: false,
         uploaded: 0,
-        errors: ['Failed to process CSV file'],
-        message: 'Error uploading CSV file',
+        errors: ["Failed to process CSV file"],
+        message: "Error uploading CSV file",
       });
     } finally {
       setUploadLoading(false);
       // Reset file input
-      event.target.value = '';
+      event.target.value = "";
     }
   };
 
   const handleAddInternship = async (formData: any) => {
     try {
-      const response = await fetch('/api/internships', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/internships", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -308,14 +325,14 @@ export default function Admin() {
         await fetchInternships();
       }
     } catch (error) {
-      console.error('Error adding internship:', error);
+      console.error("Error adding internship:", error);
     }
   };
 
   const downloadSampleCSV = () => {
-    const a = document.createElement('a');
-    a.href = '/sample_internships.csv';
-    a.download = 'sample_internships.csv';
+    const a = document.createElement("a");
+    a.href = "/sample_internships.csv";
+    a.download = "sample_internships.csv";
     a.click();
   };
 
@@ -433,7 +450,7 @@ export default function Admin() {
                         {stats.activeInternships}
                       </p>
                       <p className="text-white/50 text-xs">
-                        {internships.filter(i => i.active).length} active
+                        {internships.filter((i) => i.active).length} active
                       </p>
                     </div>
                     <UserCheck className="h-5 w-5 sm:h-8 sm:w-8 text-green-400" />
@@ -445,7 +462,9 @@ export default function Admin() {
                 <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-xs sm:text-sm">Registered Users</p>
+                      <p className="text-white/70 text-xs sm:text-sm">
+                        Registered Users
+                      </p>
                       <p className="text-lg sm:text-3xl font-bold text-white">
                         {stats.totalUsers}
                       </p>
@@ -462,13 +481,16 @@ export default function Admin() {
                 <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white/70 text-xs sm:text-sm">Last Update</p>
+                      <p className="text-white/70 text-xs sm:text-sm">
+                        Last Update
+                      </p>
                       <p className="text-lg sm:text-3xl font-bold text-white">
-                        {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        {new Date().toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </p>
-                      <p className="text-white/50 text-xs">
-                        Auto-refresh: 30s
-                      </p>
+                      <p className="text-white/50 text-xs">Auto-refresh: 30s</p>
                     </div>
                     <TrendingUp className="h-5 w-5 sm:h-8 sm:w-8 text-white/50" />
                   </div>
@@ -542,7 +564,8 @@ export default function Admin() {
                       <div className="flex items-center gap-3 text-white/80">
                         <Upload className="h-5 w-5 text-green-400" />
                         <span className="text-sm">
-                          Last upload: {uploadResults.uploaded} internships added
+                          Last upload: {uploadResults.uploaded} internships
+                          added
                         </span>
                       </div>
                     )}
@@ -835,7 +858,9 @@ export default function Admin() {
                   <Button
                     variant="outline"
                     className="border-white/30 text-white hover:bg-white/10"
-                    onClick={() => document.getElementById('csv-upload')?.click()}
+                    onClick={() =>
+                      document.getElementById("csv-upload")?.click()
+                    }
                     disabled={uploadLoading}
                   >
                     {uploadLoading ? (
@@ -844,7 +869,7 @@ export default function Admin() {
                         Uploading...
                       </>
                     ) : (
-                      'Browse Files'
+                      "Browse Files"
                     )}
                   </Button>
                 </div>
@@ -854,9 +879,9 @@ export default function Admin() {
                     Required CSV Format:
                   </h4>
                   <p className="text-white/70 text-sm mb-3">
-                    title, sector, orgName, description, city, state, pin, remote,
-                    minEducation, requiredSkills, stipendMin, stipendMax,
-                    applicationUrl, deadline, active
+                    title, sector, orgName, description, city, state, pin,
+                    remote, minEducation, requiredSkills, stipendMin,
+                    stipendMax, applicationUrl, deadline, active
                   </p>
                   <Button
                     variant="ghost"
@@ -875,21 +900,37 @@ export default function Admin() {
             {uploadResults && (
               <Card className="glass-card border-white/10">
                 <CardContent className="p-6">
-                  <Alert className={uploadResults.success ? "border-green-500/50 bg-green-500/10" : "border-red-500/50 bg-red-500/10"}>
+                  <Alert
+                    className={
+                      uploadResults.success
+                        ? "border-green-500/50 bg-green-500/10"
+                        : "border-red-500/50 bg-red-500/10"
+                    }
+                  >
                     <AlertDescription className="text-white">
                       <strong>{uploadResults.message}</strong>
                       {uploadResults.uploaded > 0 && (
-                        <p className="mt-2">Successfully uploaded {uploadResults.uploaded} internships</p>
+                        <p className="mt-2">
+                          Successfully uploaded {uploadResults.uploaded}{" "}
+                          internships
+                        </p>
                       )}
                       {uploadResults.errors.length > 0 && (
                         <div className="mt-2">
                           <p className="font-medium">Errors:</p>
                           <ul className="list-disc list-inside space-y-1 text-sm">
-                            {uploadResults.errors.slice(0, 5).map((error, index) => (
-                              <li key={index} className="text-red-300">{error}</li>
-                            ))}
+                            {uploadResults.errors
+                              .slice(0, 5)
+                              .map((error, index) => (
+                                <li key={index} className="text-red-300">
+                                  {error}
+                                </li>
+                              ))}
                             {uploadResults.errors.length > 5 && (
-                              <li className="text-red-300">... and {uploadResults.errors.length - 5} more errors</li>
+                              <li className="text-red-300">
+                                ... and {uploadResults.errors.length - 5} more
+                                errors
+                              </li>
                             )}
                           </ul>
                         </div>
@@ -906,9 +947,14 @@ export default function Admin() {
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogContent className="glass-card border-white/20 max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="text-white text-xl">Add New Internship</DialogTitle>
+              <DialogTitle className="text-white text-xl">
+                Add New Internship
+              </DialogTitle>
             </DialogHeader>
-            <AddInternshipForm onSubmit={handleAddInternship} onCancel={() => setIsAddModalOpen(false)} />
+            <AddInternshipForm
+              onSubmit={handleAddInternship}
+              onCancel={() => setIsAddModalOpen(false)}
+            />
           </DialogContent>
         </Dialog>
       </div>
@@ -924,20 +970,20 @@ interface AddInternshipFormProps {
 
 function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
   const [formData, setFormData] = useState({
-    title: '',
-    sector: '',
-    orgName: '',
-    description: '',
-    city: '',
-    state: '',
-    pin: '',
+    title: "",
+    sector: "",
+    orgName: "",
+    description: "",
+    city: "",
+    state: "",
+    pin: "",
     remote: false,
-    minEducation: 'UNDERGRADUATE',
-    requiredSkills: '',
-    stipendMin: '',
-    stipendMax: '',
-    applicationUrl: '',
-    deadline: '',
+    minEducation: "UNDERGRADUATE",
+    requiredSkills: "",
+    stipendMin: "",
+    stipendMax: "",
+    applicationUrl: "",
+    deadline: "",
     active: true,
   });
 
@@ -946,9 +992,16 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
 
     const submitData = {
       ...formData,
-      stipendMin: formData.stipendMin ? parseInt(formData.stipendMin) : undefined,
-      stipendMax: formData.stipendMax ? parseInt(formData.stipendMax) : undefined,
-      requiredSkills: formData.requiredSkills.split(',').map(s => s.trim()).filter(s => s),
+      stipendMin: formData.stipendMin
+        ? parseInt(formData.stipendMin)
+        : undefined,
+      stipendMax: formData.stipendMax
+        ? parseInt(formData.stipendMax)
+        : undefined,
+      requiredSkills: formData.requiredSkills
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s),
       deadline: new Date(formData.deadline).toISOString(),
     };
 
@@ -956,7 +1009,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
   };
 
   const updateField = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -966,7 +1019,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Label className="text-white">Title *</Label>
           <Input
             value={formData.title}
-            onChange={(e) => updateField('title', e.target.value)}
+            onChange={(e) => updateField("title", e.target.value)}
             className="glass-input"
             required
           />
@@ -975,7 +1028,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Label className="text-white">Organization *</Label>
           <Input
             value={formData.orgName}
-            onChange={(e) => updateField('orgName', e.target.value)}
+            onChange={(e) => updateField("orgName", e.target.value)}
             className="glass-input"
             required
           />
@@ -985,7 +1038,10 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <Label className="text-white">Sector *</Label>
-          <Select value={formData.sector} onValueChange={(value) => updateField('sector', value)}>
+          <Select
+            value={formData.sector}
+            onValueChange={(value) => updateField("sector", value)}
+          >
             <SelectTrigger className="glass-input">
               <SelectValue placeholder="Select sector" />
             </SelectTrigger>
@@ -1003,7 +1059,10 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
         </div>
         <div>
           <Label className="text-white">Min Education *</Label>
-          <Select value={formData.minEducation} onValueChange={(value) => updateField('minEducation', value)}>
+          <Select
+            value={formData.minEducation}
+            onValueChange={(value) => updateField("minEducation", value)}
+          >
             <SelectTrigger className="glass-input">
               <SelectValue />
             </SelectTrigger>
@@ -1021,7 +1080,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
         <Label className="text-white">Description</Label>
         <Textarea
           value={formData.description}
-          onChange={(e) => updateField('description', e.target.value)}
+          onChange={(e) => updateField("description", e.target.value)}
           className="glass-input min-h-[80px]"
         />
       </div>
@@ -1031,7 +1090,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Label className="text-white">City</Label>
           <Input
             value={formData.city}
-            onChange={(e) => updateField('city', e.target.value)}
+            onChange={(e) => updateField("city", e.target.value)}
             className="glass-input"
           />
         </div>
@@ -1039,7 +1098,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Label className="text-white">State</Label>
           <Input
             value={formData.state}
-            onChange={(e) => updateField('state', e.target.value)}
+            onChange={(e) => updateField("state", e.target.value)}
             className="glass-input"
           />
         </div>
@@ -1047,7 +1106,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Label className="text-white">PIN Code</Label>
           <Input
             value={formData.pin}
-            onChange={(e) => updateField('pin', e.target.value)}
+            onChange={(e) => updateField("pin", e.target.value)}
             className="glass-input"
           />
         </div>
@@ -1059,7 +1118,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Input
             type="number"
             value={formData.stipendMin}
-            onChange={(e) => updateField('stipendMin', e.target.value)}
+            onChange={(e) => updateField("stipendMin", e.target.value)}
             className="glass-input"
           />
         </div>
@@ -1068,7 +1127,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Input
             type="number"
             value={formData.stipendMax}
-            onChange={(e) => updateField('stipendMax', e.target.value)}
+            onChange={(e) => updateField("stipendMax", e.target.value)}
             className="glass-input"
           />
         </div>
@@ -1078,7 +1137,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
         <Label className="text-white">Required Skills (comma-separated)</Label>
         <Input
           value={formData.requiredSkills}
-          onChange={(e) => updateField('requiredSkills', e.target.value)}
+          onChange={(e) => updateField("requiredSkills", e.target.value)}
           className="glass-input"
           placeholder="JavaScript, React, Node.js"
         />
@@ -1090,7 +1149,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Input
             type="url"
             value={formData.applicationUrl}
-            onChange={(e) => updateField('applicationUrl', e.target.value)}
+            onChange={(e) => updateField("applicationUrl", e.target.value)}
             className="glass-input"
             required
           />
@@ -1100,7 +1159,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <Input
             type="date"
             value={formData.deadline}
-            onChange={(e) => updateField('deadline', e.target.value)}
+            onChange={(e) => updateField("deadline", e.target.value)}
             className="glass-input"
             required
           />
@@ -1112,7 +1171,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <input
             type="checkbox"
             checked={formData.remote}
-            onChange={(e) => updateField('remote', e.target.checked)}
+            onChange={(e) => updateField("remote", e.target.checked)}
             className="rounded"
           />
           Remote Work Available
@@ -1121,7 +1180,7 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
           <input
             type="checkbox"
             checked={formData.active}
-            onChange={(e) => updateField('active', e.target.checked)}
+            onChange={(e) => updateField("active", e.target.checked)}
             className="rounded"
           />
           Active
@@ -1132,7 +1191,12 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
         <Button type="submit" className="btn-primary flex-1">
           Add Internship
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel} className="border-white/30 text-white">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCancel}
+          className="border-white/30 text-white"
+        >
           Cancel
         </Button>
       </div>
