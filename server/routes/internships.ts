@@ -255,7 +255,7 @@ export const handleInternshipCreate: RequestHandler = async (req, res) => {
         state: internship.state,
         pin: internship.pin,
         remote: internship.remote,
-        minEducation: internship.minEducation,
+        minEducation: internship.minEducation as any,
         applicationUrl: internship.applicationUrl,
         deadline: internship.deadline.toISOString(),
         active: internship.active,
