@@ -10,6 +10,11 @@ import {
   handleInternshipCreate,
 } from "./routes/internships";
 import { handleCSVUpload } from "./routes/upload";
+import {
+  handleCreateApplication,
+  handleGetApplications,
+  handleGetApplicationStats,
+} from "./routes/applications";
 
 export function createServer() {
   const app = express();
