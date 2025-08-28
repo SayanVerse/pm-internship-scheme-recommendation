@@ -253,6 +253,36 @@ export default function Admin() {
     }
   };
 
+  const fetchApplications = async () => {
+    try {
+      const [applicationsResponse, statsResponse] = await Promise.all([
+        fetch("/api/applications"),
+        fetch("/api/applications/stats")
+      ]);
+
+      if (applicationsResponse.ok) {
+        const applicationsData = await applicationsResponse.json();
+        if (applicationsData.success) {
+          setRecentApplications(applicationsData.applications.slice(0, 10));
+        }
+      }
+
+      if (statsResponse.ok) {
+        const statsData = await statsResponse.json();
+        if (statsData.success) {
+          setStats((prev) => ({
+            ...prev,
+            internUsers: statsData.stats.uniqueApplicants,
+            totalApplications: statsData.stats.totalApplications,
+            recentApplications: statsData.stats.recentApplications,
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    }
+  };
+
   const formatStipend = (min?: number, max?: number) => {
     if (!min && !max) return "Unpaid";
     if (min && max)
