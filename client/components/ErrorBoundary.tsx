@@ -44,6 +44,14 @@ export class ErrorBoundary extends React.Component<
             <p className="text-white/80 mb-6">
               {this.state.error?.message || "An unexpected error occurred"}
             </p>
+            {process.env.NODE_ENV === "development" && this.state.error && (
+              <details className="text-left mb-4 text-sm text-white/70">
+                <summary className="cursor-pointer mb-2">Error Details</summary>
+                <pre className="whitespace-pre-wrap break-words">
+                  {this.state.error.stack}
+                </pre>
+              </details>
+            )}
             <button
               onClick={() => window.location.reload()}
               className="glass-button px-6 py-3 text-white font-medium"
