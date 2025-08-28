@@ -68,14 +68,7 @@ const App = () => (
   </ErrorBoundary>
 );
 
-// Prevent multiple root creation during HMR
+// Create React root
 const container = document.getElementById("root")!;
-
-// Check if root already exists (for HMR)
-if (!(container as any)._reactRoot) {
-  const root = createRoot(container);
-  (container as any)._reactRoot = root;
-  root.render(<App />);
-} else {
-  (container as any)._reactRoot.render(<App />);
-}
+const root = createRoot(container);
+root.render(<App />);
