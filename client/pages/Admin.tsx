@@ -313,18 +313,10 @@ export default function Admin() {
   };
 
   const downloadSampleCSV = () => {
-    const sampleData = [
-      'title,sector,orgName,description,city,state,pin,remote,minEducation,requiredSkills,stipendMin,stipendMax,applicationUrl,deadline,active',
-      'Software Intern,IT,TechCorp,Develop web applications,Mumbai,Maharashtra,400001,false,UNDERGRADUATE,"JavaScript,React,Node.js",15000,25000,https://example.com/apply,2024-12-31,true'
-    ].join('\n');
-
-    const blob = new Blob([sampleData], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = 'internships_sample.csv';
+    a.href = '/sample_internships.csv';
+    a.download = 'sample_internships.csv';
     a.click();
-    window.URL.revokeObjectURL(url);
   };
 
   return (
