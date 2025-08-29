@@ -301,7 +301,7 @@ export default function Index() {
 
         {/* Footer */}
         <footer className="text-center mt-12 sm:mt-20 text-white/60 px-4">
-          <p className="text-xs sm:text-sm">Developed by "Tech Bridge"</p>
+          <p className="text-xs sm:text-sm">Developed by Team "Tech Bridge"</p>
         </footer>
       </main>
     </div>
