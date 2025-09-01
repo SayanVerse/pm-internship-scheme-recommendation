@@ -1394,6 +1394,13 @@ interface AddInternshipFormProps {
   onCancel: () => void;
 }
 
+// Edit Internship Form Component
+interface EditInternshipFormProps {
+  internship: Internship;
+  onSubmit: (data: Internship) => void;
+  onCancel: () => void;
+}
+
 function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
   const [formData, setFormData] = useState({
     title: "",
