@@ -144,15 +144,24 @@ export default function Index() {
   // InternGuide chatbot state
   const [showChat, setShowChat] = useState(false);
   const [chatInput, setChatInput] = useState("");
-  const [messages, setMessages] = useState<{ sender: "user" | "bot"; text: string }[]>([
-    { sender: "bot", text: "Hi! I’m InternGuide. Ask me about internships, skills, or how to get recommendations." },
+  const [messages, setMessages] = useState<
+    { sender: "user" | "bot"; text: string }[]
+  >([
+    {
+      sender: "bot",
+      text: "Hi! I’m InternGuide. Ask me about internships, skills, or how to get recommendations.",
+    },
   ]);
 
   const handleSend = () => {
     const text = chatInput.trim();
     if (!text) return;
     const reply = getBotReply(text);
-    setMessages((m) => [...m, { sender: "user", text }, { sender: "bot", text: reply }]);
+    setMessages((m) => [
+      ...m,
+      { sender: "user", text },
+      { sender: "bot", text: reply },
+    ]);
     setChatInput("");
   };
 
@@ -349,9 +358,18 @@ export default function Index() {
             onClick={() => setShowChat((s) => !s)}
             className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-2xl flex items-center justify-center bg-white text-purple-700 hover:scale-105 active:scale-95 transition-transform"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
-              <path d="M7 8h10v2H7V8zm0 4h7v2H7v-2z"/>
-              <path fillRule="evenodd" d="M2 12c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10a9.958 9.958 0 01-4.9-1.285L3 22l1.285-4.1A9.958 9.958 0 012 12zm18 0a8 8 0 10-14.9 4.1l.3.45-.57 1.82 1.82-.57.45.3A8 8 0 1020 12z" clipRule="evenodd"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-7 w-7"
+            >
+              <path d="M7 8h10v2H7V8zm0 4h7v2H7v-2z" />
+              <path
+                fillRule="evenodd"
+                d="M2 12c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10a9.958 9.958 0 01-4.9-1.285L3 22l1.285-4.1A9.958 9.958 0 012 12zm18 0a8 8 0 10-14.9 4.1l.3.45-.57 1.82 1.82-.57.45.3A8 8 0 1020 12z"
+                clipRule="evenodd"
+              />
             </svg>
           </button>
 
@@ -359,8 +377,12 @@ export default function Index() {
             <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl glass-card border-white/20 bg-white/95">
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/20">
                 <div>
-                  <div className="text-base font-semibold text-white">InternGuide</div>
-                  <div className="text-xs text-white/70">Your internship helper</div>
+                  <div className="text-base font-semibold text-white">
+                    InternGuide
+                  </div>
+                  <div className="text-xs text-white/70">
+                    Your internship helper
+                  </div>
                 </div>
                 <button
                   aria-label="Close chat"
@@ -372,8 +394,17 @@ export default function Index() {
               </div>
               <div className="p-3 h-72 overflow-y-auto space-y-2">
                 {messages.map((m, i) => (
-                  <div key={i} className={m.sender === "user" ? "text-right" : "text-left"}>
-                    <div className={m.sender === "user" ? "inline-block px-3 py-2 rounded-xl bg-purple-600 text-white" : "inline-block px-3 py-2 rounded-xl bg-white text-black"}>
+                  <div
+                    key={i}
+                    className={m.sender === "user" ? "text-right" : "text-left"}
+                  >
+                    <div
+                      className={
+                        m.sender === "user"
+                          ? "inline-block px-3 py-2 rounded-xl bg-purple-600 text-white"
+                          : "inline-block px-3 py-2 rounded-xl bg-white text-black"
+                      }
+                    >
                       {m.text}
                     </div>
                   </div>
@@ -387,7 +418,9 @@ export default function Index() {
                   placeholder="Ask about internships..."
                   className="flex-1 rounded-xl px-3 py-2 border border-white/30 bg-white/80 text-black focus:outline-none"
                 />
-                <Button variant="accent" size="sm" onClick={handleSend}>Send</Button>
+                <Button variant="accent" size="sm" onClick={handleSend}>
+                  Send
+                </Button>
               </div>
             </div>
           )}
