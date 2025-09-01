@@ -403,6 +403,8 @@ export default function Recommendations() {
                           handleApplyNow(
                             match.internship.id,
                             match.internship.applicationUrl,
+                            match.internship.title,
+                            match.internship.orgName,
                           )
                         }
                       >
