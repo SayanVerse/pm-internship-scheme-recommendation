@@ -1078,7 +1078,7 @@ export default function Admin() {
                             variant="ghost"
                             size="sm"
                             className="text-white hover:bg-white/10 p-2"
-                            onClick={() => setSelectedInternship(internship)}
+                            onClick={() => handleViewInternship(internship)}
                           >
                             <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
@@ -1086,10 +1086,7 @@ export default function Admin() {
                             variant="ghost"
                             size="sm"
                             className="text-white hover:bg-white/10 p-2"
-                            onClick={() => {
-                              setSelectedInternship(internship);
-                              setIsEditModalOpen(true);
-                            }}
+                            onClick={() => handleEditInternship(internship)}
                           >
                             <Edit3 className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
@@ -1097,6 +1094,7 @@ export default function Admin() {
                             variant="ghost"
                             size="sm"
                             className="text-red-400 hover:bg-red-500/10 p-2"
+                            onClick={() => handleDeleteInternship(internship.id)}
                           >
                             <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
