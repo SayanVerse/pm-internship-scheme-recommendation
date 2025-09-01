@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
@@ -14,6 +14,7 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { initializeLocalStorage } from "@/lib/localStorage-internships";
 
 export default function Index() {
   const [language, setLanguage] = useState<"en" | "hi" | "bn">("en");
