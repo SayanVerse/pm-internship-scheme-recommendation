@@ -1320,6 +1320,69 @@ export default function Admin() {
             />
           </DialogContent>
         </Dialog>
+
+        {/* View Internship Modal */}
+        <Dialog open={!!viewInternship} onOpenChange={() => setViewInternship(null)}>
+          <DialogContent className="glass-card border-white/20 max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl">
+                Internship Details
+              </DialogTitle>
+            </DialogHeader>
+            {viewInternship && (
+              <div className="space-y-4 text-white">
+                <div><strong>Title:</strong> {viewInternship.title}</div>
+                <div><strong>Organization:</strong> {viewInternship.orgName}</div>
+                <div><strong>Sector:</strong> {viewInternship.sector}</div>
+                <div><strong>Description:</strong> {viewInternship.description || 'N/A'}</div>
+                <div><strong>Location:</strong> {viewInternship.remote ? 'Remote' : `${viewInternship.city}, ${viewInternship.state}`}</div>
+                <div><strong>Stipend:</strong> {formatStipend(viewInternship.stipendMin, viewInternship.stipendMax)}</div>
+                <div><strong>Education Level:</strong> {viewInternship.minEducation}</div>
+                <div><strong>Deadline:</strong> {formatDate(viewInternship.deadline)}</div>
+                <div><strong>Status:</strong> {viewInternship.active ? 'Active' : 'Inactive'}</div>
+                <div><strong>Required Skills:</strong> {viewInternship.requiredSkills?.join(', ') || 'N/A'}</div>
+                <div><strong>Application URL:</strong> <a href={viewInternship.applicationUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{viewInternship.applicationUrl}</a></div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Edit Internship Modal */}
+        <Dialog open={!!editInternship} onOpenChange={() => setEditInternship(null)}>
+          <DialogContent className="glass-card border-white/20 max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl">
+                Edit Internship
+              </DialogTitle>
+            </DialogHeader>
+            {editInternship && (
+              <EditInternshipForm
+                internship={editInternship}
+                onSubmit={handleUpdateInternship}
+                onCancel={() => setEditInternship(null)}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* View User Modal */}
+        <Dialog open={!!viewUser} onOpenChange={() => setViewUser(null)}>
+          <DialogContent className="glass-card border-white/20 max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl">
+                User Details
+              </DialogTitle>
+            </DialogHeader>
+            {viewUser && (
+              <div className="space-y-4 text-white">
+                <div><strong>Name:</strong> {viewUser.name || 'N/A'}</div>
+                <div><strong>Email:</strong> {viewUser.email}</div>
+                <div><strong>Role:</strong> {viewUser.role}</div>
+                <div><strong>Joined:</strong> {formatDate(viewUser.createdAt)}</div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
