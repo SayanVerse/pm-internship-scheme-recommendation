@@ -48,8 +48,15 @@ import {
   addLocalInternship,
   uploadCSVToLocalStorage,
   initializeLocalStorage,
+  saveLocalInternships,
   LocalInternship,
 } from "@/lib/localStorage-internships";
+import {
+  getApplicationStats,
+  getRecentApplications,
+  getInternUsers,
+  LocalApplication,
+} from "@/lib/localStorage-applications";
 
 interface Internship {
   id: string;
