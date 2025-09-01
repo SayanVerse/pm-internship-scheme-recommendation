@@ -21,6 +21,7 @@ import {
   LocalRecommendationMatch,
 } from "@/lib/localStorage-recommendations";
 import { initializeLocalStorage } from "@/lib/localStorage-internships";
+import { addLocalApplication } from "@/lib/localStorage-applications";
 
 interface RecommendationMatch {
   internship: {
