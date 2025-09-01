@@ -156,22 +156,42 @@ export default function Intake() {
     }
 
     try {
-      const response = await fetch("/api/intake", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // Save to localStorage as fallback
+      const profileId = `profile-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const profileData = {
+        id: profileId,
+        ...formData,
+        createdAt: new Date().toISOString()
+      };
 
-      if (response.ok) {
-        const data = await response.json();
-        window.location.href = `/recommendations?profileId=${data.profileId}`;
-      } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.message || "Failed to submit form"}`);
+      const existingProfiles = JSON.parse(localStorage.getItem('candidate-profiles') || '[]');
+      existingProfiles.push(profileData);
+      localStorage.setItem('candidate-profiles', JSON.stringify(existingProfiles));
+
+      // Try server API first
+      try {
+        const response = await fetch("/api/intake", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          window.location.href = `/recommendations?profileId=${data.profileId}`;
+          return;
+        }
+      } catch (serverError) {
+        console.warn("Server API failed, using localStorage:", serverError);
       }
+
+      // Fallback to localStorage profile
+      console.log("Using localStorage profile for recommendations");
+      window.location.href = `/recommendations?profileId=${profileId}`;
+
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Network error. Please try again.");
+      alert("Error saving profile. Please try again.");
     }
   };
 
