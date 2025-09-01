@@ -161,12 +161,17 @@ export default function Intake() {
       const profileData = {
         id: profileId,
         ...formData,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
-      const existingProfiles = JSON.parse(localStorage.getItem('candidate-profiles') || '[]');
+      const existingProfiles = JSON.parse(
+        localStorage.getItem("candidate-profiles") || "[]",
+      );
       existingProfiles.push(profileData);
-      localStorage.setItem('candidate-profiles', JSON.stringify(existingProfiles));
+      localStorage.setItem(
+        "candidate-profiles",
+        JSON.stringify(existingProfiles),
+      );
 
       // Try server API first
       try {
@@ -188,7 +193,6 @@ export default function Intake() {
       // Fallback to localStorage profile
       console.log("Using localStorage profile for recommendations");
       window.location.href = `/recommendations?profileId=${profileId}`;
-
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Error saving profile. Please try again.");

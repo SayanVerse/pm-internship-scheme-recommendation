@@ -48,7 +48,7 @@ import {
   addLocalInternship,
   uploadCSVToLocalStorage,
   initializeLocalStorage,
-  LocalInternship
+  LocalInternship,
 } from "@/lib/localStorage-internships";
 
 interface Internship {
@@ -218,14 +218,13 @@ export default function Admin() {
       const localInternships = getLocalInternships();
 
       // Convert LocalInternship to Internship format
-      const convertedInternships = localInternships.map(local => ({
+      const convertedInternships = localInternships.map((local) => ({
         ...local,
-        deadline: local.deadline
+        deadline: local.deadline,
       }));
 
       setInternships(convertedInternships);
       setUsingLocalStorage(true);
-
     } catch (error) {
       console.error("Error fetching internships:", error);
       setInternships([]);
@@ -399,14 +398,13 @@ export default function Admin() {
         errors: result.errors,
         message: result.success
           ? `Successfully uploaded ${result.uploaded} internships to local storage`
-          : "Failed to upload CSV to local storage"
+          : "Failed to upload CSV to local storage",
       });
 
       if (result.success) {
         await fetchStats();
         await fetchInternships();
       }
-
     } catch (error) {
       console.error("CSV upload error:", error);
       setUploadResults({
@@ -458,7 +456,7 @@ export default function Admin() {
         applicationUrl: formData.applicationUrl,
         deadline: formData.deadline,
         active: formData.active,
-        requiredSkills: formData.requiredSkills
+        requiredSkills: formData.requiredSkills,
       });
 
       if (result) {
@@ -468,7 +466,6 @@ export default function Admin() {
       } else {
         alert("Failed to add internship to local storage");
       }
-
     } catch (error) {
       console.error("Error adding internship:", error);
       alert("Error adding internship. Please try again.");

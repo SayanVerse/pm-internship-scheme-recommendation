@@ -18,8 +18,8 @@ export interface LocalInternship {
   requiredSkills: string[];
 }
 
-const STORAGE_KEY = 'pm-internships-data';
-const CSV_LOADED_KEY = 'pm-csv-loaded';
+const STORAGE_KEY = "pm-internships-data";
+const CSV_LOADED_KEY = "pm-csv-loaded";
 
 // Default CSV data provided by user
 const DEFAULT_CSV_DATA = `title,sector,orgName,description,city,state,pin,remote,minEducation,requiredSkills,stipendMin,stipendMax,applicationUrl,deadline,active
@@ -39,51 +39,59 @@ Cloud Intern,Cloud Computing,Amazon AWS,Support cloud service deployment and opt
 Game Development Intern,Gaming,Ubisoft India,Assist in Unity game development and testing.,Pune,Maharashtra,411045,No,B.Tech/B.Sc (Game Dev/CS),"Unity, C#, Game Design",15000,22000,https://www.ubisoft.com/careers/internships,2025-09-22,Yes`;
 
 function parseCSV(csvText: string): LocalInternship[] {
-  const lines = csvText.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim());
-  
+  const lines = csvText.trim().split("\n");
+  const headers = lines[0].split(",").map((h) => h.trim());
+
   return lines.slice(1).map((line, index) => {
     // Simple CSV parsing - handle quoted values
     const values: string[] = [];
-    let current = '';
+    let current = "";
     let inQuotes = false;
-    
+
     for (let i = 0; i < line.length; i++) {
       const char = line[i];
       if (char === '"') {
         inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
+      } else if (char === "," && !inQuotes) {
         values.push(current.trim());
-        current = '';
+        current = "";
       } else {
         current += char;
       }
     }
     values.push(current.trim());
-    
+
     const row: any = {};
     headers.forEach((header, i) => {
-      row[header] = values[i]?.replace(/^"|"$/g, '') || '';
+      row[header] = values[i]?.replace(/^"|"$/g, "") || "";
     });
-    
+
     // Convert to our format
     return {
       id: `intern-${index + 1}`,
-      title: row.title || 'Untitled Internship',
-      sector: row.sector || 'General',
-      orgName: row.orgName || 'Unknown Organization',
-      description: row.description || '',
+      title: row.title || "Untitled Internship",
+      sector: row.sector || "General",
+      orgName: row.orgName || "Unknown Organization",
+      description: row.description || "",
       stipendMin: row.stipendMin ? parseInt(row.stipendMin) : undefined,
       stipendMax: row.stipendMax ? parseInt(row.stipendMax) : undefined,
-      city: row.city || '',
-      state: row.state || '',
-      pin: row.pin || '',
-      remote: row.remote?.toLowerCase() === 'yes' || row.remote?.toLowerCase() === 'true',
-      minEducation: row.minEducation || 'UNDERGRADUATE',
-      applicationUrl: row.applicationUrl || '#',
-      deadline: row.deadline ? new Date(row.deadline).toISOString() : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-      active: row.active?.toLowerCase() !== 'no' && row.active?.toLowerCase() !== 'false',
-      requiredSkills: row.requiredSkills ? row.requiredSkills.split(',').map((s: string) => s.trim()) : []
+      city: row.city || "",
+      state: row.state || "",
+      pin: row.pin || "",
+      remote:
+        row.remote?.toLowerCase() === "yes" ||
+        row.remote?.toLowerCase() === "true",
+      minEducation: row.minEducation || "UNDERGRADUATE",
+      applicationUrl: row.applicationUrl || "#",
+      deadline: row.deadline
+        ? new Date(row.deadline).toISOString()
+        : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      active:
+        row.active?.toLowerCase() !== "no" &&
+        row.active?.toLowerCase() !== "false",
+      requiredSkills: row.requiredSkills
+        ? row.requiredSkills.split(",").map((s: string) => s.trim())
+        : [],
     };
   });
 }
@@ -94,11 +102,11 @@ export function initializeLocalStorage() {
     if (!isLoaded) {
       const internships = parseCSV(DEFAULT_CSV_DATA);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(internships));
-      localStorage.setItem(CSV_LOADED_KEY, 'true');
-      console.log('✅ Default internship data loaded to localStorage');
+      localStorage.setItem(CSV_LOADED_KEY, "true");
+      console.log("✅ Default internship data loaded to localStorage");
     }
   } catch (error) {
-    console.error('Error initializing localStorage:', error);
+    console.error("Error initializing localStorage:", error);
   }
 }
 
@@ -108,13 +116,13 @@ export function getLocalInternships(): LocalInternship[] {
     if (data) {
       return JSON.parse(data);
     }
-    
+
     // If no data, initialize with default CSV
     initializeLocalStorage();
     const newData = localStorage.getItem(STORAGE_KEY);
     return newData ? JSON.parse(newData) : [];
   } catch (error) {
-    console.error('Error getting local internships:', error);
+    console.error("Error getting local internships:", error);
     return [];
   }
 }
@@ -124,23 +132,23 @@ export function saveLocalInternships(internships: LocalInternship[]) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(internships));
     return true;
   } catch (error) {
-    console.error('Error saving local internships:', error);
+    console.error("Error saving local internships:", error);
     return false;
   }
 }
 
-export function addLocalInternship(internship: Omit<LocalInternship, 'id'>) {
+export function addLocalInternship(internship: Omit<LocalInternship, "id">) {
   try {
     const existing = getLocalInternships();
     const newInternship: LocalInternship = {
       ...internship,
-      id: `intern-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      id: `intern-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
-    
+
     const updated = [...existing, newInternship];
     return saveLocalInternships(updated) ? newInternship : null;
   } catch (error) {
-    console.error('Error adding local internship:', error);
+    console.error("Error adding local internship:", error);
     return null;
   }
 }
@@ -149,33 +157,33 @@ export function uploadCSVToLocalStorage(csvText: string) {
   try {
     const newInternships = parseCSV(csvText);
     const existing = getLocalInternships();
-    
+
     // Merge with existing, avoiding duplicates based on title + orgName
     const merged = [...existing];
-    
-    newInternships.forEach(newIntern => {
-      const exists = existing.some(e => 
-        e.title === newIntern.title && e.orgName === newIntern.orgName
+
+    newInternships.forEach((newIntern) => {
+      const exists = existing.some(
+        (e) => e.title === newIntern.title && e.orgName === newIntern.orgName,
       );
       if (!exists) {
         merged.push(newIntern);
       }
     });
-    
+
     const success = saveLocalInternships(merged);
     return {
       success,
       uploaded: success ? newInternships.length : 0,
       total: success ? merged.length : existing.length,
-      errors: success ? [] : ['Failed to save to localStorage']
+      errors: success ? [] : ["Failed to save to localStorage"],
     };
   } catch (error) {
-    console.error('Error uploading CSV to localStorage:', error);
+    console.error("Error uploading CSV to localStorage:", error);
     return {
       success: false,
       uploaded: 0,
       total: 0,
-      errors: [error instanceof Error ? error.message : 'Unknown error']
+      errors: [error instanceof Error ? error.message : "Unknown error"],
     };
   }
 }
