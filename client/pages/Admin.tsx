@@ -351,35 +351,62 @@ export default function Admin() {
 
     try {
       const text = await file.text();
-      const lines = text.split("\n");
-      const headers = lines[0].split(",").map((h) => h.trim());
 
-      const csvData = lines
-        .slice(1)
-        .filter((line) => line.trim())
-        .map((line) => {
-          const values = line.split(",").map((v) => v.trim());
-          const row: any = {};
-          headers.forEach((header, index) => {
-            row[header] = values[index] || "";
+      // Try server API first
+      try {
+        const lines = text.split("\n");
+        const headers = lines[0].split(",").map((h) => h.trim());
+
+        const csvData = lines
+          .slice(1)
+          .filter((line) => line.trim())
+          .map((line) => {
+            const values = line.split(",").map((v) => v.trim());
+            const row: any = {};
+            headers.forEach((header, index) => {
+              row[header] = values[index] || "";
+            });
+            return row;
           });
-          return row;
+
+        const response = await fetch("/api/internships/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ csvData }),
         });
 
-      const response = await fetch("/api/internships/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ csvData }),
+        if (response.ok) {
+          const result = await response.json();
+          setUploadResults(result);
+          if (result.success) {
+            await fetchStats();
+            await fetchInternships();
+            setUploadLoading(false);
+            event.target.value = "";
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn("Server upload failed, using localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
+      console.log("Using localStorage for CSV upload");
+      const result = uploadCSVToLocalStorage(text);
+      setUploadResults({
+        success: result.success,
+        uploaded: result.uploaded,
+        errors: result.errors,
+        message: result.success
+          ? `Successfully uploaded ${result.uploaded} internships to local storage`
+          : "Failed to upload CSV to local storage"
       });
 
-      const result = await response.json();
-      setUploadResults(result);
-
       if (result.success) {
-        // Refresh data
         await fetchStats();
         await fetchInternships();
       }
+
     } catch (error) {
       console.error("CSV upload error:", error);
       setUploadResults({
@@ -390,26 +417,61 @@ export default function Admin() {
       });
     } finally {
       setUploadLoading(false);
-      // Reset file input
       event.target.value = "";
     }
   };
 
   const handleAddInternship = async (formData: any) => {
     try {
-      const response = await fetch("/api/internships", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      // Try server API first
+      try {
+        const response = await fetch("/api/internships", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          setIsAddModalOpen(false);
+          await fetchStats();
+          await fetchInternships();
+          return;
+        }
+      } catch (serverError) {
+        console.warn("Server add failed, using localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
+      console.log("Using localStorage for adding internship");
+      const result = addLocalInternship({
+        title: formData.title,
+        sector: formData.sector,
+        orgName: formData.orgName,
+        description: formData.description,
+        stipendMin: formData.stipendMin,
+        stipendMax: formData.stipendMax,
+        city: formData.city,
+        state: formData.state,
+        pin: formData.pin,
+        remote: formData.remote,
+        minEducation: formData.minEducation,
+        applicationUrl: formData.applicationUrl,
+        deadline: formData.deadline,
+        active: formData.active,
+        requiredSkills: formData.requiredSkills
       });
 
-      if (response.ok) {
+      if (result) {
         setIsAddModalOpen(false);
         await fetchStats();
         await fetchInternships();
+      } else {
+        alert("Failed to add internship to local storage");
       }
+
     } catch (error) {
       console.error("Error adding internship:", error);
+      alert("Error adding internship. Please try again.");
     }
   };
 
