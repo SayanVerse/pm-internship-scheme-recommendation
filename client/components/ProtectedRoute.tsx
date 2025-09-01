@@ -40,8 +40,15 @@ export function ProtectedRoute({
       return;
     }
 
+    // If route is for admins only and user isn't admin
     if (adminOnly && !isAdmin) {
       window.location.href = "/";
+      return;
+    }
+
+    // If route is NOT admin-only and user IS admin, keep them in admin area
+    if (!adminOnly && isAdmin) {
+      window.location.href = "/admin";
       return;
     }
   }, [isAuthenticated, isAdmin, adminOnly, isLoading]);
