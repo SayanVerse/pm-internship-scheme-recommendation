@@ -310,29 +310,60 @@ export default function Admin() {
 
   const fetchApplications = async () => {
     try {
-      const [applicationsResponse, statsResponse] = await Promise.all([
-        fetch("/api/applications"),
-        fetch("/api/applications/stats"),
-      ]);
+      // Try server API first
+      try {
+        const [applicationsResponse, statsResponse] = await Promise.all([
+          fetch("/api/applications"),
+          fetch("/api/applications/stats"),
+        ]);
 
-      if (applicationsResponse.ok) {
-        const applicationsData = await applicationsResponse.json();
-        if (applicationsData.success) {
-          setRecentApplications(applicationsData.applications.slice(0, 10));
+        if (applicationsResponse.ok && statsResponse.ok) {
+          const applicationsData = await applicationsResponse.json();
+          const statsData = await statsResponse.json();
+
+          if (applicationsData.success && statsData.success) {
+            setRecentApplications(applicationsData.applications.slice(0, 10));
+            setStats((prev) => ({
+              ...prev,
+              internUsers: statsData.stats.uniqueApplicants,
+              totalApplications: statsData.stats.totalApplications,
+              recentApplications: statsData.stats.recentApplications,
+            }));
+            return;
+          }
         }
+      } catch (serverError) {
+        console.warn("Server applications failed, using localStorage:", serverError);
       }
 
-      if (statsResponse.ok) {
-        const statsData = await statsResponse.json();
-        if (statsData.success) {
-          setStats((prev) => ({
-            ...prev,
-            internUsers: statsData.stats.uniqueApplicants,
-            totalApplications: statsData.stats.totalApplications,
-            recentApplications: statsData.stats.recentApplications,
-          }));
+      // Fallback to localStorage
+      const localApplications = getRecentApplications(10);
+      const appStats = getApplicationStats();
+
+      // Convert LocalApplication to Application format
+      const convertedApplications = localApplications.map(app => ({
+        id: app.id,
+        createdAt: app.createdAt,
+        user: {
+          candidateProfile: {
+            name: app.candidateName
+          },
+          email: app.candidateEmail
+        },
+        internship: {
+          title: app.internshipTitle,
+          orgName: app.orgName
         }
-      }
+      }));
+
+      setRecentApplications(convertedApplications);
+      setStats((prev) => ({
+        ...prev,
+        internUsers: appStats.uniqueApplicants,
+        totalApplications: appStats.totalApplications,
+        recentApplications: appStats.recentApplications,
+      }));
+
     } catch (error) {
       console.error("Error fetching applications:", error);
     }
