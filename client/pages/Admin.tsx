@@ -1171,6 +1171,7 @@ export default function Admin() {
                             variant="ghost"
                             size="sm"
                             className="text-white hover:bg-white/10 p-2"
+                            onClick={() => handleViewUser(user)}
                           >
                             <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
@@ -1178,6 +1179,8 @@ export default function Admin() {
                             variant="ghost"
                             size="sm"
                             className="text-red-400 hover:bg-red-500/10 p-2"
+                            onClick={() => handleDeleteUser(user.id)}
+                            disabled={user.role === 'ADMIN'}
                           >
                             <UserX className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
