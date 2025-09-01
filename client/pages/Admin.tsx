@@ -189,18 +189,19 @@ export default function Admin() {
       const localInternships = getLocalInternships();
       const appStats = getApplicationStats();
       const internUsers = getInternUsers();
-      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      const registeredUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]",
+      );
 
       setStats({
         totalInternships: localInternships.length,
-        activeInternships: localInternships.filter(i => i.active).length,
+        activeInternships: localInternships.filter((i) => i.active).length,
         totalUsers: registeredUsers.length + 1, // +1 for admin
         registeredUsers: registeredUsers.length,
         internUsers: appStats.uniqueApplicants,
         totalApplications: appStats.totalApplications,
         recentApplications: appStats.recentApplications,
       });
-
     } catch (error) {
       console.error("Error fetching stats:", error);
       setStats({
@@ -333,7 +334,10 @@ export default function Admin() {
           }
         }
       } catch (serverError) {
-        console.warn("Server applications failed, using localStorage:", serverError);
+        console.warn(
+          "Server applications failed, using localStorage:",
+          serverError,
+        );
       }
 
       // Fallback to localStorage
@@ -341,19 +345,19 @@ export default function Admin() {
       const appStats = getApplicationStats();
 
       // Convert LocalApplication to Application format
-      const convertedApplications = localApplications.map(app => ({
+      const convertedApplications = localApplications.map((app) => ({
         id: app.id,
         createdAt: app.createdAt,
         user: {
           candidateProfile: {
-            name: app.candidateName
+            name: app.candidateName,
           },
-          email: app.candidateEmail
+          email: app.candidateEmail,
         },
         internship: {
           title: app.internshipTitle,
-          orgName: app.orgName
-        }
+          orgName: app.orgName,
+        },
       }));
 
       setRecentApplications(convertedApplications);
@@ -363,7 +367,6 @@ export default function Admin() {
         totalApplications: appStats.totalApplications,
         recentApplications: appStats.recentApplications,
       }));
-
     } catch (error) {
       console.error("Error fetching applications:", error);
     }
@@ -564,7 +567,7 @@ export default function Admin() {
 
       // Fallback to localStorage
       const localInternships = getLocalInternships();
-      const filtered = localInternships.filter(i => i.id !== internshipId);
+      const filtered = localInternships.filter((i) => i.id !== internshipId);
       const success = saveLocalInternships(filtered);
 
       if (success) {
@@ -573,7 +576,6 @@ export default function Admin() {
       } else {
         alert("Failed to delete internship from local storage");
       }
-
     } catch (error) {
       console.error("Error deleting internship:", error);
       alert("Error deleting internship. Please try again.");
@@ -584,11 +586,14 @@ export default function Admin() {
     try {
       // Try server API first
       try {
-        const response = await fetch(`/api/internships/${updatedInternship.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedInternship),
-        });
+        const response = await fetch(
+          `/api/internships/${updatedInternship.id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedInternship),
+          },
+        );
         if (response.ok) {
           setEditInternship(null);
           await fetchStats();
@@ -601,8 +606,10 @@ export default function Admin() {
 
       // Fallback to localStorage
       const localInternships = getLocalInternships();
-      const updated = localInternships.map(i =>
-        i.id === updatedInternship.id ? { ...updatedInternship } as LocalInternship : i
+      const updated = localInternships.map((i) =>
+        i.id === updatedInternship.id
+          ? ({ ...updatedInternship } as LocalInternship)
+          : i,
       );
       const success = saveLocalInternships(updated);
 
@@ -613,7 +620,6 @@ export default function Admin() {
       } else {
         alert("Failed to update internship in local storage");
       }
-
     } catch (error) {
       console.error("Error updating internship:", error);
       alert("Error updating internship. Please try again.");
@@ -631,17 +637,28 @@ export default function Admin() {
 
     try {
       // For localStorage, we remove from registeredUsers
-      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-      const userToDelete = users.find(u => u.id === userId);
+      const registeredUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]",
+      );
+      const userToDelete = users.find((u) => u.id === userId);
 
-      if (userToDelete && userToDelete.role !== 'ADMIN') {
-        const filtered = registeredUsers.filter((u: any) => u.email !== userToDelete.email);
-        localStorage.setItem('registeredUsers', JSON.stringify(filtered));
+      if (userToDelete && userToDelete.role !== "ADMIN") {
+        const filtered = registeredUsers.filter(
+          (u: any) => u.email !== userToDelete.email,
+        );
+        localStorage.setItem("registeredUsers", JSON.stringify(filtered));
 
         // Also remove their candidate profiles
-        const profiles = JSON.parse(localStorage.getItem('candidate-profiles') || '[]');
-        const filteredProfiles = profiles.filter((p: any) => p.email !== userToDelete.email);
-        localStorage.setItem('candidate-profiles', JSON.stringify(filteredProfiles));
+        const profiles = JSON.parse(
+          localStorage.getItem("candidate-profiles") || "[]",
+        );
+        const filteredProfiles = profiles.filter(
+          (p: any) => p.email !== userToDelete.email,
+        );
+        localStorage.setItem(
+          "candidate-profiles",
+          JSON.stringify(filteredProfiles),
+        );
 
         await fetchUsers();
         alert("User deleted successfully");
@@ -1094,7 +1111,9 @@ export default function Admin() {
                             variant="ghost"
                             size="sm"
                             className="text-red-400 hover:bg-red-500/10 p-2"
-                            onClick={() => handleDeleteInternship(internship.id)}
+                            onClick={() =>
+                              handleDeleteInternship(internship.id)
+                            }
                           >
                             <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
@@ -1180,7 +1199,7 @@ export default function Admin() {
                             size="sm"
                             className="text-red-400 hover:bg-red-500/10 p-2"
                             onClick={() => handleDeleteUser(user.id)}
-                            disabled={user.role === 'ADMIN'}
+                            disabled={user.role === "ADMIN"}
                           >
                             <UserX className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
@@ -1322,7 +1341,10 @@ export default function Admin() {
         </Dialog>
 
         {/* View Internship Modal */}
-        <Dialog open={!!viewInternship} onOpenChange={() => setViewInternship(null)}>
+        <Dialog
+          open={!!viewInternship}
+          onOpenChange={() => setViewInternship(null)}
+        >
           <DialogContent className="glass-card border-white/20 max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-white text-xl">
@@ -1331,24 +1353,69 @@ export default function Admin() {
             </DialogHeader>
             {viewInternship && (
               <div className="space-y-4 text-white">
-                <div><strong>Title:</strong> {viewInternship.title}</div>
-                <div><strong>Organization:</strong> {viewInternship.orgName}</div>
-                <div><strong>Sector:</strong> {viewInternship.sector}</div>
-                <div><strong>Description:</strong> {viewInternship.description || 'N/A'}</div>
-                <div><strong>Location:</strong> {viewInternship.remote ? 'Remote' : `${viewInternship.city}, ${viewInternship.state}`}</div>
-                <div><strong>Stipend:</strong> {formatStipend(viewInternship.stipendMin, viewInternship.stipendMax)}</div>
-                <div><strong>Education Level:</strong> {viewInternship.minEducation}</div>
-                <div><strong>Deadline:</strong> {formatDate(viewInternship.deadline)}</div>
-                <div><strong>Status:</strong> {viewInternship.active ? 'Active' : 'Inactive'}</div>
-                <div><strong>Required Skills:</strong> {viewInternship.requiredSkills?.join(', ') || 'N/A'}</div>
-                <div><strong>Application URL:</strong> <a href={viewInternship.applicationUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{viewInternship.applicationUrl}</a></div>
+                <div>
+                  <strong>Title:</strong> {viewInternship.title}
+                </div>
+                <div>
+                  <strong>Organization:</strong> {viewInternship.orgName}
+                </div>
+                <div>
+                  <strong>Sector:</strong> {viewInternship.sector}
+                </div>
+                <div>
+                  <strong>Description:</strong>{" "}
+                  {viewInternship.description || "N/A"}
+                </div>
+                <div>
+                  <strong>Location:</strong>{" "}
+                  {viewInternship.remote
+                    ? "Remote"
+                    : `${viewInternship.city}, ${viewInternship.state}`}
+                </div>
+                <div>
+                  <strong>Stipend:</strong>{" "}
+                  {formatStipend(
+                    viewInternship.stipendMin,
+                    viewInternship.stipendMax,
+                  )}
+                </div>
+                <div>
+                  <strong>Education Level:</strong>{" "}
+                  {viewInternship.minEducation}
+                </div>
+                <div>
+                  <strong>Deadline:</strong>{" "}
+                  {formatDate(viewInternship.deadline)}
+                </div>
+                <div>
+                  <strong>Status:</strong>{" "}
+                  {viewInternship.active ? "Active" : "Inactive"}
+                </div>
+                <div>
+                  <strong>Required Skills:</strong>{" "}
+                  {viewInternship.requiredSkills?.join(", ") || "N/A"}
+                </div>
+                <div>
+                  <strong>Application URL:</strong>{" "}
+                  <a
+                    href={viewInternship.applicationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    {viewInternship.applicationUrl}
+                  </a>
+                </div>
               </div>
             )}
           </DialogContent>
         </Dialog>
 
         {/* Edit Internship Modal */}
-        <Dialog open={!!editInternship} onOpenChange={() => setEditInternship(null)}>
+        <Dialog
+          open={!!editInternship}
+          onOpenChange={() => setEditInternship(null)}
+        >
           <DialogContent className="glass-card border-white/20 max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-white text-xl">
@@ -1375,10 +1442,18 @@ export default function Admin() {
             </DialogHeader>
             {viewUser && (
               <div className="space-y-4 text-white">
-                <div><strong>Name:</strong> {viewUser.name || 'N/A'}</div>
-                <div><strong>Email:</strong> {viewUser.email}</div>
-                <div><strong>Role:</strong> {viewUser.role}</div>
-                <div><strong>Joined:</strong> {formatDate(viewUser.createdAt)}</div>
+                <div>
+                  <strong>Name:</strong> {viewUser.name || "N/A"}
+                </div>
+                <div>
+                  <strong>Email:</strong> {viewUser.email}
+                </div>
+                <div>
+                  <strong>Role:</strong> {viewUser.role}
+                </div>
+                <div>
+                  <strong>Joined:</strong> {formatDate(viewUser.createdAt)}
+                </div>
               </div>
             )}
           </DialogContent>
@@ -1637,7 +1712,11 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
   );
 }
 
-function EditInternshipForm({ internship, onSubmit, onCancel }: EditInternshipFormProps) {
+function EditInternshipForm({
+  internship,
+  onSubmit,
+  onCancel,
+}: EditInternshipFormProps) {
   const [formData, setFormData] = useState({
     id: internship.id,
     title: internship.title || "",
@@ -1651,11 +1730,13 @@ function EditInternshipForm({ internship, onSubmit, onCancel }: EditInternshipFo
     minEducation: internship.minEducation || "UNDERGRADUATE",
     requiredSkills: Array.isArray(internship.requiredSkills)
       ? internship.requiredSkills.join(", ")
-      : (internship.requiredSkills || ""),
+      : internship.requiredSkills || "",
     stipendMin: internship.stipendMin?.toString() || "",
     stipendMax: internship.stipendMax?.toString() || "",
     applicationUrl: internship.applicationUrl || "",
-    deadline: internship.deadline ? new Date(internship.deadline).toISOString().split('T')[0] : "",
+    deadline: internship.deadline
+      ? new Date(internship.deadline).toISOString().split("T")[0]
+      : "",
     active: internship.active ?? true,
   });
 
@@ -1664,8 +1745,12 @@ function EditInternshipForm({ internship, onSubmit, onCancel }: EditInternshipFo
 
     const submitData = {
       ...formData,
-      stipendMin: formData.stipendMin ? parseInt(formData.stipendMin) : undefined,
-      stipendMax: formData.stipendMax ? parseInt(formData.stipendMax) : undefined,
+      stipendMin: formData.stipendMin
+        ? parseInt(formData.stipendMin)
+        : undefined,
+      stipendMax: formData.stipendMax
+        ? parseInt(formData.stipendMax)
+        : undefined,
       requiredSkills: formData.requiredSkills
         .split(",")
         .map((s) => s.trim())

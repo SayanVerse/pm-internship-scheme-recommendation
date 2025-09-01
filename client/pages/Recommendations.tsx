@@ -74,12 +74,20 @@ export default function Recommendations() {
           }),
         });
       } catch (serverError) {
-        console.warn("Server application tracking failed, using localStorage:", serverError);
+        console.warn(
+          "Server application tracking failed, using localStorage:",
+          serverError,
+        );
       }
 
       // Always track in localStorage as fallback/backup
       if (profileId) {
-        const result = addLocalApplication(profileId, internshipId, internshipTitle, orgName);
+        const result = addLocalApplication(
+          profileId,
+          internshipId,
+          internshipTitle,
+          orgName,
+        );
         if (result) {
           console.log("Application tracked in localStorage");
         }
