@@ -59,17 +59,31 @@ export default function Recommendations() {
   const handleApplyNow = async (
     internshipId: string,
     applicationUrl: string,
+    internshipTitle: string,
+    orgName: string,
   ) => {
     try {
-      // Track the application
-      await fetch("/api/applications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          profileId,
-          internshipId,
-        }),
-      });
+      // Try server API first
+      try {
+        await fetch("/api/applications", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            profileId,
+            internshipId,
+          }),
+        });
+      } catch (serverError) {
+        console.warn("Server application tracking failed, using localStorage:", serverError);
+      }
+
+      // Always track in localStorage as fallback/backup
+      if (profileId) {
+        const result = addLocalApplication(profileId, internshipId, internshipTitle, orgName);
+        if (result) {
+          console.log("Application tracked in localStorage");
+        }
+      }
     } catch (error) {
       console.error("Error tracking application:", error);
     }
