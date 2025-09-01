@@ -141,6 +141,9 @@ export default function Admin() {
     errors: string[];
     message: string;
   } | null>(null);
+  const [viewInternship, setViewInternship] = useState<Internship | null>(null);
+  const [editInternship, setEditInternship] = useState<Internship | null>(null);
+  const [viewUser, setViewUser] = useState<User | null>(null);
 
   // Fetch data on component mount
   useEffect(() => {
