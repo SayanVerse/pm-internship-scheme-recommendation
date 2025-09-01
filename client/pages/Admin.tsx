@@ -534,6 +534,126 @@ export default function Admin() {
     a.click();
   };
 
+  const handleViewInternship = (internship: Internship) => {
+    setViewInternship(internship);
+  };
+
+  const handleEditInternship = (internship: Internship) => {
+    setEditInternship(internship);
+  };
+
+  const handleDeleteInternship = async (internshipId: string) => {
+    if (!confirm("Are you sure you want to delete this internship?")) {
+      return;
+    }
+
+    try {
+      // Try server API first
+      try {
+        const response = await fetch(`/api/internships/${internshipId}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          await fetchStats();
+          await fetchInternships();
+          return;
+        }
+      } catch (serverError) {
+        console.warn("Server delete failed, using localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
+      const localInternships = getLocalInternships();
+      const filtered = localInternships.filter(i => i.id !== internshipId);
+      const success = saveLocalInternships(filtered);
+
+      if (success) {
+        await fetchStats();
+        await fetchInternships();
+      } else {
+        alert("Failed to delete internship from local storage");
+      }
+
+    } catch (error) {
+      console.error("Error deleting internship:", error);
+      alert("Error deleting internship. Please try again.");
+    }
+  };
+
+  const handleUpdateInternship = async (updatedInternship: Internship) => {
+    try {
+      // Try server API first
+      try {
+        const response = await fetch(`/api/internships/${updatedInternship.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedInternship),
+        });
+        if (response.ok) {
+          setEditInternship(null);
+          await fetchStats();
+          await fetchInternships();
+          return;
+        }
+      } catch (serverError) {
+        console.warn("Server update failed, using localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
+      const localInternships = getLocalInternships();
+      const updated = localInternships.map(i =>
+        i.id === updatedInternship.id ? { ...updatedInternship } as LocalInternship : i
+      );
+      const success = saveLocalInternships(updated);
+
+      if (success) {
+        setEditInternship(null);
+        await fetchStats();
+        await fetchInternships();
+      } else {
+        alert("Failed to update internship in local storage");
+      }
+
+    } catch (error) {
+      console.error("Error updating internship:", error);
+      alert("Error updating internship. Please try again.");
+    }
+  };
+
+  const handleViewUser = (user: User) => {
+    setViewUser(user);
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (!confirm("Are you sure you want to delete this user?")) {
+      return;
+    }
+
+    try {
+      // For localStorage, we remove from registeredUsers
+      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      const userToDelete = users.find(u => u.id === userId);
+
+      if (userToDelete && userToDelete.role !== 'ADMIN') {
+        const filtered = registeredUsers.filter((u: any) => u.email !== userToDelete.email);
+        localStorage.setItem('registeredUsers', JSON.stringify(filtered));
+
+        // Also remove their candidate profiles
+        const profiles = JSON.parse(localStorage.getItem('candidate-profiles') || '[]');
+        const filteredProfiles = profiles.filter((p: any) => p.email !== userToDelete.email);
+        localStorage.setItem('candidate-profiles', JSON.stringify(filteredProfiles));
+
+        await fetchUsers();
+        alert("User deleted successfully");
+      } else {
+        alert("Cannot delete admin user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Error deleting user. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
       {/* Background */}
