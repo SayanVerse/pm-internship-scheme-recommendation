@@ -40,8 +40,16 @@ import {
   UserCheck,
   UserX,
   Download,
+  AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  getLocalInternships,
+  addLocalInternship,
+  uploadCSVToLocalStorage,
+  initializeLocalStorage,
+  LocalInternship
+} from "@/lib/localStorage-internships";
 
 interface Internship {
   id: string;
