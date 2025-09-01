@@ -22,11 +22,13 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
 
-    // Apply dark mode class to document
+    // Apply mode classes to document
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     }
   }, [isDarkMode]);
 
