@@ -504,9 +504,17 @@ export default function Admin() {
               <span className="hidden sm:inline">Back to Home</span>
               <span className="sm:hidden">Back</span>
             </Button>
-            <h1 className="text-xl sm:text-3xl font-bold text-white">
-              Admin Dashboard
-            </h1>
+            <div>
+              <h1 className="text-xl sm:text-3xl font-bold text-white">
+                Admin Dashboard
+              </h1>
+              {usingLocalStorage && (
+                <div className="flex items-center gap-1 sm:gap-2 text-yellow-400 text-xs sm:text-sm mt-1">
+                  <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span>Using local storage - Changes saved locally only</span>
+                </div>
+              )}
+            </div>
           </div>
           <Button
             variant="outline"
