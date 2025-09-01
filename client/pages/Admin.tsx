@@ -165,39 +165,53 @@ export default function Admin() {
 
   const fetchStats = async () => {
     try {
-      // For now, we'll calculate stats from the data we have
-      // In a real app, you'd have dedicated API endpoints for analytics
-      const internshipsRes = await fetch("/api/internships");
-      if (!internshipsRes.ok) {
-        throw new Error(`HTTP error! status: ${internshipsRes.status}`);
+      // Try server API first
+      try {
+        const internshipsRes = await fetch("/api/internships");
+        if (internshipsRes.ok) {
+          const internshipsData = await internshipsRes.json();
+          if (internshipsData.success) {
+            setStats((prev) => ({
+              ...prev,
+              totalInternships: internshipsData.total || 0,
+              activeInternships:
+                internshipsData.internships?.filter((i: Internship) => i.active)
+                  .length || 0,
+            }));
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn("Server stats failed, using localStorage:", serverError);
       }
-      const internshipsData = await internshipsRes.json();
 
-      if (internshipsData.success) {
-        setStats((prev) => ({
-          ...prev,
-          totalInternships: internshipsData.total || 0,
-          activeInternships:
-            internshipsData.internships?.filter((i: Internship) => i.active)
-              .length || 0,
-        }));
-      } else {
-        console.error("API returned error:", internshipsData);
-        // Set default stats on error
-        setStats((prev) => ({
-          ...prev,
-          totalInternships: 0,
-          activeInternships: 0,
-        }));
-      }
+      // Fallback to localStorage
+      const localInternships = getLocalInternships();
+      const appStats = getApplicationStats();
+      const internUsers = getInternUsers();
+      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+
+      setStats({
+        totalInternships: localInternships.length,
+        activeInternships: localInternships.filter(i => i.active).length,
+        totalUsers: registeredUsers.length + 1, // +1 for admin
+        registeredUsers: registeredUsers.length,
+        internUsers: appStats.uniqueApplicants,
+        totalApplications: appStats.totalApplications,
+        recentApplications: appStats.recentApplications,
+      });
+
     } catch (error) {
       console.error("Error fetching stats:", error);
-      // Set default stats on error
-      setStats((prev) => ({
-        ...prev,
+      setStats({
         totalInternships: 0,
         activeInternships: 0,
-      }));
+        totalUsers: 0,
+        registeredUsers: 0,
+        internUsers: 0,
+        totalApplications: 0,
+        recentApplications: 0,
+      });
     }
   };
 
