@@ -191,24 +191,44 @@ export default function Admin() {
     }
   };
 
+  const [usingLocalStorage, setUsingLocalStorage] = useState(false);
+
   const fetchInternships = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/internships");
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Try server API first
+      try {
+        const response = await fetch("/api/internships");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.internships) {
+            setInternships(data.internships);
+            setUsingLocalStorage(false);
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn("Server API failed, using localStorage:", serverError);
       }
-      const data = await response.json();
-      if (data.success) {
-        setInternships(data.internships || []);
-      } else {
-        console.error("API returned error:", data);
-        setInternships([]);
-      }
+
+      // Fallback to localStorage
+      console.log("Using localStorage for internships");
+      initializeLocalStorage();
+      const localInternships = getLocalInternships();
+
+      // Convert LocalInternship to Internship format
+      const convertedInternships = localInternships.map(local => ({
+        ...local,
+        deadline: local.deadline
+      }));
+
+      setInternships(convertedInternships);
+      setUsingLocalStorage(true);
+
     } catch (error) {
       console.error("Error fetching internships:", error);
       setInternships([]);
-      // You could also show a toast notification here
     } finally {
       setLoading(false);
     }
