@@ -24,7 +24,7 @@ export default function Index() {
       hero: "Find Your Perfect Internship Match",
       subtitle:
         "AI-powered recommendations for PM Internship Scheme candidates. Get 3-5 personalized internship suggestions based on your skills and preferences.",
-      findCTA: "Find best Internship 🗃️",
+      findCTA: "Find my internship",
       adminCTA: "Manage Internships 📂",
       features: [
         {
@@ -88,7 +88,7 @@ export default function Index() {
           icon: Globe,
           title: "राष्ट्रव्यापी पहुंच",
           description:
-            "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।",
+            "आपकी आवश्यकताओं के अनुकूल रिमोट और स��थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।",
         },
       ],
       stats: [
