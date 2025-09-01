@@ -1636,3 +1636,238 @@ function AddInternshipForm({ onSubmit, onCancel }: AddInternshipFormProps) {
     </form>
   );
 }
+
+function EditInternshipForm({ internship, onSubmit, onCancel }: EditInternshipFormProps) {
+  const [formData, setFormData] = useState({
+    id: internship.id,
+    title: internship.title || "",
+    sector: internship.sector || "",
+    orgName: internship.orgName || "",
+    description: internship.description || "",
+    city: internship.city || "",
+    state: internship.state || "",
+    pin: internship.pin || "",
+    remote: internship.remote || false,
+    minEducation: internship.minEducation || "UNDERGRADUATE",
+    requiredSkills: Array.isArray(internship.requiredSkills)
+      ? internship.requiredSkills.join(", ")
+      : (internship.requiredSkills || ""),
+    stipendMin: internship.stipendMin?.toString() || "",
+    stipendMax: internship.stipendMax?.toString() || "",
+    applicationUrl: internship.applicationUrl || "",
+    deadline: internship.deadline ? new Date(internship.deadline).toISOString().split('T')[0] : "",
+    active: internship.active ?? true,
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const submitData = {
+      ...formData,
+      stipendMin: formData.stipendMin ? parseInt(formData.stipendMin) : undefined,
+      stipendMax: formData.stipendMax ? parseInt(formData.stipendMax) : undefined,
+      requiredSkills: formData.requiredSkills
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s),
+      deadline: new Date(formData.deadline).toISOString(),
+    };
+
+    onSubmit(submitData as Internship);
+  };
+
+  const updateField = (field: string, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label className="text-white">Title *</Label>
+          <Input
+            value={formData.title}
+            onChange={(e) => updateField("title", e.target.value)}
+            className="glass-input"
+            required
+          />
+        </div>
+        <div>
+          <Label className="text-white">Organization *</Label>
+          <Input
+            value={formData.orgName}
+            onChange={(e) => updateField("orgName", e.target.value)}
+            className="glass-input"
+            required
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label className="text-white">Sector *</Label>
+          <Select
+            value={formData.sector}
+            onValueChange={(value) => updateField("sector", value)}
+          >
+            <SelectTrigger className="glass-input">
+              <SelectValue placeholder="Select sector" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="IT">IT</SelectItem>
+              <SelectItem value="Healthcare">Healthcare</SelectItem>
+              <SelectItem value="Agriculture">Agriculture</SelectItem>
+              <SelectItem value="Education">Education</SelectItem>
+              <SelectItem value="Public Admin">Public Admin</SelectItem>
+              <SelectItem value="Finance">Finance</SelectItem>
+              <SelectItem value="Manufacturing">Manufacturing</SelectItem>
+              <SelectItem value="Tourism">Tourism</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-white">Min Education *</Label>
+          <Select
+            value={formData.minEducation}
+            onValueChange={(value) => updateField("minEducation", value)}
+          >
+            <SelectTrigger className="glass-input">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="TENTH_PLUS_TWO">10+2</SelectItem>
+              <SelectItem value="DIPLOMA">Diploma</SelectItem>
+              <SelectItem value="UNDERGRADUATE">Undergraduate</SelectItem>
+              <SelectItem value="POSTGRADUATE">Postgraduate</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-white">Description</Label>
+        <Textarea
+          value={formData.description}
+          onChange={(e) => updateField("description", e.target.value)}
+          className="glass-input min-h-[80px]"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <Label className="text-white">City</Label>
+          <Input
+            value={formData.city}
+            onChange={(e) => updateField("city", e.target.value)}
+            className="glass-input"
+          />
+        </div>
+        <div>
+          <Label className="text-white">State</Label>
+          <Input
+            value={formData.state}
+            onChange={(e) => updateField("state", e.target.value)}
+            className="glass-input"
+          />
+        </div>
+        <div>
+          <Label className="text-white">PIN Code</Label>
+          <Input
+            value={formData.pin}
+            onChange={(e) => updateField("pin", e.target.value)}
+            className="glass-input"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label className="text-white">Min Stipend (₹)</Label>
+          <Input
+            type="number"
+            value={formData.stipendMin}
+            onChange={(e) => updateField("stipendMin", e.target.value)}
+            className="glass-input"
+          />
+        </div>
+        <div>
+          <Label className="text-white">Max Stipend (₹)</Label>
+          <Input
+            type="number"
+            value={formData.stipendMax}
+            onChange={(e) => updateField("stipendMax", e.target.value)}
+            className="glass-input"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-white">Required Skills (comma-separated)</Label>
+        <Input
+          value={formData.requiredSkills}
+          onChange={(e) => updateField("requiredSkills", e.target.value)}
+          className="glass-input"
+          placeholder="JavaScript, React, Node.js"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label className="text-white">Application URL *</Label>
+          <Input
+            type="url"
+            value={formData.applicationUrl}
+            onChange={(e) => updateField("applicationUrl", e.target.value)}
+            className="glass-input"
+            required
+          />
+        </div>
+        <div>
+          <Label className="text-white">Deadline *</Label>
+          <Input
+            type="date"
+            value={formData.deadline}
+            onChange={(e) => updateField("deadline", e.target.value)}
+            className="glass-input"
+            required
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <label className="flex items-center gap-2 text-white cursor-pointer">
+          <input
+            type="checkbox"
+            checked={formData.remote}
+            onChange={(e) => updateField("remote", e.target.checked)}
+            className="rounded"
+          />
+          Remote Work Available
+        </label>
+        <label className="flex items-center gap-2 text-white cursor-pointer">
+          <input
+            type="checkbox"
+            checked={formData.active}
+            onChange={(e) => updateField("active", e.target.checked)}
+            className="rounded"
+          />
+          Active
+        </label>
+      </div>
+
+      <div className="flex gap-4 pt-4">
+        <Button type="submit" className="btn-primary flex-1">
+          Update Internship
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCancel}
+          className="border-white/30 text-white"
+        >
+          Cancel
+        </Button>
+      </div>
+    </form>
+  );
+}
