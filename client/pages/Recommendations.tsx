@@ -13,8 +13,11 @@ import {
   ChevronDown,
   ChevronUp,
   RefreshCw,
+  AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getLocalRecommendations, LocalRecommendationMatch } from "@/lib/localStorage-recommendations";
+import { initializeLocalStorage } from "@/lib/localStorage-internships";
 
 interface RecommendationMatch {
   internship: {
@@ -42,6 +45,8 @@ export default function Recommendations() {
   );
   const [loading, setLoading] = useState(true);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [usingLocalStorage, setUsingLocalStorage] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Get profileId from URL params
   const urlParams = new URLSearchParams(window.location.search);
@@ -71,19 +76,78 @@ export default function Recommendations() {
 
   const fetchRecommendations = async () => {
     setLoading(true);
-    try {
-      const response = await fetch("/api/recommend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profileId }),
-      });
+    setError(null);
 
-      if (response.ok) {
-        const data = await response.json();
-        setRecommendations(data.recommendations || []);
+    try {
+      // First try to get profile data for localStorage fallback
+      let profileData = null;
+
+      if (profileId) {
+        // Try to get the candidate profile from localStorage
+        const storedProfiles = JSON.parse(localStorage.getItem('candidate-profiles') || '[]');
+        profileData = storedProfiles.find((p: any) => p.id === profileId);
+      }
+
+      // Try server API first
+      try {
+        const response = await fetch("/api/recommend", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ profileId }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.recommendations && data.recommendations.length > 0) {
+            setRecommendations(data.recommendations);
+            setUsingLocalStorage(false);
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn("Server API failed, falling back to localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
+      console.log("Using localStorage fallback for recommendations");
+      initializeLocalStorage(); // Ensure data is loaded
+
+      if (profileData) {
+        const localRecommendations = getLocalRecommendations({
+          name: profileData.name || 'User',
+          educationLevel: profileData.educationLevel || 'UNDERGRADUATE',
+          skills: Array.isArray(profileData.skills) ? profileData.skills :
+                  (typeof profileData.skills === 'string' ? JSON.parse(profileData.skills) : []),
+          sectorInterests: Array.isArray(profileData.sectorInterests) ? profileData.sectorInterests :
+                          (typeof profileData.sectorInterests === 'string' ? JSON.parse(profileData.sectorInterests) : []),
+          preferredLocations: Array.isArray(profileData.preferredLocations) ? profileData.preferredLocations :
+                             (typeof profileData.preferredLocations === 'string' ? JSON.parse(profileData.preferredLocations) : []),
+          residencyPin: profileData.residencyPin,
+          ruralFlag: profileData.ruralFlag || false
+        });
+
+        setRecommendations(localRecommendations as any);
+        setUsingLocalStorage(true);
+      } else {
+        // No profile data, show some default recommendations
+        const defaultRecommendations = getLocalRecommendations({
+          name: 'User',
+          educationLevel: 'UNDERGRADUATE',
+          skills: ['JavaScript', 'Communication'],
+          sectorInterests: ['IT'],
+          preferredLocations: ['Remote'],
+          ruralFlag: false
+        });
+
+        setRecommendations(defaultRecommendations as any);
+        setUsingLocalStorage(true);
+        setError('Using default recommendations. Please update your profile for better matches.');
       }
     } catch (error) {
       console.error("Error fetching recommendations:", error);
+      setError('Failed to load recommendations. Please try again.');
+      setRecommendations([]);
     } finally {
       setLoading(false);
     }
@@ -181,6 +245,20 @@ export default function Recommendations() {
           <p className="text-lg sm:text-xl text-white/80">
             Found {recommendations.length} perfect opportunities for you
           </p>
+          {usingLocalStorage && (
+            <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-yellow-400">
+              <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-sm sm:text-base">
+                Using offline data - Connect to cloud database for real-time updates
+              </span>
+            </div>
+          )}
+          {error && (
+            <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-orange-400">
+              <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-sm sm:text-base">{error}</span>
+            </div>
+          )}
         </div>
 
         {/* Recommendations */}
