@@ -104,10 +104,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return false; // User already exists
       }
 
-      // Add new user
+      // Add new user locally
       const newUser = { firstName, lastName, email, password };
       storedUsers.push(newUser);
       localStorage.setItem("registeredUsers", JSON.stringify(storedUsers));
+
+      // Also register in server DB for admin visibility
+      try {
+        await fetch("/api/users/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ firstName, lastName, email }),
+        });
+      } catch (e) {
+        console.warn("Server user register failed (continuing with local login):", e);
+      }
 
       // Automatically log in the user
       const loginUser: User = {
