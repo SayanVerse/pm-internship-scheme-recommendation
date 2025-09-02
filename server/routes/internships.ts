@@ -334,7 +334,10 @@ export const handleInternshipUpdate: RequestHandler = async (req, res) => {
           skill = await db.skill.create({
             data: {
               name: name.trim(),
-              slug: name.trim().toLowerCase().replace(/[^a-z0-9]/g, "-"),
+              slug: name
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, "-"),
             },
           });
         }
@@ -344,7 +347,11 @@ export const handleInternshipUpdate: RequestHandler = async (req, res) => {
       }
     }
 
-    res.json({ success: true, message: "Internship updated", id: internship.id });
+    res.json({
+      success: true,
+      message: "Internship updated",
+      id: internship.id,
+    });
   } catch (error) {
     console.error("Internship update error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });

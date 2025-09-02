@@ -21,7 +21,9 @@ export const handleUsersList: RequestHandler = async (_req, res) => {
     res.json({ success: true, users: transformed });
   } catch (error) {
     console.error("Users list error:", error);
-    res.status(500).json({ success: false, users: [], message: "Internal server error" });
+    res
+      .status(500)
+      .json({ success: false, users: [], message: "Internal server error" });
   }
 };
 
@@ -31,11 +33,15 @@ export const handleUserDelete: RequestHandler = async (req, res) => {
 
     const user = await db.user.findUnique({ where: { id } });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     if (user.role === "ADMIN") {
-      return res.status(400).json({ success: false, message: "Cannot delete admin user" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Cannot delete admin user" });
     }
 
     await db.user.delete({ where: { id } });

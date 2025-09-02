@@ -310,7 +310,8 @@ export const handleRecommend: RequestHandler = async (req, res) => {
           state: internship.state,
           pin: internship.pin,
           remote: internship.remote,
-          minEducation: internship.minEducation as unknown as import("@shared/api").EducationLevel,
+          minEducation:
+            internship.minEducation as unknown as import("@shared/api").EducationLevel,
           applicationUrl: internship.applicationUrl,
           deadline: internship.deadline.toISOString(),
           active: internship.active,

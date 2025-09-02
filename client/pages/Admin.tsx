@@ -277,7 +277,8 @@ export default function Admin() {
             setStats((prev) => ({
               ...prev,
               totalUsers: apiUsers.length,
-              registeredUsers: apiUsers.filter((u: any) => u.role !== "ADMIN").length,
+              registeredUsers: apiUsers.filter((u: any) => u.role !== "ADMIN")
+                .length,
             }));
             return;
           }
@@ -673,7 +674,10 @@ export default function Admin() {
           }
         }
       } catch (serverError) {
-        console.warn("Server user delete failed, using localStorage:", serverError);
+        console.warn(
+          "Server user delete failed, using localStorage:",
+          serverError,
+        );
       }
 
       // Fallback to localStorage
