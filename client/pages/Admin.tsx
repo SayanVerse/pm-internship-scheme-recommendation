@@ -355,6 +355,7 @@ export default function Admin() {
               totalApplications: statsData.stats.totalApplications,
               recentApplications: statsData.stats.recentApplications,
             }));
+            setServerMode(true);
             return;
           }
         }
