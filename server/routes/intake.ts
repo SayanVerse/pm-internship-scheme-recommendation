@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
 import { db } from "../db";
-import { IntakeResponse, EducationLevel, Language } from "@shared/api";
+import { IntakeResponse, EducationLevel, Language } from "../../shared/api";
 
 // Validation schema
 const IntakeSchema = z.object({
