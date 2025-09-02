@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
 import { db } from "../db";
-import { InternshipsListResponse, EducationLevel } from "@shared/api";
+import { InternshipsListResponse, EducationLevel } from "../../shared/api";
 
 // Validation schema for listing
 const InternshipsQuerySchema = z.object({
