@@ -658,7 +658,25 @@ export default function Admin() {
     }
 
     try {
-      // For localStorage, we remove from registeredUsers
+      // Try server API first
+      try {
+        const res = await fetch(`/api/users/${userId}`, { method: "DELETE" });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) {
+            await fetchUsers();
+            alert("User deleted successfully");
+            return;
+          } else if (data.message) {
+            alert(data.message);
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn("Server user delete failed, using localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
       const registeredUsers = JSON.parse(
         localStorage.getItem("registeredUsers") || "[]",
       );
@@ -670,7 +688,6 @@ export default function Admin() {
         );
         localStorage.setItem("registeredUsers", JSON.stringify(filtered));
 
-        // Also remove their candidate profiles
         const profiles = JSON.parse(
           localStorage.getItem("candidate-profiles") || "[]",
         );
