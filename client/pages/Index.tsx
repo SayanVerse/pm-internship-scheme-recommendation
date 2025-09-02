@@ -14,7 +14,11 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { initializeLocalStorage, parseCSV, type LocalInternship } from "@/lib/localStorage-internships";
+import {
+  initializeLocalStorage,
+  parseCSV,
+  type LocalInternship,
+} from "@/lib/localStorage-internships";
 import { DEMO_INTERNSHIPS_CSV } from "@/lib/demo-internships-csv";
 
 export default function Index() {
@@ -161,7 +165,11 @@ export default function Index() {
   // InternGuide chatbot state
   const [showChat, setShowChat] = useState(false);
   const [botData, setBotData] = useState<LocalInternship[]>([]);
-  const CHATBOT_API_KEY = (import.meta as any).env?.VITE_PM_INTERN_API_KEY || (import.meta as any).env?.VITE_PM_CHATBOT_API_KEY || (import.meta as any).env?.VITE_PM_CHATBOT_KEY || "";
+  const CHATBOT_API_KEY =
+    (import.meta as any).env?.VITE_PM_INTERN_API_KEY ||
+    (import.meta as any).env?.VITE_PM_CHATBOT_API_KEY ||
+    (import.meta as any).env?.VITE_PM_CHATBOT_KEY ||
+    "";
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<
     { sender: "user" | "bot"; text: string }[]
@@ -193,7 +201,8 @@ export default function Index() {
 
   function rankInternships(query: string) {
     const terms = tokenize(query);
-    if (terms.length === 0) return [] as Array<{ score: number; item: LocalInternship }>;
+    if (terms.length === 0)
+      return [] as Array<{ score: number; item: LocalInternship }>;
 
     return botData
       .map((item) => {
@@ -242,7 +251,9 @@ export default function Index() {
     const ranked = rankInternships(input).slice(0, 3);
     if (ranked.length > 0) {
       const lines = ranked.map(({ item }) => {
-        const loc = item.remote ? "Remote" : [item.city, item.state].filter(Boolean).join(", ");
+        const loc = item.remote
+          ? "Remote"
+          : [item.city, item.state].filter(Boolean).join(", ");
         return `• ${item.title} at ${item.orgName} — ${loc} — ${fmtStipend(item.stipendMin, item.stipendMax)} — Apply: ${item.applicationUrl}`;
       });
       return `Here are some matches based on your query:\n${lines.join("\n")}`;

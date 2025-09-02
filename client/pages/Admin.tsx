@@ -559,7 +559,9 @@ export default function Admin() {
   };
 
   const downloadSampleCSV = () => {
-    const blob = new Blob([DEMO_INTERNSHIPS_CSV], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob([DEMO_INTERNSHIPS_CSV], {
+      type: "text/csv;charset=utf-8;",
+    });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
