@@ -89,7 +89,7 @@ export default function Index() {
           icon: TrendingUp,
           title: "करियर विकास",
           description:
-            "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्�� करें।",
+            "वेतन-आधारित इंट���्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल बनाएं और मूल्यवान कार्य अनुभव प्राप्�� करें।",
         },
         {
           icon: Globe,
@@ -108,7 +108,7 @@ export default function Index() {
     bn: {
       hero: "আপনার নিখুঁত ইন্টার্নশিপ ম্যাচ খুঁজে নিন",
       subtitle:
-        "PM ইন্টার্নশিপ স্কিমের প্��ার্থীদের ��ন্য AI-চালিত সুপারিশ। আপনার দক্ষতা এবং পছন্দের উপর ভিত্তি করে ৩-৫টি ব্যক্তিগতকৃত ইন্টার্নশিপ পরামর্শ পান।",
+        "PM ইন্টার্নশিপ স্কিমের প্��ার্থীদের ��ন্য AI-চালি��� সুপারিশ। আপনার দক্ষতা এবং পছন্দের উপর ভিত্তি করে ৩-৫টি ব্যক্তিগতকৃত ইন্টার্নশিপ পরামর্শ পান।",
       findCTA: "সেরা ইন্টার্নশিপ খুঁজুন 🗃️",
       adminCTA: "ইন্টার্নশিপ পরিচালনা করুন 📂",
       features: [
@@ -150,6 +150,8 @@ export default function Index() {
 
   // InternGuide chatbot state
   const [showChat, setShowChat] = useState(false);
+  const [botData, setBotData] = useState<LocalInternship[]>([]);
+  const CHATBOT_API_KEY = (import.meta as any).env?.VITE_PM_INTERN_API_KEY || (import.meta as any).env?.VITE_PM_CHATBOT_API_KEY || (import.meta as any).env?.VITE_PM_CHATBOT_KEY || "";
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<
     { sender: "user" | "bot"; text: string }[]
@@ -175,7 +177,7 @@ export default function Index() {
   function getBotReply(input: string) {
     const t = input.toLowerCase();
     if (t.includes("recommend") || t.includes("match") || t.includes("best")) {
-      return "Tap ‘Find my internship�� and complete the short form. I’ll show 3–5 top matches based on your skills, education, and location.";
+      return "Tap ‘Find my internship’ and complete the short form. I’ll show 3–5 top matches based on your skills, education, and location.";
     }
     if (t.includes("skill")) {
       return "Add 5–10 relevant skills (e.g., JavaScript, Excel, Communication). More accurate skills = better matches.";
