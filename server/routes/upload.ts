@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { z } from "zod";
 import { db } from "../db";
-import { CSVUploadResponse, EducationLevel } from "@shared/api";
+import { CSVUploadResponse, EducationLevel } from "../../shared/api";
 
 // Validation schema for CSV row
 const CSVRowSchema = z.object({
