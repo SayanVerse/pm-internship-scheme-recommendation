@@ -38,7 +38,7 @@ Civil Engineering Intern,Civil Engineering,Tata Projects,Work on structural anal
 Cloud Intern,Cloud Computing,Amazon AWS,Support cloud service deployment and optimization.,Hyderabad,Telangana,500032,Yes,B.Tech (CSE/IT),"AWS, Cloud Computing, Linux",20000,30000,https://amazon.jobs/internships,2025-09-28,Yes
 Game Development Intern,Gaming,Ubisoft India,Assist in Unity game development and testing.,Pune,Maharashtra,411045,No,B.Tech/B.Sc (Game Dev/CS),"Unity, C#, Game Design",15000,22000,https://www.ubisoft.com/careers/internships,2025-09-22,Yes`;
 
-function parseCSV(csvText: string): LocalInternship[] {
+export function parseCSV(csvText: string): LocalInternship[] {
   const lines = csvText.trim().split("\n");
   const headers = lines[0].split(",").map((h) => h.trim());
 
