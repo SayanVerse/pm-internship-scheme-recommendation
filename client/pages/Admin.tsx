@@ -281,6 +281,7 @@ export default function Admin() {
               registeredUsers: apiUsers.filter((u: any) => u.role !== "ADMIN")
                 .length,
             }));
+            setServerMode(true);
             return;
           }
         }
