@@ -5,7 +5,7 @@ import {
   RecommendationsRequest,
   RecommendationsResponse,
   RecommendationMatch,
-} from "@shared/api";
+} from "../../shared/api";
 
 // Validation schema
 const RecommendationRequestSchema = z
@@ -311,7 +311,7 @@ export const handleRecommend: RequestHandler = async (req, res) => {
           pin: internship.pin,
           remote: internship.remote,
           minEducation:
-            internship.minEducation as unknown as import("@shared/api").EducationLevel,
+            internship.minEducation as unknown as import("../../shared/api").EducationLevel,
           applicationUrl: internship.applicationUrl,
           deadline: internship.deadline.toISOString(),
           active: internship.active,
