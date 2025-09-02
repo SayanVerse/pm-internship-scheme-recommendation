@@ -282,3 +282,83 @@ export const handleInternshipCreate: RequestHandler = async (req, res) => {
     });
   }
 };
+
+// Update internship
+export const handleInternshipUpdate: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      title,
+      sector,
+      orgName,
+      description,
+      city,
+      state,
+      pin,
+      remote,
+      minEducation,
+      stipendMin,
+      stipendMax,
+      applicationUrl,
+      deadline,
+      active,
+      requiredSkills,
+    } = req.body;
+
+    const internship = await db.internship.update({
+      where: { id },
+      data: {
+        title,
+        sector,
+        orgName,
+        description,
+        city,
+        state,
+        pin,
+        remote: Boolean(remote),
+        minEducation,
+        stipendMin: stipendMin ?? null,
+        stipendMax: stipendMax ?? null,
+        applicationUrl,
+        deadline: deadline ? new Date(deadline) : undefined,
+        active: Boolean(active),
+      },
+    });
+
+    if (Array.isArray(requiredSkills)) {
+      await db.internshipSkill.deleteMany({ where: { internshipId: id } });
+      for (const name of requiredSkills) {
+        if (!name || !name.trim()) continue;
+        let skill = await db.skill.findUnique({ where: { name: name.trim() } });
+        if (!skill) {
+          skill = await db.skill.create({
+            data: {
+              name: name.trim(),
+              slug: name.trim().toLowerCase().replace(/[^a-z0-9]/g, "-"),
+            },
+          });
+        }
+        await db.internshipSkill.create({
+          data: { internshipId: id, skillId: skill.id },
+        });
+      }
+    }
+
+    res.json({ success: true, message: "Internship updated", id: internship.id });
+  } catch (error) {
+    console.error("Internship update error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+// Delete internship
+export const handleInternshipDelete: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.internship.delete({ where: { id } });
+    res.json({ success: true, message: "Internship deleted" });
+  } catch (error) {
+    console.error("Internship delete error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
