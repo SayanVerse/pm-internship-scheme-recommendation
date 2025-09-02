@@ -130,7 +130,7 @@ export default function Index() {
           icon: Users,
           title: "স্মার্ট ম্যাচিং",
           description:
-            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দের ��পর ভিত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
+            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দের ��পর ���িত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
         },
         {
           icon: Briefcase,
@@ -148,7 +148,7 @@ export default function Index() {
           icon: Globe,
           title: "দেশব���যাপী অ্যাক্সেস",
           description:
-            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্তিক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
+            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্ত��ক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
         },
       ],
       stats: [
@@ -180,14 +180,48 @@ export default function Index() {
     },
   ]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const text = chatInput.trim();
     if (!text) return;
-    const reply = getBotReply(text);
+    // Try AI backend first
+    let reply: string | null = null;
+    try {
+      const context = rankInternships(text).slice(0, 3).map(({ item }) => ({
+        title: item.title,
+        orgName: item.orgName,
+        sector: item.sector,
+        location: item.remote ? "Remote" : `${item.city || ""}, ${item.state || ""}`,
+        stipend: fmtStipend(item.stipendMin, item.stipendMax),
+        url: item.applicationUrl,
+      }));
+      const system = "You are InternGuide, a concise helpful assistant for internship seekers in India. Use the provided context if relevant and answer briefly.";
+      const res = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `${text}\n\nContext:${JSON.stringify(context)}`,
+          system,
+          model: "gemini-2.5-flash",
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && typeof data.text === "string") {
+          reply = data.text.trim();
+        }
+      }
+    } catch (e) {
+      // ignore, fallback below
+    }
+
+    if (!reply) {
+      reply = getBotReply(text);
+    }
+
     setMessages((m) => [
       ...m,
       { sender: "user", text },
-      { sender: "bot", text: reply },
+      { sender: "bot", text: reply as string },
     ]);
     setChatInput("");
   };
@@ -466,7 +500,7 @@ export default function Index() {
           </button>
 
           {showChat && (
-            <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl glass-card border-white/20 bg-white/95 overflow-hidden">
+            <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl glass-card border-white/20 bg-white/95 overflow-hidden pulse-glow">
               <div className="relative flex items-center justify-between px-4 py-3 border-b border-white/20 bg-gradient-to-r from-purple-600/80 to-pink-500/80 text-white">
                 <div>
                   <div className="text-base font-semibold text-white">

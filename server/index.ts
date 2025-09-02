@@ -36,6 +36,9 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // AI routes
+  app.post("/api/ai/chat", (await import("./routes/ai")).handleChat as any);
+
   // PM Internship Recommender API routes
   app.post("/api/intake", handleIntake);
   app.post("/api/recommend", handleRecommend);
