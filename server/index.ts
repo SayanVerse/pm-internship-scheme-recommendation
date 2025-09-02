@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import { handleChat } from "./routes/ai";
 import { handleIntake } from "./routes/intake";
 import { handleRecommend } from "./routes/recommend";
 import {
@@ -37,7 +38,7 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
 
   // AI routes
-  app.post("/api/ai/chat", (await import("./routes/ai")).handleChat as any);
+  app.post("/api/ai/chat", handleChat);
 
   // PM Internship Recommender API routes
   app.post("/api/intake", handleIntake);
