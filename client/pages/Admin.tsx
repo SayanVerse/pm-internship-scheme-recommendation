@@ -43,6 +43,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DEMO_INTERNSHIPS_CSV } from "@/lib/demo-internships-csv";
 import {
   getLocalInternships,
   addLocalInternship,
@@ -558,23 +559,15 @@ export default function Admin() {
   };
 
   const downloadSampleCSV = () => {
-    try {
-      const { DEMO_INTERNSHIPS_CSV } = require("@/lib/demo-internships-csv");
-      const blob = new Blob([DEMO_INTERNSHIPS_CSV], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "demo_internships.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (e) {
-      const a = document.createElement("a");
-      a.href = "/sample_internships.csv";
-      a.download = "sample_internships.csv";
-      a.click();
-    }
+    const blob = new Blob([DEMO_INTERNSHIPS_CSV], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "demo_internships.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const handleViewInternship = (internship: Internship) => {
