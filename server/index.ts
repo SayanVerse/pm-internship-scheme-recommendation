@@ -48,6 +48,7 @@ export function createServer() {
 
   // Users API routes
   app.get("/api/users", handleUsersList);
+  app.post("/api/users/register", handleUserRegister);
   app.delete("/api/users/:id", handleUserDelete);
 
   // Applications API routes
