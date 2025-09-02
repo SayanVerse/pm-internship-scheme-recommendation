@@ -19,7 +19,11 @@ export const handleUserRegister: RequestHandler = async (req, res) => {
     if (existing) {
       return res
         .status(200)
-        .json({ success: true, message: "User already exists", userId: existing.id });
+        .json({
+          success: true,
+          message: "User already exists",
+          userId: existing.id,
+        });
     }
 
     const user = await db.user.create({

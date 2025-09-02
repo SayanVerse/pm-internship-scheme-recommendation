@@ -117,7 +117,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           body: JSON.stringify({ firstName, lastName, email }),
         });
       } catch (e) {
-        console.warn("Server user register failed (continuing with local login):", e);
+        console.warn(
+          "Server user register failed (continuing with local login):",
+          e,
+        );
       }
 
       // Automatically log in the user
