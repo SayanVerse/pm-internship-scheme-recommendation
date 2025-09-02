@@ -12,6 +12,7 @@ import {
   handleInternshipDelete,
 } from "./routes/internships";
 import { handleUsersList, handleUserDelete } from "./routes/users";
+import { handleUserRegister } from "./routes/users-register";
 import { handleCSVUpload } from "./routes/upload";
 import {
   handleCreateApplication,
