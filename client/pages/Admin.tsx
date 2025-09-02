@@ -260,7 +260,33 @@ export default function Admin() {
 
   const fetchUsers = async () => {
     try {
-      // Get users from localStorage
+      // Try server API first
+      try {
+        const res = await fetch("/api/users");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) {
+            const apiUsers = (data.users || []).map((u: any) => ({
+              id: u.id,
+              email: u.email,
+              role: u.role,
+              name: u.name,
+              createdAt: u.createdAt,
+            }));
+            setUsers(apiUsers);
+            setStats((prev) => ({
+              ...prev,
+              totalUsers: apiUsers.length,
+              registeredUsers: apiUsers.filter((u: any) => u.role !== "ADMIN").length,
+            }));
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn("Server users failed, using localStorage:", serverError);
+      }
+
+      // Fallback to localStorage
       const registeredUsers = JSON.parse(
         localStorage.getItem("registeredUsers") || "[]",
       );
@@ -274,7 +300,6 @@ export default function Admin() {
         }),
       );
 
-      // Add the admin user if it exists in localStorage
       const currentUser = JSON.parse(localStorage.getItem("user") || "null");
       if (currentUser && currentUser.isAdmin) {
         const adminExists = transformedUsers.find(
@@ -292,13 +317,10 @@ export default function Admin() {
       }
 
       setUsers(transformedUsers);
-
-      // Count registered users (excluding admin)
       const registeredUserCount = transformedUsers.filter(
         (u) => u.role !== "ADMIN",
       ).length;
       const totalUserCount = transformedUsers.length;
-
       setStats((prev) => ({
         ...prev,
         totalUsers: totalUserCount,
