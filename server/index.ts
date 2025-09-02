@@ -8,7 +8,10 @@ import {
   handleInternshipsList,
   handleInternshipById,
   handleInternshipCreate,
+  handleInternshipUpdate,
+  handleInternshipDelete,
 } from "./routes/internships";
+import { handleUsersList, handleUserDelete } from "./routes/users";
 import { handleCSVUpload } from "./routes/upload";
 import {
   handleCreateApplication,
