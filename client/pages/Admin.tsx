@@ -224,7 +224,7 @@ export default function Admin() {
     try {
       // Try server API first
       try {
-        const response = await fetch("/api/internships");
+        const response = await fetch("/api/internships?limit=100");
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.internships) {
