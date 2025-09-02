@@ -217,6 +217,7 @@ export default function Admin() {
   };
 
   const [usingLocalStorage, setUsingLocalStorage] = useState(false);
+  const [serverMode, setServerMode] = useState(false);
 
   const fetchInternships = async () => {
     setLoading(true);
