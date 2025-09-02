@@ -87,13 +87,13 @@ export default function Index() {
           icon: Users,
           title: "स्मार्ट मैचिंग",
           description:
-            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर��नशिप से मिलाता है।",
+            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
         },
         {
           icon: Briefcase,
           title: "गुणवत्तापूर्ण अवसर",
           description:
-            "IT, स्वास्थ्य सेवा, कृषि, शिक्षा और लो�� प्रशासन क्षेत्रों में क्यूरेटेड इंटर्नशिप।",
+            "IT, स्वास्थ्य सेवा, कृषि, श���क्षा और लो�� प्रशासन क्षेत्रों में क्यूरेटेड इंटर्नशिप।",
         },
         {
           icon: TrendingUp,
@@ -126,11 +126,11 @@ export default function Index() {
           icon: Users,
           title: "স্মার্ট ম্যাচিং",
           description:
-            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এ��ং অবস্থানের পছন্দের ��পর ভিত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
+            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দের ��পর ভিত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
         },
         {
           icon: Briefcase,
-          title: "মানসম্পন্ন সু���োগ",
+          title: "��ানসম্পন্ন সু���োগ",
           description:
             "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউর���টেড ইন্টার্নশিপ।",
         },
@@ -144,11 +144,11 @@ export default function Index() {
           icon: Globe,
           title: "দেশব���যাপী অ্যাক্সেস",
           description:
-            "আপনার প্রয়োজন অনুযায়ী র��মোট এবং অবস্থান-ভিত্তিক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
+            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্তিক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
         },
       ],
       stats: [
-        { number: "৫০০+", label: "সক্রিয় ইন��টার্নশিপ" },
+        { number: "৫��০+", label: "সক্রিয় ইন��টার্নশিপ" },
         { number: "১০K+", label: "ছাত্র স্থাপিত" },
         { number: "৫০+", label: "অংশীদার সংস্থা" },
         { number: "৯৫%", label: "সন্তুষ্টি��� হার" },
@@ -455,8 +455,8 @@ export default function Index() {
           </button>
 
           {showChat && (
-            <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl glass-card border-white/20 bg-white/95">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-white/20">
+            <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl glass-card border-white/20 bg-white/95 overflow-hidden">
+              <div className="relative flex items-center justify-between px-4 py-3 border-b border-white/20 bg-gradient-to-r from-purple-600/80 to-pink-500/80 text-white">
                 <div>
                   <div className="text-base font-semibold text-white">
                     InternGuide
@@ -468,12 +468,12 @@ export default function Index() {
                 <button
                   aria-label="Close chat"
                   onClick={() => setShowChat(false)}
-                  className="text-white/80 hover:text-white"
+                  className="text-white/90 hover:text-white"
                 >
                   ×
                 </button>
               </div>
-              <div className="p-3 h-72 overflow-y-auto space-y-2">
+              <div className="relative p-3 h-72 overflow-y-auto space-y-2 bg-gradient-to-br from-white/80 via-white/70 to-white/80 dark:from-white/10 dark:via-white/5 dark:to-white/10">
                 {messages.map((m, i) => (
                   <div
                     key={i}
@@ -482,8 +482,8 @@ export default function Index() {
                     <div
                       className={
                         m.sender === "user"
-                          ? "inline-block px-3 py-2 rounded-xl bg-purple-600 text-white"
-                          : "inline-block px-3 py-2 rounded-xl bg-white text-black"
+                          ? "inline-block px-3 py-2 rounded-xl bg-purple-600 text-white shadow"
+                          : "inline-block px-3 py-2 rounded-xl bg-white text-black shadow"
                       }
                     >
                       {m.text}
@@ -491,13 +491,13 @@ export default function Index() {
                   </div>
                 ))}
               </div>
-              <div className="p-3 border-t border-white/20 flex gap-2">
+              <div className="p-3 border-t border-white/20 flex gap-2 bg-white/80 dark:bg-white/10">
                 <input
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Ask about internships..."
-                  className="flex-1 rounded-xl px-3 py-2 border border-white/30 bg-white/80 text-black focus:outline-none"
+                  className="flex-1 rounded-xl px-3 py-2 border border-white/30 bg-white/90 text-black focus:outline-none dark:bg-white/10 dark:text-white"
                 />
                 <Button variant="accent" size="sm" onClick={handleSend}>
                   Send
