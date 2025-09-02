@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import type { RequestHandler } from "express";
 import { db } from "../db";
-import { EducationLevel, Language, Role } from "@shared/api";
+import { EducationLevel, Language, Role } from "../../shared/api";
 
 export const handleUsersList: RequestHandler = async (_req, res) => {
   try {
