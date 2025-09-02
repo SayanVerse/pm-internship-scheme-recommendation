@@ -186,15 +186,20 @@ export default function Index() {
     // Try AI backend first
     let reply: string | null = null;
     try {
-      const context = rankInternships(text).slice(0, 3).map(({ item }) => ({
-        title: item.title,
-        orgName: item.orgName,
-        sector: item.sector,
-        location: item.remote ? "Remote" : `${item.city || ""}, ${item.state || ""}`,
-        stipend: fmtStipend(item.stipendMin, item.stipendMax),
-        url: item.applicationUrl,
-      }));
-      const system = "You are InternGuide, a concise helpful assistant for internship seekers in India. Use the provided context if relevant and answer briefly.";
+      const context = rankInternships(text)
+        .slice(0, 3)
+        .map(({ item }) => ({
+          title: item.title,
+          orgName: item.orgName,
+          sector: item.sector,
+          location: item.remote
+            ? "Remote"
+            : `${item.city || ""}, ${item.state || ""}`,
+          stipend: fmtStipend(item.stipendMin, item.stipendMax),
+          url: item.applicationUrl,
+        }));
+      const system =
+        "You are InternGuide, a concise helpful assistant for internship seekers in India. Use the provided context if relevant and answer briefly.";
       const res = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

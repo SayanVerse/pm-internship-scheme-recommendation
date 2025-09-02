@@ -340,15 +340,28 @@ export const handleRecommend: RequestHandler = async (req, res) => {
         const { generateText } = await import("../lib/gemini");
         const profileSummary = `Skills: ${candidateProfile.skills.join(", ")} | Interests: ${candidateProfile.sectorInterests.join(", ")} | Locations: ${candidateProfile.preferredLocations.join(", ")}`;
         const list = topRecommendations
-          .map((r, i) => `${i + 1}. ${r.internship.title} at ${r.internship.orgName} (${r.internship.sector}) [${r.internship.remote ? "Remote" : `${r.internship.city || ""}, ${r.internship.state || ""}`}] — skills: ${r.internship.requiredSkills.join(", ")}`)
+          .map(
+            (r, i) =>
+              `${i + 1}. ${r.internship.title} at ${r.internship.orgName} (${r.internship.sector}) [${r.internship.remote ? "Remote" : `${r.internship.city || ""}, ${r.internship.state || ""}`}] — skills: ${r.internship.requiredSkills.join(", ")}`,
+          )
           .join("\n");
         const prompt = `Given this candidate: ${profileSummary}\nProvide one short reason (max 12 words) for each of these internships (keep order, one line each, numbered 1..N):\n${list}`;
         const ai = await generateText(prompt, "gemini-2.5-flash");
-        const lines = ai.split(/\r?\n/).map((l) => l.replace(/^\d+\.?\s*/, "").trim()).filter(Boolean);
-        for (let i = 0; i < topRecommendations.length && i < lines.length; i++) {
+        const lines = ai
+          .split(/\r?\n/)
+          .map((l) => l.replace(/^\d+\.?\s*/, "").trim())
+          .filter(Boolean);
+        for (
+          let i = 0;
+          i < topRecommendations.length && i < lines.length;
+          i++
+        ) {
           const reason = lines[i];
           if (reason) {
-            topRecommendations[i].matchReasons = [reason, ...topRecommendations[i].matchReasons].slice(0, 3);
+            topRecommendations[i].matchReasons = [
+              reason,
+              ...topRecommendations[i].matchReasons,
+            ].slice(0, 3);
           }
         }
       }
