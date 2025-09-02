@@ -230,6 +230,7 @@ export default function Admin() {
           if (data.success && data.internships) {
             setInternships(data.internships);
             setUsingLocalStorage(false);
+            setServerMode(true);
             setLoading(false);
             return;
           }
