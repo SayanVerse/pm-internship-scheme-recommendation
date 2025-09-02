@@ -14,7 +14,8 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { initializeLocalStorage } from "@/lib/localStorage-internships";
+import { initializeLocalStorage, parseCSV, type LocalInternship } from "@/lib/localStorage-internships";
+import { DEMO_INTERNSHIPS_CSV } from "@/lib/demo-internships-csv";
 
 export default function Index() {
   const [language, setLanguage] = useState<"en" | "hi" | "bn">("en");
@@ -174,7 +175,7 @@ export default function Index() {
   function getBotReply(input: string) {
     const t = input.toLowerCase();
     if (t.includes("recommend") || t.includes("match") || t.includes("best")) {
-      return "Tap ‘Find my internship’ and complete the short form. I’ll show 3–5 top matches based on your skills, education, and location.";
+      return "Tap ‘Find my internship�� and complete the short form. I’ll show 3–5 top matches based on your skills, education, and location.";
     }
     if (t.includes("skill")) {
       return "Add 5–10 relevant skills (e.g., JavaScript, Excel, Communication). More accurate skills = better matches.";
