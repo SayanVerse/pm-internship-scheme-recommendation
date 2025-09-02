@@ -41,7 +41,13 @@ export function createServer() {
   app.get("/api/internships", handleInternshipsList);
   app.post("/api/internships", handleInternshipCreate);
   app.get("/api/internships/:id", handleInternshipById);
+  app.put("/api/internships/:id", handleInternshipUpdate);
+  app.delete("/api/internships/:id", handleInternshipDelete);
   app.post("/api/internships/upload", handleCSVUpload);
+
+  // Users API routes
+  app.get("/api/users", handleUsersList);
+  app.delete("/api/users/:id", handleUserDelete);
 
   // Applications API routes
   app.post("/api/applications", handleCreateApplication);
