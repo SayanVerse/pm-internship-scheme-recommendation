@@ -20,6 +20,8 @@ const RecommendationRequestSchema = z
           "UNDERGRADUATE",
           "POSTGRADUATE",
         ]),
+        major: z.string().optional(),
+        stream: z.string().optional(),
         skills: z.array(z.string()),
         sectorInterests: z.array(z.string()),
         preferredLocations: z.array(z.string()),
@@ -45,6 +47,109 @@ function jaccardSimilarity(set1: string[], set2: string[]): number {
   const intersection = set1.filter((x) => set2.includes(x)).length;
   const union = new Set([...set1, ...set2]).size;
   return union === 0 ? 0 : intersection / union;
+}
+
+// Tokenize helper
+function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .split(/[^a-z0-9+#.]+/)
+    .map((t) => t.trim())
+    .filter((t) => t.length > 1);
+}
+
+// Build candidate tokens with simple weights via duplication
+function buildCandidateTokens(profile: any): string[] {
+  const tokens: string[] = [];
+  const pushWeighted = (value: string | undefined, weight: number) => {
+    if (!value) return;
+    const parts = tokenize(value);
+    for (let i = 0; i < weight; i++) tokens.push(...parts);
+  };
+  // Skills heavily weighted
+  if (Array.isArray(profile.skills)) {
+    for (const s of profile.skills) pushWeighted(String(s), 2);
+  }
+  // Stream weighted
+  pushWeighted(profile.stream, 2);
+  // Major
+  pushWeighted(profile.major, 1);
+  // Sector interests
+  if (Array.isArray(profile.sectorInterests)) {
+    for (const s of profile.sectorInterests) pushWeighted(String(s), 1);
+  }
+  // Education level
+  pushWeighted(profile.educationLevel, 1);
+  return tokens;
+}
+
+// Build internship tokens with weights
+function buildInternshipTokens(internship: any): string[] {
+  const tokens: string[] = [];
+  const pushWeighted = (value: string | undefined, weight: number) => {
+    if (!value) return;
+    const parts = tokenize(value);
+    for (let i = 0; i < weight; i++) tokens.push(...parts);
+  };
+  // Required skills heavily weighted
+  if (Array.isArray(internship.requiredSkills)) {
+    for (const s of internship.requiredSkills) pushWeighted(String(s), 2);
+  }
+  pushWeighted(internship.title, 1);
+  pushWeighted(internship.sector, 1);
+  // Use a limited set of description tokens to reduce noise
+  if (internship.description) {
+    const desc = tokenize(internship.description).slice(0, 40).join(" ");
+    pushWeighted(desc, 1); // implicitly lower due to truncation
+  }
+  return tokens;
+}
+
+// Build TF map
+function termFrequency(tokens: string[]): Map<string, number> {
+  const tf = new Map<string, number>();
+  for (const t of tokens) tf.set(t, (tf.get(t) || 0) + 1);
+  return tf;
+}
+
+// Build IDF using a corpus of documents
+function inverseDocumentFrequency(docs: string[][]): Map<string, number> {
+  const N = docs.length;
+  const df = new Map<string, number>();
+  for (const doc of docs) {
+    const uniq = new Set(doc);
+    for (const t of uniq) df.set(t, (df.get(t) || 0) + 1);
+  }
+  const idf = new Map<string, number>();
+  for (const [t, d] of df) {
+    idf.set(t, Math.log((N + 1) / (d + 1)) + 1);
+  }
+  return idf;
+}
+
+// Build TF-IDF vector
+function tfidfVector(tokens: string[], idf: Map<string, number>): Map<string, number> {
+  const tf = termFrequency(tokens);
+  const vec = new Map<string, number>();
+  for (const [t, f] of tf) {
+    const w = (idf.get(t) || 1) * f;
+    vec.set(t, w);
+  }
+  return vec;
+}
+
+function cosineSimilarity(a: Map<string, number>, b: Map<string, number>): number {
+  let dot = 0;
+  let a2 = 0;
+  let b2 = 0;
+  for (const [t, av] of a) {
+    a2 += av * av;
+    const bv = b.get(t) || 0;
+    dot += av * bv;
+  }
+  for (const [, bv] of b) b2 += bv * bv;
+  if (a2 === 0 || b2 === 0) return 0;
+  return dot / (Math.sqrt(a2) * Math.sqrt(b2));
 }
 
 // Check if location matches (simple pin code proximity)
@@ -148,8 +253,9 @@ function buildMatchReasons(
   candidateInterests: string[],
   candidateLocations: string[],
   candidatePin: string | null,
+  candidateStream: string | undefined,
   internship: any,
-  skillMatches: number,
+  contentSimilarityScore: number,
   sectorScore: number,
   locationScore: number,
 ): string[] {
@@ -164,6 +270,16 @@ function buildMatchReasons(
     reasons.push(
       `You have ${matchingSkills.length} of ${internship.requiredSkills.length} required skills: ${matchingSkills.slice(0, 3).join(", ")}`,
     );
+  }
+
+  // Stream alignment
+  if (candidateStream) {
+    const streamTokens = new Set(tokenize(candidateStream));
+    const fields = `${internship.sector} ${internship.title}`.toLowerCase();
+    const hasOverlap = Array.from(streamTokens).some((t) => fields.includes(t));
+    if (hasOverlap) {
+      reasons.push(`Aligns with your stream: ${candidateStream}`);
+    }
   }
 
   // Sector match
@@ -242,15 +358,34 @@ export const handleRecommend: RequestHandler = async (req, res) => {
       return candidateLevel >= requiredLevel;
     });
 
+    // Precompute content-based vectors (TF-IDF)
+    const candidateTokens = buildCandidateTokens(candidateProfile);
+    const internshipDocs = eligibleInternships.map((i) => ({
+      id: i.id,
+      tokens: buildInternshipTokens({
+        requiredSkills: i.requiredSkills.map((rs) => rs.skill.name),
+        title: i.title,
+        sector: i.sector,
+        description: i.description || "",
+      }),
+    }));
+    const idf = inverseDocumentFrequency([
+      candidateTokens,
+      ...internshipDocs.map((d) => d.tokens),
+    ]);
+    const candidateVec = tfidfVector(candidateTokens, idf);
+
     // Score each internship
     const scoredInternships = eligibleInternships.map((internship) => {
       const requiredSkills = internship.requiredSkills.map(
         (rs) => rs.skill.name,
       );
 
-      // Skills score (0-60)
-      const skillScore =
-        jaccardSimilarity(candidateProfile.skills, requiredSkills) * 60;
+      // Content-based similarity using TF-IDF (0-70)
+      const doc = internshipDocs.find((d) => d.id === internship.id)!;
+      const internVec = tfidfVector(doc.tokens, idf);
+      const contentSim = cosineSimilarity(candidateVec, internVec);
+      const contentScore = Math.max(0, Math.min(1, contentSim)) * 70;
 
       // Sector score (0-20)
       const sectorScore = sectorMatches(
@@ -282,7 +417,7 @@ export const handleRecommend: RequestHandler = async (req, res) => {
       // Total score
       const totalScore = Math.min(
         100,
-        skillScore + sectorScore + locationScore + inclusion,
+        contentScore + sectorScore + locationScore + inclusion,
       );
 
       // Build match reasons
@@ -291,8 +426,9 @@ export const handleRecommend: RequestHandler = async (req, res) => {
         candidateProfile.sectorInterests,
         candidateProfile.preferredLocations,
         candidateProfile.residencyPin,
+        candidateProfile.stream,
         internship,
-        skillScore,
+        contentScore,
         sectorScore,
         locationScore,
       );
