@@ -26,6 +26,7 @@ interface FormData {
   name: string;
   educationLevel: EducationLevel | "";
   major: string;
+  stream: string;
   year: number | "";
   skills: string[];
   sectorInterests: string[];
@@ -70,12 +71,33 @@ const COMMON_SKILLS = [
   "Leadership",
   "Project Management",
   "Data Analysis",
+  "Machine Learning",
+  "Data Science",
+  "TensorFlow",
+  "PyTorch",
+  "AWS",
+  "Docker",
+  "Kubernetes",
+  "UI/UX",
+  "Figma",
   "Digital Marketing",
+  "SEO",
+  "Social Media",
   "Content Writing",
+  "Accounting",
+  "Financial Modeling",
+  "Autocad",
+  "SolidWorks",
+  "Civil Engineering",
+  "Mechanical Engineering",
+  "Electrical Engineering",
   "Field Work",
   "Research",
   "Teaching",
   "Customer Service",
+  "Sales",
+  "Negotiation",
+  "Time Management",
 ];
 
 export default function Intake() {
@@ -84,6 +106,7 @@ export default function Intake() {
     name: "",
     educationLevel: "",
     major: "",
+    stream: "",
     year: "",
     skills: [],
     sectorInterests: [],
@@ -406,13 +429,13 @@ export default function Intake() {
             {/* Step 2: Education & Skills */}
             {currentStep === 2 && (
               <div className="space-y-8">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="group">
                     <Label
                       htmlFor="major"
                       className="text-white mb-3 block text-lg font-medium"
                     >
-                      Major/Field
+                      Major
                     </Label>
                     <Input
                       id="major"
@@ -426,24 +449,41 @@ export default function Intake() {
                   </div>
                   <div className="group">
                     <Label
-                      htmlFor="year"
+                      htmlFor="stream"
                       className="text-white mb-3 block text-lg font-medium"
                     >
-                      Year
+                      Stream (Field of Study)
                     </Label>
                     <Input
-                      id="year"
-                      type="number"
-                      value={formData.year}
+                      id="stream"
+                      value={formData.stream}
                       onChange={(e) =>
-                        updateFormData({
-                          year: e.target.value ? parseInt(e.target.value) : "",
-                        })
+                        updateFormData({ stream: e.target.value })
                       }
                       className="glass-input h-12"
-                      placeholder="2024"
+                      placeholder="e.g. Computer Science, Commerce, Arts"
                     />
                   </div>
+                </div>
+                <div className="group">
+                  <Label
+                    htmlFor="year"
+                    className="text-white mb-3 block text-lg font-medium"
+                  >
+                    Year
+                  </Label>
+                  <Input
+                    id="year"
+                    type="number"
+                    value={formData.year}
+                    onChange={(e) =>
+                      updateFormData({
+                        year: e.target.value ? parseInt(e.target.value) : "",
+                      })
+                    }
+                    className="glass-input h-12"
+                    placeholder="2024"
+                  />
                 </div>
 
                 <div>
