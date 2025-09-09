@@ -1,5 +1,4 @@
 import type { RequestHandler } from "express";
-import type { RequestHandler } from "express";
 import { db } from "../db";
 import { EducationLevel, Language, Role } from "../../shared/api";
 
