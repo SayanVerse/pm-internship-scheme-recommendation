@@ -105,6 +105,35 @@
 
   body {
     @apply bg-background text-foreground;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .gpu {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .decorative {
+    pointer-events: none;
+    contain: layout paint style;
+    content-visibility: auto;
+  }
+  .will-filter {
+    will-change: filter;
   }
 }
 
