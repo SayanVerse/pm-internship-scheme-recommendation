@@ -289,15 +289,6 @@ export default function Recommendations() {
           <p className="text-lg sm:text-xl text-white/80">
             Found {recommendations.length} perfect opportunities for you
           </p>
-          {usingLocalStorage && (
-            <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-yellow-400">
-              <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-sm sm:text-base">
-                Using offline data - Connect to cloud database for real-time
-                updates
-              </span>
-            </div>
-          )}
           {error && (
             <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-orange-400">
               <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" />
