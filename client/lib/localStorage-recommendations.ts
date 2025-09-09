@@ -250,10 +250,12 @@ function buildCandidateTokens(profile: CandidateProfile): string[] {
     const parts = tokenize(value);
     for (let i = 0; i < weight; i++) tokens.push(...parts);
   };
-  if (Array.isArray(profile.skills)) for (const s of profile.skills) pushWeighted(s, 2);
+  if (Array.isArray(profile.skills))
+    for (const s of profile.skills) pushWeighted(s, 2);
   pushWeighted(profile.stream, 2);
   pushWeighted(profile.major, 1);
-  if (Array.isArray(profile.sectorInterests)) for (const s of profile.sectorInterests) pushWeighted(s, 1);
+  if (Array.isArray(profile.sectorInterests))
+    for (const s of profile.sectorInterests) pushWeighted(s, 1);
   pushWeighted(profile.educationLevel, 1);
   return tokens;
 }
@@ -265,7 +267,8 @@ function buildInternshipTokens(internship: LocalInternship): string[] {
     const parts = tokenize(value);
     for (let i = 0; i < weight; i++) tokens.push(...parts);
   };
-  if (Array.isArray(internship.requiredSkills)) for (const s of internship.requiredSkills) pushWeighted(s, 2);
+  if (Array.isArray(internship.requiredSkills))
+    for (const s of internship.requiredSkills) pushWeighted(s, 2);
   pushWeighted(internship.title, 1);
   pushWeighted(internship.sector, 1);
   if (internship.description) {
@@ -291,15 +294,26 @@ function inverseDocumentFrequency(docs: string[][]): Map<string, number> {
   for (const [t, d] of df) idf.set(t, Math.log((N + 1) / (d + 1)) + 1);
   return idf;
 }
-function tfidfVector(tokens: string[], idf: Map<string, number>): Map<string, number> {
+function tfidfVector(
+  tokens: string[],
+  idf: Map<string, number>,
+): Map<string, number> {
   const tf = termFrequency(tokens);
   const vec = new Map<string, number>();
   for (const [t, f] of tf) vec.set(t, (idf.get(t) || 1) * f);
   return vec;
 }
-function cosineSimilarity(a: Map<string, number>, b: Map<string, number>): number {
-  let dot = 0, a2 = 0, b2 = 0;
-  for (const [t, av] of a) { a2 += av * av; dot += av * (b.get(t) || 0); }
+function cosineSimilarity(
+  a: Map<string, number>,
+  b: Map<string, number>,
+): number {
+  let dot = 0,
+    a2 = 0,
+    b2 = 0;
+  for (const [t, av] of a) {
+    a2 += av * av;
+    dot += av * (b.get(t) || 0);
+  }
   for (const [, bv] of b) b2 += bv * bv;
   if (a2 === 0 || b2 === 0) return 0;
   return dot / (Math.sqrt(a2) * Math.sqrt(b2));
@@ -325,8 +339,14 @@ export function getLocalRecommendations(
 
     // Precompute content-based vectors (TF-IDF)
     const candidateTokens = buildCandidateTokens(profile);
-    const internshipDocs = eligibleInternships.map((i) => ({ id: i.id, tokens: buildInternshipTokens(i) }));
-    const idf = inverseDocumentFrequency([candidateTokens, ...internshipDocs.map((d) => d.tokens)]);
+    const internshipDocs = eligibleInternships.map((i) => ({
+      id: i.id,
+      tokens: buildInternshipTokens(i),
+    }));
+    const idf = inverseDocumentFrequency([
+      candidateTokens,
+      ...internshipDocs.map((d) => d.tokens),
+    ]);
     const candidateVec = tfidfVector(candidateTokens, idf);
 
     // Score each internship

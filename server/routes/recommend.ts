@@ -128,7 +128,10 @@ function inverseDocumentFrequency(docs: string[][]): Map<string, number> {
 }
 
 // Build TF-IDF vector
-function tfidfVector(tokens: string[], idf: Map<string, number>): Map<string, number> {
+function tfidfVector(
+  tokens: string[],
+  idf: Map<string, number>,
+): Map<string, number> {
   const tf = termFrequency(tokens);
   const vec = new Map<string, number>();
   for (const [t, f] of tf) {
@@ -138,7 +141,10 @@ function tfidfVector(tokens: string[], idf: Map<string, number>): Map<string, nu
   return vec;
 }
 
-function cosineSimilarity(a: Map<string, number>, b: Map<string, number>): number {
+function cosineSimilarity(
+  a: Map<string, number>,
+  b: Map<string, number>,
+): number {
   let dot = 0;
   let a2 = 0;
   let b2 = 0;
