@@ -148,6 +148,8 @@ export default function Recommendations() {
         const localRecommendations = getLocalRecommendations({
           name: profileData.name || "User",
           educationLevel: profileData.educationLevel || "UNDERGRADUATE",
+          major: profileData.major,
+          stream: profileData.stream,
           skills: Array.isArray(profileData.skills)
             ? profileData.skills
             : typeof profileData.skills === "string"
