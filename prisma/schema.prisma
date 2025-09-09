@@ -29,6 +29,7 @@ model CandidateProfile {
   name                 String
   educationLevel       EducationLevel
   major                String?
+  stream               String?
   year                 Int?
   skills               String   // JSON array stored as string
   sectorInterests      String   // JSON array stored as string
