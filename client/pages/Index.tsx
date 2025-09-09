@@ -83,7 +83,7 @@ export default function Index() {
     hi: {
       hero: "अपना सटीक इ���टर्नशिप मैच खोजें",
       subtitle:
-        "पीएम इंटर्नशिप योजना के उम्मीदवारों के लिए AI-संचालित सिफारिशें। ��पने कौश��� और प्राथमिकताओं के आधार पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
+        "पीएम इंटर्नशिप योजना के उम्मीदवारों के लिए AI-संचालित सिफारिशें। ��पने कौ����� और प्राथमिकताओं के आधार पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
       findCTA: "सर्वश्रेष्ठ इंटर्नशिप खोजें 🗃️",
       adminCTA: "इंटर्नशिप प्रबंधित करें 📂",
       features: [
@@ -97,7 +97,7 @@ export default function Index() {
           icon: Briefcase,
           title: "गुणवत्तापूर्ण अवसर",
           description:
-            "IT, स्वास्थ्य सेवा, कृषि, श���क्षा और लो�� प्र���ासन क्षेत्रों में क्यूरेटेड इंटर्नशिप।",
+            "IT, स्वास्थ्य सेवा, कृषि, श���क्षा और लो�� प्रशासन क्षेत्रों में क्यूरेटेड इंटर्नशिप।",
         },
         {
           icon: TrendingUp,
@@ -134,9 +134,9 @@ export default function Index() {
         },
         {
           icon: Briefcase,
-          title: "��ানসম্পন্ন সু�����োগ",
+          title: "��ানসম্পন্ন সু���োগ",
           description:
-            "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউর���টেড ইন্টার্নশিপ।",
+            "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউর����টেড ইন্টার্নশিপ।",
         },
         {
           icon: TrendingUp,
@@ -320,10 +320,10 @@ export default function Index() {
     <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
       {/* Enhanced Background decorative elements */}
       <div className="absolute inset-0 bg-black/10"></div>
-      <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-gradient-to-r from-green-400/15 to-cyan-500/15 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-1/2 w-60 h-60 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse gpu decorative will-filter"></div>
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl gpu decorative will-filter"></div>
+      <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-gradient-to-r from-green-400/15 to-cyan-500/15 rounded-full blur-3xl gpu decorative will-filter"></div>
+      <div className="absolute bottom-1/4 left-1/2 w-60 h-60 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl animate-pulse gpu decorative will-filter"></div>
 
       {/* Header with Language Switcher and Auth */}
       <header className="relative z-10 flex flex-col sm:flex-row justify-between items-center p-4 sm:p-6 gap-4">
