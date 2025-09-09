@@ -241,7 +241,7 @@ export default function Admin() {
       }
 
       // Fallback to localStorage
-      console.log("Using localStorage for internships");
+     // console.log("Using localStorage for internships");
       initializeLocalStorage();
       const localInternships = getLocalInternships();
 
