@@ -35,6 +35,7 @@ export interface CandidateProfileData {
   name: string;
   educationLevel: EducationLevel;
   major?: string;
+  stream?: string;
   year?: number;
   skills: string[];
   sectorInterests: string[];
