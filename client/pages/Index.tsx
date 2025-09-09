@@ -97,7 +97,7 @@ export default function Index() {
           icon: Briefcase,
           title: "गुणवत्तापूर्ण अवसर",
           description:
-            "IT, स्वास्थ्य सेवा, कृषि, श���क्षा और लो�� प्रशासन क्षेत्रों में क्यूरेटेड इंटर्नशिप।",
+            "IT, स्वास्थ्य सेवा, कृषि, श���क्षा और लो�� प्र���ासन क्षेत्रों में क्यूरेटेड इंटर्नशिप।",
         },
         {
           icon: TrendingUp,
@@ -134,7 +134,7 @@ export default function Index() {
         },
         {
           icon: Briefcase,
-          title: "��ানসম্পন্ন সু���োগ",
+          title: "��ানসম্পন্ন সু�����োগ",
           description:
             "IT, স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন সেক্টরে কিউর���টেড ইন্টার্নশিপ।",
         },
@@ -414,11 +414,7 @@ export default function Index() {
                 size="lg"
                 className="text-lg font-bold group shadow-2xl"
                 onClick={() => {
-                  if (isAuthenticated) {
-                    window.location.href = "/intake";
-                  } else {
-                    window.location.href = "/login";
-                  }
+                  window.location.href = "/intake";
                 }}
               >
                 {currentContent.findCTA}
