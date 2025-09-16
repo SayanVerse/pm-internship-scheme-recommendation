@@ -66,19 +66,14 @@ function buildCandidateTokens(profile: any): string[] {
     const parts = tokenize(value);
     for (let i = 0; i < weight; i++) tokens.push(...parts);
   };
-  // Skills heavily weighted
   if (Array.isArray(profile.skills)) {
     for (const s of profile.skills) pushWeighted(String(s), 2);
   }
-  // Stream weighted
   pushWeighted(profile.stream, 2);
-  // Major
   pushWeighted(profile.major, 1);
-  // Sector interests
   if (Array.isArray(profile.sectorInterests)) {
     for (const s of profile.sectorInterests) pushWeighted(String(s), 1);
   }
-  // Education level
   pushWeighted(profile.educationLevel, 1);
   return tokens;
 }
@@ -91,16 +86,14 @@ function buildInternshipTokens(internship: any): string[] {
     const parts = tokenize(value);
     for (let i = 0; i < weight; i++) tokens.push(...parts);
   };
-  // Required skills heavily weighted
   if (Array.isArray(internship.requiredSkills)) {
     for (const s of internship.requiredSkills) pushWeighted(String(s), 2);
   }
   pushWeighted(internship.title, 1);
   pushWeighted(internship.sector, 1);
-  // Use a limited set of description tokens to reduce noise
   if (internship.description) {
     const desc = tokenize(internship.description).slice(0, 40).join(" ");
-    pushWeighted(desc, 1); // implicitly lower due to truncation
+    pushWeighted(desc, 1);
   }
   return tokens;
 }
@@ -167,17 +160,11 @@ function locationMatches(
   internshipPin: string | null,
   isRemote: boolean,
 ): number {
-  if (isRemote) return 0.5; // Remote gets half points
-
-  if (!candidatePin || !internshipPin) return 0.1; // Small benefit if no pin info
-
-  // Simple proximity check - same first 3 digits of pin
+  if (isRemote) return 0.5;
+  if (!candidatePin || !internshipPin) return 0.1;
   const candidateArea = candidatePin.substring(0, 3);
   const internshipArea = internshipPin.substring(0, 3);
-
   if (candidateArea === internshipArea) return 1.0;
-
-  // Check if preferred locations match city/state
   const locationString = `${internshipCity}, ${internshipState}`.toLowerCase();
   for (const preferred of candidateLocations) {
     if (
@@ -187,8 +174,7 @@ function locationMatches(
       return 0.8;
     }
   }
-
-  return 0.2; // Different area, small score
+  return 0.2;
 }
 
 // Check sector overlap
@@ -197,7 +183,6 @@ function sectorMatches(
   internshipSector: string,
 ): number {
   const normalizedSector = internshipSector.toLowerCase();
-
   for (const interest of candidateInterests) {
     if (interest.toLowerCase() === normalizedSector) return 1.0;
     if (
@@ -206,7 +191,6 @@ function sectorMatches(
     )
       return 0.6;
   }
-
   return 0;
 }
 
@@ -239,7 +223,6 @@ function semanticSectorBump(skills: string[], sector: string): boolean {
 
   const normalizedSector = sector.toLowerCase();
   const keywords = sectorKeywords[normalizedSector] || [];
-
   return skills.some((skill) =>
     keywords.some((keyword) => skill.toLowerCase().includes(keyword)),
   );
@@ -248,7 +231,6 @@ function semanticSectorBump(skills: string[], sector: string): boolean {
 // Calculate inclusion bonus
 function inclusionBonus(ruralFlag: boolean, sector: string): number {
   if (!ruralFlag) return 0;
-
   const ruralFriendlySectors = ["agriculture", "education", "public admin"];
   return ruralFriendlySectors.includes(sector.toLowerCase()) ? 5 : 0;
 }
@@ -266,19 +248,14 @@ function buildMatchReasons(
   locationScore: number,
 ): string[] {
   const reasons: string[] = [];
-
-  // Skills match
   const matchingSkills = candidateSkills.filter((skill) =>
     internship.requiredSkills.some((req: any) => req.skill.name === skill),
   );
-
   if (matchingSkills.length > 0) {
     reasons.push(
       `You have ${matchingSkills.length} of ${internship.requiredSkills.length} required skills: ${matchingSkills.slice(0, 3).join(", ")}`,
     );
   }
-
-  // Stream alignment
   if (candidateStream) {
     const streamTokens = new Set(tokenize(candidateStream));
     const fields = `${internship.sector} ${internship.title}`.toLowerCase();
@@ -287,15 +264,11 @@ function buildMatchReasons(
       reasons.push(`Aligns with your stream: ${candidateStream}`);
     }
   }
-
-  // Sector match
   if (sectorScore > 0.5) {
     reasons.push(
       `Strong match with your interest in ${internship.sector} sector`,
     );
   }
-
-  // Location match
   if (internship.remote) {
     reasons.push("Remote work option available");
   } else if (locationScore > 0.7) {
@@ -303,30 +276,24 @@ function buildMatchReasons(
       `Located in your preferred area: ${internship.city}, ${internship.state}`,
     );
   }
-
-  return reasons.slice(0, 3); // Max 3 reasons
+  return reasons.slice(0, 3);
 }
 
 export const handleRecommend: RequestHandler = async (req, res) => {
   try {
     const validatedData = RecommendationRequestSchema.parse(req.body);
 
-    let candidateProfile;
-
-    // Get profile data
+    let candidateProfile: any;
     if (validatedData.profileId) {
       candidateProfile = await db.candidateProfile.findUnique({
         where: { id: validatedData.profileId },
       });
-
       if (!candidateProfile) {
         return res.status(404).json({
           success: false,
           message: "Profile not found",
         });
       }
-
-      // Parse JSON fields
       candidateProfile.skills = JSON.parse(candidateProfile.skills);
       candidateProfile.sectorInterests = JSON.parse(
         candidateProfile.sectorInterests,
@@ -338,33 +305,18 @@ export const handleRecommend: RequestHandler = async (req, res) => {
       candidateProfile = validatedData.profile!;
     }
 
-    // Get active internships with required skills
     const today = new Date();
     const internships = await db.internship.findMany({
-      where: {
-        active: true,
-        deadline: {
-          gte: today,
-        },
-      },
-      include: {
-        requiredSkills: {
-          include: {
-            skill: true,
-          },
-        },
-      },
+      where: { active: true, deadline: { gte: today } },
+      include: { requiredSkills: { include: { skill: true } } },
     });
 
-    // Filter by education level
     const eligibleInternships = internships.filter((internship) => {
-      const candidateLevel =
-        EDUCATION_HIERARCHY[candidateProfile.educationLevel];
+      const candidateLevel = EDUCATION_HIERARCHY[candidateProfile.educationLevel];
       const requiredLevel = EDUCATION_HIERARCHY[internship.minEducation];
       return candidateLevel >= requiredLevel;
     });
 
-    // Precompute content-based vectors (TF-IDF)
     const candidateTokens = buildCandidateTokens(candidateProfile);
     const internshipDocs = eligibleInternships.map((i) => ({
       id: i.id,
@@ -381,29 +333,20 @@ export const handleRecommend: RequestHandler = async (req, res) => {
     ]);
     const candidateVec = tfidfVector(candidateTokens, idf);
 
-    // Score each internship
     const scoredInternships = eligibleInternships.map((internship) => {
-      const requiredSkills = internship.requiredSkills.map(
-        (rs) => rs.skill.name,
-      );
-
-      // Content-based similarity using TF-IDF (0-70)
+      const requiredSkills = internship.requiredSkills.map((rs) => rs.skill.name);
       const doc = internshipDocs.find((d) => d.id === internship.id)!;
       const internVec = tfidfVector(doc.tokens, idf);
       const contentSim = cosineSimilarity(candidateVec, internVec);
       const contentScore = Math.max(0, Math.min(1, contentSim)) * 70;
-
-      // Sector score (0-20)
       const sectorScore = sectorMatches(
         candidateProfile.sectorInterests,
         internship.sector,
       )
         ? 20
         : semanticSectorBump(candidateProfile.skills, internship.sector)
-          ? 8
-          : 0;
-
-      // Location score (0-15)
+        ? 8
+        : 0;
       const locationScore =
         locationMatches(
           candidateProfile.residencyPin,
@@ -413,20 +356,14 @@ export const handleRecommend: RequestHandler = async (req, res) => {
           internship.pin,
           internship.remote,
         ) * 15;
-
-      // Inclusion bonus (0-5)
       const inclusion = inclusionBonus(
         candidateProfile.ruralFlag,
         internship.sector,
       );
-
-      // Total score
       const totalScore = Math.min(
         100,
         contentScore + sectorScore + locationScore + inclusion,
       );
-
-      // Build match reasons
       const matchReasons = buildMatchReasons(
         candidateProfile.skills,
         candidateProfile.sectorInterests,
@@ -438,7 +375,6 @@ export const handleRecommend: RequestHandler = async (req, res) => {
         sectorScore,
         locationScore,
       );
-
       return {
         internship: {
           id: internship.id,
@@ -461,10 +397,9 @@ export const handleRecommend: RequestHandler = async (req, res) => {
         },
         score: totalScore,
         matchReasons,
-      };
+      } as RecommendationMatch;
     });
 
-    // Sort by score (desc) then by deadline (asc)
     scoredInternships.sort((a, b) => {
       if (a.score !== b.score) return b.score - a.score;
       return (
@@ -473,15 +408,80 @@ export const handleRecommend: RequestHandler = async (req, res) => {
       );
     });
 
-    // Return top 5
-    const topRecommendations = scoredInternships.slice(0, 5);
+    // LLM re-ranking of top-K (skills, stream, location, education)
+    let reranked: RecommendationMatch[] | null = null;
+    try {
+      if (process.env.GOOGLE_API_KEY) {
+        const K = Math.min(10, scoredInternships.length);
+        const topK = scoredInternships.slice(0, K);
+        const candidateJSON = {
+          educationLevel: candidateProfile.educationLevel,
+          stream: candidateProfile.stream || "",
+          major: candidateProfile.major || "",
+          skills: candidateProfile.skills,
+          sectorInterests: candidateProfile.sectorInterests,
+          preferredLocations: candidateProfile.preferredLocations,
+          residencyPin: candidateProfile.residencyPin || "",
+          ruralFlag: Boolean(candidateProfile.ruralFlag),
+        };
+        const items = topK.map((r) => ({
+          id: r.internship.id,
+          title: r.internship.title,
+          sector: r.internship.sector,
+          requiredSkills: r.internship.requiredSkills,
+          city: r.internship.city || "",
+          state: r.internship.state || "",
+          remote: r.internship.remote,
+          minEducation: r.internship.minEducation,
+          baseScore: Math.round(r.score),
+        }));
 
-    // Optional: augment with AI-generated concise reasons if key is available
+        const schemaHint = `Return strict JSON: {"items": [{"id": string, "rerankScore": number, "reasons": string[]}]} with the same length/order possibly changed. rerankScore in [0,100].`;
+        const prompt = `You are ranking internships for a candidate. Use these criteria in priority order:\n1) Skill overlap and proficiency proxy from requiredSkills\n2) Stream/Major alignment to sector/title\n3) Education: candidate must meet or exceed minEducation\n4) Location: remote preferred if candidate prefers remote; otherwise preferredLocations match or pin proximity\n5) Keep results concise and deterministic.\nInput candidate (JSON):\n${JSON.stringify(candidateJSON)}\nInput items (JSON array):\n${JSON.stringify(items)}\n${schemaHint}\nOnly output JSON.`;
+
+        const { generateJSON } = await import("../lib/gemini");
+        type ReRankResponse = { items: { id: string; rerankScore: number; reasons?: string[] }[] };
+        const ai = await generateJSON<ReRankResponse>(prompt, "gemini-1.5-pro");
+        const scoreMap = new Map<string, { score: number; reasons: string[] }>();
+        for (const it of ai.items || []) {
+          if (!it || typeof it.id !== "string") continue;
+          const s = Math.max(0, Math.min(100, Number(it.rerankScore)));
+          const reasons = Array.isArray(it.reasons) ? it.reasons.filter(Boolean).slice(0, 2) : [];
+          scoreMap.set(it.id, { score: s, reasons });
+        }
+        // Apply re-ranked scores where available, keep base otherwise
+        const withRerank = topK.map((r) => {
+          const found = scoreMap.get(r.internship.id);
+          if (found) {
+            const mergedReasons = [...found.reasons, ...r.matchReasons].slice(0, 3);
+            return { ...r, score: found.score, matchReasons: mergedReasons } as RecommendationMatch;
+          }
+          return r;
+        });
+        // Sort by rerankScore desc, then deadline asc
+        withRerank.sort((a, b) => {
+          if (a.score !== b.score) return b.score - a.score;
+          return (
+            new Date(a.internship.deadline).getTime() -
+            new Date(b.internship.deadline).getTime()
+          );
+        });
+        reranked = withRerank;
+      }
+    } catch (e) {
+      // If LLM fails, fall back silently to deterministic ranking
+      reranked = null;
+    }
+
+    const ranked = reranked ?? scoredInternships;
+
+    // Optional: augment top results with one concise AI reason (keep deterministic if fails)
     try {
       if (process.env.GOOGLE_API_KEY) {
         const { generateText } = await import("../lib/gemini");
+        const topForReasons = ranked.slice(0, 5);
         const profileSummary = `Skills: ${candidateProfile.skills.join(", ")} | Interests: ${candidateProfile.sectorInterests.join(", ")} | Locations: ${candidateProfile.preferredLocations.join(", ")}`;
-        const list = topRecommendations
+        const list = topForReasons
           .map(
             (r, i) =>
               `${i + 1}. ${r.internship.title} at ${r.internship.orgName} (${r.internship.sector}) [${r.internship.remote ? "Remote" : `${r.internship.city || ""}, ${r.internship.state || ""}`}] — skills: ${r.internship.requiredSkills.join(", ")}`,
@@ -493,27 +493,21 @@ export const handleRecommend: RequestHandler = async (req, res) => {
           .split(/\r?\n/)
           .map((l) => l.replace(/^\d+\.?\s*/, "").trim())
           .filter(Boolean);
-        for (
-          let i = 0;
-          i < topRecommendations.length && i < lines.length;
-          i++
-        ) {
+        for (let i = 0; i < topForReasons.length && i < lines.length; i++) {
           const reason = lines[i];
           if (reason) {
-            topRecommendations[i].matchReasons = [
+            topForReasons[i].matchReasons = [
               reason,
-              ...topRecommendations[i].matchReasons,
+              ...topForReasons[i].matchReasons,
             ].slice(0, 3);
           }
         }
       }
-    } catch (e) {
-      // ignore AI errors and proceed with deterministic reasons
-    }
+    } catch (e) {}
 
     const response: RecommendationsResponse = {
       success: true,
-      recommendations: topRecommendations,
+      recommendations: ranked.slice(0, 5),
     };
 
     res.json(response);
