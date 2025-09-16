@@ -312,7 +312,8 @@ export const handleRecommend: RequestHandler = async (req, res) => {
     });
 
     const eligibleInternships = internships.filter((internship) => {
-      const candidateLevel = EDUCATION_HIERARCHY[candidateProfile.educationLevel];
+      const candidateLevel =
+        EDUCATION_HIERARCHY[candidateProfile.educationLevel];
       const requiredLevel = EDUCATION_HIERARCHY[internship.minEducation];
       return candidateLevel >= requiredLevel;
     });
@@ -334,7 +335,9 @@ export const handleRecommend: RequestHandler = async (req, res) => {
     const candidateVec = tfidfVector(candidateTokens, idf);
 
     const scoredInternships = eligibleInternships.map((internship) => {
-      const requiredSkills = internship.requiredSkills.map((rs) => rs.skill.name);
+      const requiredSkills = internship.requiredSkills.map(
+        (rs) => rs.skill.name,
+      );
       const doc = internshipDocs.find((d) => d.id === internship.id)!;
       const internVec = tfidfVector(doc.tokens, idf);
       const contentSim = cosineSimilarity(candidateVec, internVec);
@@ -345,8 +348,8 @@ export const handleRecommend: RequestHandler = async (req, res) => {
       )
         ? 20
         : semanticSectorBump(candidateProfile.skills, internship.sector)
-        ? 8
-        : 0;
+          ? 8
+          : 0;
       const locationScore =
         locationMatches(
           candidateProfile.residencyPin,
@@ -440,21 +443,35 @@ export const handleRecommend: RequestHandler = async (req, res) => {
         const prompt = `You are ranking internships for a candidate. Use these criteria in priority order:\n1) Skill overlap and proficiency proxy from requiredSkills\n2) Stream/Major alignment to sector/title\n3) Education: candidate must meet or exceed minEducation\n4) Location: remote preferred if candidate prefers remote; otherwise preferredLocations match or pin proximity\n5) Keep results concise and deterministic.\nInput candidate (JSON):\n${JSON.stringify(candidateJSON)}\nInput items (JSON array):\n${JSON.stringify(items)}\n${schemaHint}\nOnly output JSON.`;
 
         const { generateJSON } = await import("../lib/gemini");
-        type ReRankResponse = { items: { id: string; rerankScore: number; reasons?: string[] }[] };
+        type ReRankResponse = {
+          items: { id: string; rerankScore: number; reasons?: string[] }[];
+        };
         const ai = await generateJSON<ReRankResponse>(prompt, "gemini-1.5-pro");
-        const scoreMap = new Map<string, { score: number; reasons: string[] }>();
+        const scoreMap = new Map<
+          string,
+          { score: number; reasons: string[] }
+        >();
         for (const it of ai.items || []) {
           if (!it || typeof it.id !== "string") continue;
           const s = Math.max(0, Math.min(100, Number(it.rerankScore)));
-          const reasons = Array.isArray(it.reasons) ? it.reasons.filter(Boolean).slice(0, 2) : [];
+          const reasons = Array.isArray(it.reasons)
+            ? it.reasons.filter(Boolean).slice(0, 2)
+            : [];
           scoreMap.set(it.id, { score: s, reasons });
         }
         // Apply re-ranked scores where available, keep base otherwise
         const withRerank = topK.map((r) => {
           const found = scoreMap.get(r.internship.id);
           if (found) {
-            const mergedReasons = [...found.reasons, ...r.matchReasons].slice(0, 3);
-            return { ...r, score: found.score, matchReasons: mergedReasons } as RecommendationMatch;
+            const mergedReasons = [...found.reasons, ...r.matchReasons].slice(
+              0,
+              3,
+            );
+            return {
+              ...r,
+              score: found.score,
+              matchReasons: mergedReasons,
+            } as RecommendationMatch;
           }
           return r;
         });
