@@ -1,13 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import PrismaPkg from "@prisma/client";
+const { PrismaClient } = PrismaPkg as typeof import("@prisma/client");
 
 // Ensure DATABASE_URL has a sensible default (SQLite) when not provided
 if (!process.env.DATABASE_URL) {
-  // Use the repo-committed SQLite database by default
   process.env.DATABASE_URL = "file:./prisma/dev.db";
 }
 
 declare global {
-  var __prisma: PrismaClient | undefined;
+  // eslint-disable-next-line no-var
+  var __prisma: InstanceType<typeof PrismaClient> | undefined;
 }
 
 // Prevent multiple instances of Prisma Client in development
