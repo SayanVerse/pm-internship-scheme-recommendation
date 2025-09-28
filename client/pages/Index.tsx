@@ -91,7 +91,7 @@ export default function Index() {
           icon: Users,
           title: "स्मार्ट मैचिंग",
           description:
-            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
+            "AI-लाइट एल्���ोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
         },
         {
           icon: Briefcase,
@@ -109,7 +109,7 @@ export default function Index() {
           icon: Globe,
           title: "राष्ट्रव्यापी पहुंच",
           description:
-            "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित विकल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।",
+            "आपकी आवश्यकताओं के अनुकूल रिमोट और स्थान-आधारित व���कल्पों के साथ भारत भर में इंटर्नशिप का उपयोग करें।",
         },
       ],
       stats: [
@@ -483,27 +483,18 @@ export default function Index() {
           <button
             aria-label="Open InternGuide chatbot"
             onClick={() => setShowChat((s) => !s)}
-            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-2xl flex items-center justify-center bg-white text-purple-700 hover:scale-105 active:scale-95 transition-transform"
+            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-2xl flex items-center justify-center bg-gradient-to-br from-purple-600 to-pink-600 text-white hover:scale-105 active:scale-95 transition-transform"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="h-7 w-7"
-            >
-              <path d="M7 8h10v2H7V8zm0 4h7v2H7v-2z" />
-              <path
-                fillRule="evenodd"
-                d="M2 12c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10a9.958 9.958 0 01-4.9-1.285L3 22l1.285-4.1A9.958 9.958 0 012 12zm18 0a8 8 0 10-14.9 4.1l.3.45-.57 1.82 1.82-.57.45.3A8 8 0 1020 12z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Bot className="h-7 w-7" />
           </button>
 
           {showChat && (
-            <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl glass-card border-white/20 bg-white/95 overflow-hidden pulse-glow">
-              <div className="relative flex items-center justify-between px-4 py-3 border-b border-white/20 bg-gradient-to-r from-purple-600/80 to-pink-500/80 text-white">
-                <div>
+            <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[90vw] rounded-2xl shadow-2xl border backdrop-blur-xl bg-white/95 dark:bg-zinc-900/95 border-white/20 dark:border-white/10 overflow-hidden">
+              <div className="relative flex items-center justify-between px-4 py-3 border-b border-white/20 dark:border-white/10 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-white/20">
+                    <Bot className="h-4 w-4" />
+                  </span>
                   <div className="text-base font-semibold text-white">
                     InternGuide
                   </div>
@@ -519,7 +510,7 @@ export default function Index() {
                   ×
                 </button>
               </div>
-              <div className="relative p-3 h-72 overflow-y-auto space-y-2 bg-gradient-to-br from-white/80 via-white/70 to-white/80 dark:from-white/10 dark:via-white/5 dark:to-white/10">
+              <div className="relative p-3 h-72 overflow-y-auto space-y-2 bg-white/60 dark:bg-zinc-900/60">
                 {messages.map((m, i) => (
                   <div
                     key={i}
@@ -529,7 +520,7 @@ export default function Index() {
                       className={
                         m.sender === "user"
                           ? "inline-block px-3 py-2 rounded-xl bg-purple-600 text-white shadow"
-                          : "inline-block px-3 py-2 rounded-xl bg-white text-black shadow"
+                          : "inline-block px-3 py-2 rounded-xl bg-gray-100 text-gray-900 dark:bg-zinc-800 dark:text-white shadow"
                       }
                     >
                       {m.text}
@@ -537,13 +528,13 @@ export default function Index() {
                   </div>
                 ))}
               </div>
-              <div className="p-3 border-t border-white/20 flex gap-2 bg-white/80 dark:bg-white/10">
+              <div className="p-3 border-t border-white/20 dark:border-white/10 flex gap-2 bg-white/80 dark:bg-zinc-900/80">
                 <input
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Ask about internships..."
-                  className="flex-1 rounded-xl px-3 py-2 border border-white/30 bg-white/90 text-black focus:outline-none dark:bg-white/10 dark:text-white"
+                  className="flex-1 rounded-xl px-3 py-2 border border-white/30 dark:border-white/10 bg-white/90 text-black focus:outline-none dark:bg-zinc-800 dark:text-white"
                 />
                 <Button variant="accent" size="sm" onClick={handleSend}>
                   Send
