@@ -38,6 +38,12 @@ interface CandidateProfile {
 // Education level hierarchy for comparison
 const EDUCATION_HIERARCHY: Record<string, number> = {
   TENTH_PLUS_TWO: 1,
+  DIPLOMA: 2,
+  UNDERGRADUATE: 3,
+  POSTGRADUATE: 4,
+  "B.Tech": 3,
+  "B.E": 3,
+  "BSc": 3,
   "B.Tech (CSE/IT)": 3,
   "B.Tech/B.Sc (CS/Stats/Math)": 3,
   "MBA/BBA": 4,
@@ -50,9 +56,6 @@ const EDUCATION_HIERARCHY: Record<string, number> = {
   "B.Tech (Civil)": 3,
   "B.Tech (Mechanical)": 3,
   "B.Tech/B.Sc (Game Dev/CS)": 3,
-  DIPLOMA: 2,
-  UNDERGRADUATE: 3,
-  POSTGRADUATE: 4,
 };
 
 function jaccardSimilarity(set1: string[], set2: string[]): number {
@@ -122,12 +125,29 @@ function semanticSectorBump(skills: string[], sector: string): boolean {
       "javascript",
       "python",
       "java",
+      "c#",
       "programming",
       "coding",
       "software",
       "web",
       "react",
       "node",
+      "git",
+      "distributed systems",
+      "microservices",
+      "docker",
+    ],
+    "software engineering": [
+      "java",
+      "python",
+      "c#",
+      "react",
+      "node",
+      "distributed systems",
+      "git",
+      "docker",
+      "aws",
+      "azure",
     ],
     analytics: [
       "python",
@@ -136,22 +156,41 @@ function semanticSectorBump(skills: string[], sector: string): boolean {
       "machine learning",
       "pandas",
       "statistics",
+      "spark",
+      "airflow",
+      "sql",
+      "scala",
+      "kafka",
     ],
-    design: ["figma", "photoshop", "illustrator", "ui", "ux", "design"],
-    finance: [
-      "excel",
-      "finance",
-      "accounting",
-      "data analysis",
-      "math",
-      "financial modeling",
+    "data analytics": ["python", "pandas", "sql", "spark", "airflow"],
+    "big data": ["spark", "kafka", "hadoop", "airflow", "scala"],
+    "ai/ml": [
+      "python",
+      "pytorch",
+      "tensorflow",
+      "statistics",
+      "deep learning",
+      "opencv",
+      "research",
     ],
-    marketing: ["digital marketing", "seo", "social media", "content writing"],
-    cybersecurity: ["networking", "ethical hacking", "security"],
-    mechanical: ["autocad", "solidworks", "mechanical"],
-    civil: ["autocad", "structural engineering", "civil"],
+    research: ["research", "python", "papers", "experiments"],
+    graphics: ["c++", "graphics", "cuda", "math", "rendering", "shaders"],
+    embedded: ["c", "embedded", "rtos", "arm", "firmware"],
+    networking: ["networking", "cisco", "bgp", "ospf", "routing", "switching"],
+    cybersecurity: ["linux", "network security", "python", "security"],
+    robotics: ["ros", "c++", "sensors", "control"],
+    autonomy: ["perception", "control", "computer vision", "python", "ros"],
+    sre: ["linux", "kubernetes", "monitoring", "reliability"],
+    cloud: ["aws", "cloud computing", "linux", "kubernetes", "oci"],
+    mechanical: ["autocad", "solidworks", "fea", "cad", "mechanical"],
+    "electronics/energy": ["bms", "battery", "testing"],
+    power: ["power electronics", "matlab", "pspice"],
+    automation: ["plc", "scada", "automation"],
+    civil: ["autocad", "structural engineering", "civil", "etabs"],
+    "ai/embedded": ["tensorflow lite", "c++", "embedded"],
+    iot: ["iot", "mqtt", "embedded c", "aws iot"],
+    automotive: ["embedded c", "ecu", "can", "adas", "sensor fusion"],
     gaming: ["unity", "c#", "game design"],
-    cloud: ["aws", "cloud computing", "linux"],
   };
 
   const normalizedSector = sector.toLowerCase();
@@ -351,23 +390,29 @@ export function getLocalRecommendations(
 
     // Score each internship
     const scoredInternships = eligibleInternships.map((internship) => {
-      // Content-based similarity using TF-IDF (0-70)
+      // Content-based similarity using TF-IDF (0-50)
       const doc = internshipDocs.find((d) => d.id === internship.id)!;
       const internVec = tfidfVector(doc.tokens, idf);
       const contentSim = cosineSimilarity(candidateVec, internVec);
-      const contentScore = Math.max(0, Math.min(1, contentSim)) * 70;
+      const contentScore = Math.max(0, Math.min(1, contentSim)) * 50;
 
-      // Sector score (0-20)
+      // Direct skill overlap score (0-30)
+      const normalizedCandidateSkills = (profile.skills || []).map((s) => s.toLowerCase());
+      const normalizedRequired = (internship.requiredSkills || []).map((s) => s.toLowerCase());
+      const overlap = jaccardSimilarity(normalizedCandidateSkills, normalizedRequired);
+      const skillScore = overlap * 30;
+
+      // Sector score (0-15)
       const sectorScore = sectorMatches(
         profile.sectorInterests,
         internship.sector,
       )
-        ? 20
+        ? 15
         : semanticSectorBump(profile.skills, internship.sector)
-          ? 8
-          : 0;
+        ? 8
+        : 0;
 
-      // Location score (0-15)
+      // Location score (0-20)
       const locationScore =
         locationMatches(
           profile.residencyPin,
@@ -376,16 +421,14 @@ export function getLocalRecommendations(
           internship.state,
           internship.pin,
           internship.remote,
-        ) * 15;
+        ) * 20;
 
       // Inclusion bonus (0-5)
       const inclusion = inclusionBonus(profile.ruralFlag, internship.sector);
 
-      // Total score
-      const totalScore = Math.min(
-        100,
-        contentScore + sectorScore + locationScore + inclusion,
-      );
+      // Total score (cap 100)
+      const raw = contentScore + skillScore + sectorScore + locationScore + inclusion;
+      const totalScore = Math.min(100, raw);
 
       // Build match reasons
       const matchReasons = buildMatchReasons(
