@@ -100,6 +100,42 @@ const COMMON_SKILLS = [
   "Time Management",
 ];
 
+const INTEREST_SUGGESTIONS = [
+  "Web Development",
+  "Data Science",
+  "Machine Learning",
+  "AI/ML Research",
+  "Mobile App Development",
+  "Cloud Computing",
+  "Cybersecurity",
+  "UI/UX Design",
+  "Digital Marketing",
+  "Finance & FinTech",
+  "Business Analytics",
+  "Embedded Systems",
+  "IoT",
+  "Product Management",
+  "Content Writing",
+];
+
+const FIELD_OF_STUDY_SUGGESTIONS = [
+  "Computer Science Engineering",
+  "Information Technology",
+  "Electronics and Communication Engineering",
+  "Electrical Engineering",
+  "Mechanical Engineering",
+  "Civil Engineering",
+  "Chemical Engineering",
+  "Commerce",
+  "Arts",
+  "Economics",
+  "Mathematics",
+  "Statistics",
+  "Biotechnology",
+  "Pharmacy",
+  "Management Studies",
+];
+
 export default function Intake() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
@@ -162,7 +198,7 @@ export default function Intake() {
       return;
     }
     if (!formData.major.trim()) {
-      alert("Please enter your major/field");
+      alert("Please enter your interests");
       return;
     }
     if (formData.year === "") {
@@ -237,7 +273,7 @@ export default function Intake() {
           }
         } else if (currentStep === 2) {
           if (!formData.major.trim()) {
-            alert("Please enter your major/field");
+            alert("Please enter your interests");
             return;
           }
           if (formData.year === "") {
@@ -435,7 +471,7 @@ export default function Intake() {
                       htmlFor="major"
                       className="text-white mb-3 block text-lg font-medium"
                     >
-                      Major
+                      Interests
                     </Label>
                     <Input
                       id="major"
@@ -444,8 +480,14 @@ export default function Intake() {
                         updateFormData({ major: e.target.value })
                       }
                       className="glass-input h-12"
-                      placeholder="e.g. Computer Science"
+                      placeholder="e.g. Web Development"
+                      list="interests-suggestions"
                     />
+                    <datalist id="interests-suggestions">
+                      {INTEREST_SUGGESTIONS.map((opt) => (
+                        <option key={opt} value={opt} />
+                      ))}
+                    </datalist>
                   </div>
                   <div className="group">
                     <Label
@@ -461,8 +503,14 @@ export default function Intake() {
                         updateFormData({ stream: e.target.value })
                       }
                       className="glass-input h-12"
-                      placeholder="e.g. Computer Science, Commerce, Arts"
+                      placeholder="e.g. Computer Science Engineering, Commerce, Arts"
+                      list="stream-suggestions"
                     />
+                    <datalist id="stream-suggestions">
+                      {FIELD_OF_STUDY_SUGGESTIONS.map((opt) => (
+                        <option key={opt} value={opt} />
+                      ))}
+                    </datalist>
                   </div>
                 </div>
                 <div className="group">
@@ -482,7 +530,7 @@ export default function Intake() {
                       })
                     }
                     className="glass-input h-12"
-                    placeholder="2024"
+                    placeholder="2025"
                   />
                 </div>
 
