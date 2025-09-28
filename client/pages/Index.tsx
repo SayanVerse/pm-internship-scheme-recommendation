@@ -454,7 +454,7 @@ export default function Index() {
         </footer>
       </main>
 
-      {isAuthenticated && !isAdmin && (
+      {false && (
         <>
           <button
             aria-label="Open InternGuide chatbot"
