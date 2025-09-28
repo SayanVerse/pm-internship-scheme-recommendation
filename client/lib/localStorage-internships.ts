@@ -78,8 +78,20 @@ export function parseCSV(csvText: string): LocalInternship[] {
 
   const mapMinEducation = (value: string): string => {
     const v = (value || "").toLowerCase();
-    if (v.includes("b.tech") || v.includes("be") || v.includes("bsc") || v.includes("undergrad")) return "UNDERGRADUATE";
-    if (v.includes("mba") || v.includes("m.tech") || v.includes("postgrad") || v.includes("masters")) return "POSTGRADUATE";
+    if (
+      v.includes("b.tech") ||
+      v.includes("be") ||
+      v.includes("bsc") ||
+      v.includes("undergrad")
+    )
+      return "UNDERGRADUATE";
+    if (
+      v.includes("mba") ||
+      v.includes("m.tech") ||
+      v.includes("postgrad") ||
+      v.includes("masters")
+    )
+      return "POSTGRADUATE";
     if (v.includes("diploma")) return "DIPLOMA";
     if (v.includes("10") || v.includes("12")) return "TENTH_PLUS_TWO";
     return value || "UNDERGRADUATE";
@@ -133,7 +145,10 @@ export function parseCSV(csvText: string): LocalInternship[] {
         row.active?.toLowerCase() !== "no" &&
         row.active?.toLowerCase() !== "false",
       requiredSkills: row.requiredSkills
-        ? row.requiredSkills.split(/[;,]+/).map((s: string) => s.trim()).filter(Boolean)
+        ? row.requiredSkills
+            .split(/[;,]+/)
+            .map((s: string) => s.trim())
+            .filter(Boolean)
         : [],
     };
   });

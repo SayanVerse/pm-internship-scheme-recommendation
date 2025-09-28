@@ -43,7 +43,7 @@ const EDUCATION_HIERARCHY: Record<string, number> = {
   POSTGRADUATE: 4,
   "B.Tech": 3,
   "B.E": 3,
-  "BSc": 3,
+  BSc: 3,
   "B.Tech (CSE/IT)": 3,
   "B.Tech/B.Sc (CS/Stats/Math)": 3,
   "MBA/BBA": 4,
@@ -397,9 +397,16 @@ export function getLocalRecommendations(
       const contentScore = Math.max(0, Math.min(1, contentSim)) * 50;
 
       // Direct skill overlap score (0-30)
-      const normalizedCandidateSkills = (profile.skills || []).map((s) => s.toLowerCase());
-      const normalizedRequired = (internship.requiredSkills || []).map((s) => s.toLowerCase());
-      const overlap = jaccardSimilarity(normalizedCandidateSkills, normalizedRequired);
+      const normalizedCandidateSkills = (profile.skills || []).map((s) =>
+        s.toLowerCase(),
+      );
+      const normalizedRequired = (internship.requiredSkills || []).map((s) =>
+        s.toLowerCase(),
+      );
+      const overlap = jaccardSimilarity(
+        normalizedCandidateSkills,
+        normalizedRequired,
+      );
       const skillScore = overlap * 30;
 
       // Sector score (0-15)
@@ -409,8 +416,8 @@ export function getLocalRecommendations(
       )
         ? 15
         : semanticSectorBump(profile.skills, internship.sector)
-        ? 8
-        : 0;
+          ? 8
+          : 0;
 
       // Location score (0-20)
       const locationScore =
@@ -427,7 +434,8 @@ export function getLocalRecommendations(
       const inclusion = inclusionBonus(profile.ruralFlag, internship.sector);
 
       // Total score (cap 100)
-      const raw = contentScore + skillScore + sectorScore + locationScore + inclusion;
+      const raw =
+        contentScore + skillScore + sectorScore + locationScore + inclusion;
       const totalScore = Math.min(100, raw);
 
       // Build match reasons

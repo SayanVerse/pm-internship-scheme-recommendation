@@ -44,7 +44,8 @@ export default function Index() {
   // Embed external chatbot (internet-based)
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://www.noupe.com/embed/01999146044b727eb08a05c21195c2d86c4c.js";
+    script.src =
+      "https://www.noupe.com/embed/01999146044b727eb08a05c21195c2d86c4c.js";
     script.async = true;
     document.body.appendChild(script);
     return () => {
