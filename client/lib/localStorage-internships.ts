@@ -76,6 +76,15 @@ export function parseCSV(csvText: string): LocalInternship[] {
   const lines = csvText.trim().split("\n");
   const headers = lines[0].split(",").map((h) => h.trim());
 
+  const mapMinEducation = (value: string): string => {
+    const v = (value || "").toLowerCase();
+    if (v.includes("b.tech") || v.includes("be") || v.includes("bsc") || v.includes("undergrad")) return "UNDERGRADUATE";
+    if (v.includes("mba") || v.includes("m.tech") || v.includes("postgrad") || v.includes("masters")) return "POSTGRADUATE";
+    if (v.includes("diploma")) return "DIPLOMA";
+    if (v.includes("10") || v.includes("12")) return "TENTH_PLUS_TWO";
+    return value || "UNDERGRADUATE";
+  };
+
   return lines.slice(1).map((line, index) => {
     // Simple CSV parsing - handle quoted values
     const values: string[] = [];
@@ -115,7 +124,7 @@ export function parseCSV(csvText: string): LocalInternship[] {
       remote:
         row.remote?.toLowerCase() === "yes" ||
         row.remote?.toLowerCase() === "true",
-      minEducation: row.minEducation || "UNDERGRADUATE",
+      minEducation: mapMinEducation(row.minEducation),
       applicationUrl: row.applicationUrl || "#",
       deadline: row.deadline
         ? new Date(row.deadline).toISOString()
