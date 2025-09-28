@@ -20,43 +20,57 @@ export interface LocalInternship {
 
 const STORAGE_KEY = "pm-internships-data";
 const CSV_LOADED_KEY = "pm-csv-loaded";
+const CSV_VERSION = "v2-2026-01-seed";
 
 // Default CSV data provided by user
 const DEFAULT_CSV_DATA = `title,sector,orgName,description,city,state,pin,remote,minEducation,requiredSkills,stipendMin,stipendMax,applicationUrl,deadline,active
-Software Development Intern,IT,Infosys,Work on real-time web development projects using JavaScript and React.,Bengaluru,Karnataka,560100,Yes,B.Tech (CSE/IT),"JavaScript, React, HTML, CSS",10000,15000,https://careers.infosys.com/internship/apply,2025-09-21,Yes
-Data Science Intern,Analytics,TCS,Assist in building ML models and data visualization dashboards.,Hyderabad,Telangana,500032,No,B.Tech/B.Sc (CS/Stats/Math),"Python, Pandas, Machine Learning",12000,18000,https://www.tcs.com/careers/internships,2025-09-26,Yes
-Marketing Intern,Marketing,Flipkart,"Support digital campaigns, social media strategy, and market research.",Bengaluru,Karnataka,560103,Yes,MBA/BBA,"Digital Marketing, SEO, Social Media",8000,12000,https://flipkartcareers.com/internships,2025-09-16,Yes
-Embedded Systems Intern,Electronics,Intel India,Work on microcontroller programming and embedded product testing.,Pune,Maharashtra,411057,No,B.Tech (ECE/EEE),"C, Embedded C, Microcontrollers",15000,20000,https://jobs.intel.com/page/show/internships,2025-10-01,Yes
-AI Research Intern,Artificial Intelligence,Google Research India,Assist in research on deep learning and natural language processing.,Bengaluru,Karnataka,560095,Yes,B.Tech/M.Tech (CSE/AI),"Python, TensorFlow, NLP",20000,30000,https://careers.google.com/internships,2025-10-11,Yes
-UI/UX Design Intern,Design,Adobe India,Contribute to designing user interfaces for web and mobile apps.,Noida,Uttar Pradesh,201301,Yes,B.Des/M.Des,"Figma, Photoshop, Illustrator",12000,16000,https://adobe.wd5.myworkdayjobs.com/internships,2025-09-23,Yes
-Finance Intern,Finance,Goldman Sachs,Work on investment research and financial data analysis.,Mumbai,Maharashtra,400051,No,MBA/CA,"Excel, Financial Modeling, Data Analysis",25000,35000,https://www.goldmansachs.com/careers/students,2025-09-29,Yes
-Cybersecurity Intern,Cybersecurity,Cisco,Assist in vulnerability testing and network security monitoring.,Bengaluru,Karnataka,560103,No,B.Tech (CSE/IT),"Networking, Ethical Hacking, Security Tools",18000,25000,https://jobs.cisco.com/internships,2025-09-19,Yes
-Mechanical Engineering Intern,Mechanical,Larsen & Toubro,Work on CAD design and mechanical product testing.,Chennai,Tamil Nadu,600089,No,B.Tech (Mechanical),"AutoCAD, SolidWorks",10000,14000,https://www.larsentoubro.com/careers/internships,2025-09-21,Yes
-Content Writing Intern,Media,Times Internet,Write SEO-optimized articles and manage digital content.,Gurugram,Haryana,122002,Yes,"BA/MA (English, Journalism)","Content Writing, SEO, Blogging",5000,10000,https://timesinternet.in/careers/internships,2025-09-15,Yes
-HR Intern,Human Resources,Wipro,"Assist in recruitment, onboarding, and employee engagement.",Pune,Maharashtra,411014,No,MBA (HR),"Recruitment, Communication Skills",8000,12000,https://careers.wipro.com/internships,2025-09-20,Yes
-Civil Engineering Intern,Civil Engineering,Tata Projects,Work on structural analysis and site inspection tasks.,Hyderabad,Telangana,500081,No,B.Tech (Civil),"AutoCAD, Structural Engineering",12000,16000,https://www.tataprojects.com/careers/internships,2025-09-25,Yes
-Cloud Intern,Cloud Computing,Amazon AWS,Support cloud service deployment and optimization.,Hyderabad,Telangana,500032,Yes,B.Tech (CSE/IT),"AWS, Cloud Computing, Linux",20000,30000,https://amazon.jobs/internships,2025-09-28,Yes
-Game Development Intern,Gaming,Ubisoft India,Assist in Unity game development and testing.,Pune,Maharashtra,411045,No,B.Tech/B.Sc (Game Dev/CS),"Unity, C#, Game Design",15000,22000,https://www.ubisoft.com/careers/internships,2025-09-22,Yes
-Business Analyst Intern,Analytics,Mu Sigma,Analyze business data and create actionable insights.,Bengaluru,Karnataka,560066,No,B.Tech/BBA,"Excel, SQL, PowerBI",12000,18000,https://www.mu-sigma.com/careers/interns,2025-09-24,Yes
-Operations Intern,Operations,Swiggy,Assist in city operations and process optimization.,Bengaluru,Karnataka,560102,Yes,UNDERGRADUATE,"Operations, Excel, Communication",10000,14000,https://careers.swiggy.com/internships,2025-09-27,Yes
-Supply Chain Intern,Supply Chain,Flipkart,Support warehouse and logistics planning.,Hyderabad,Telangana,500030,No,UNDERGRADUATE,"Supply Chain, Excel, Analytics",12000,16000,https://flipkartcareers.com/internships,2025-10-02,Yes
-Quality Assurance Intern,IT,Zoho,Test web applications and write test cases.,Chennai,Tamil Nadu,600113,No,B.Tech (CSE/IT),"Manual Testing, QA, SQL",10000,14000,https://www.zoho.com/careers/internships,2025-10-03,Yes
-Frontend Developer Intern,IT,Freshworks,Build UI components and improve UX.,Chennai,Tamil Nadu,600032,Yes,B.Tech (CSE/IT),"JavaScript, React, CSS",12000,18000,https://www.freshworks.com/company/careers,2025-10-05,Yes
-Backend Developer Intern,IT,Paytm,Develop APIs and backend services.,Noida,Uttar Pradesh,201301,Yes,B.Tech (CSE/IT),"Node.js, SQL, REST",12000,20000,https://paytm.com/careers/internships,2025-10-06,Yes
-DevOps Intern,Cloud Computing,Microsoft India,Work on CI/CD pipelines and infrastructure automation.,Hyderabad,Telangana,500081,Yes,B.Tech (CSE/IT),"Linux, Docker, Kubernetes",20000,30000,https://careers.microsoft.com/students,2025-10-08,Yes
-Environmental Research Intern,Environment,TERI,Contribute to sustainability and environmental research projects.,New Delhi,Delhi,110003,No,UNDERGRADUATE,"Research, Data Analysis, Reporting",8000,12000,https://www.teriin.org/careers,2025-09-30,Yes
-Social Media Intern,Marketing,Zomato,Create content calendars and manage social channels.,Gurugram,Haryana,122002,Yes,UNDERGRADUATE,"Social Media, Content, Analytics",7000,10000,https://www.zomato.com/careers,2025-09-26,Yes
-Sales Intern,Sales,Byju's,Assist in lead generation and conversions.,Bengaluru,Karnataka,560001,Yes,UNDERGRADUATE,"Sales, Communication, CRM",10000,20000,https://byjus.com/careers,2025-10-04,Yes
-Public Policy Intern,Public Admin,NITI Aayog,Support policy research and documentation.,New Delhi,Delhi,110001,No,POSTGRADUATE,"Research, Writing, Public Policy",0,0,https://www.niti.gov.in/careers,2025-10-10,Yes
-Education Fellow,Education,Teach For India,Assist in classroom activities and community projects.,Pune,Maharashtra,411030,No,UNDERGRADUATE,"Teaching, Communication, Leadership",8000,12000,https://apply.teachforindia.org,2025-10-09,Yes
-Healthcare Admin Intern,Healthcare,Apollo Hospitals,Support hospital administration tasks.,Chennai,Tamil Nadu,600006,No,UNDERGRADUATE,"Administration, Excel, Communication",9000,13000,https://www.apollohospitals.com/careers,2025-10-07,Yes
-Agriculture Field Intern,Agriculture,ICAR,Assist in field data collection and analysis.,Ludhiana,Punjab,141004,No,UNDERGRADUATE,"Field Work, Data Collection",7000,10000,https://icar.org.in/careers,2025-09-29,Yes
-Data Analyst Intern,Analytics,Fractal,Work on dashboards and data storytelling.,Mumbai,Maharashtra,400013,Yes,UNDERGRADUATE,"SQL, PowerBI, Storytelling",15000,22000,https://fractal.ai/careers,2025-10-01,Yes
-Product Management Intern,IT,Ola Electric,Assist in roadmap planning and user research.,Bengaluru,Karnataka,560037,Yes,UNDERGRADUATE,"Product, Research, Analytics",15000,25000,https://olaelectric.com/careers,2025-10-12,Yes
-HR Recruitment Intern,Human Resources,Infosys,Support campus hiring and screening.,Mysuru,Karnataka,570001,No,UNDERGRADUATE,"Recruitment, Coordination, Communication",8000,12000,https://careers.infosys.com/internship,2025-10-02,Yes
-Customer Support Intern,Customer Service,PhonePe,Resolve user queries and document issues.,Bengaluru,Karnataka,560030,Yes,UNDERGRADUATE,"Support, Communication, CRM",9000,12000,https://www.phonepe.com/careers,2025-10-03,Yes
-Graphic Design Intern,Design,Canva India,Design creatives and marketing assets.,Bengaluru,Karnataka,560103,Yes,UNDERGRADUATE,"Figma, Illustrator, Photoshop",10000,15000,https://www.canva.com/careers,2025-10-05,Yes
-Journalism Intern,Media,The Hindu,Assist newsroom with reporting and research.,Chennai,Tamil Nadu,600002,No,UNDERGRADUATE,"Reporting, Writing, Research",5000,8000,https://www.thehindu.com/careers,2025-09-30,Yes`;
+"Software Engineering Intern","Software Engineering","Google","Work on backend systems, services, and scalable APIs","Bengaluru","Karnataka","560103","Yes","B.Tech","Java;Python;Distributed Systems;Git",30000,50000,"https://careers.google.com/students/","2026-01-31","true"
+"Software Engineering Intern","Software Engineering","Google","Work on backend systems, services, and scalable APIs","Hyderabad","Telangana","500081","Yes","B.Tech","Java;Python;Distributed Systems;Git",30000,50000,"https://careers.google.com/students/","2026-01-31","true"
+"STEP Intern (Software)","Software Engineering","Google","STEP program — coding, algorithms and product-focused projects","Bengaluru","Karnataka","560066","Yes","B.Tech","C++;Problem Solving;Algorithms",25000,40000,"https://careers.google.com/students/","2026-02-15","true"
+"Software Engineer Intern","Software Engineering","Microsoft","Full-stack feature development and cloud services","Bengaluru","Karnataka","560045","No","B.Tech","C#;Azure;React;Node.js",30000,45000,"https://careers.microsoft.com/students/","2026-01-30","true"
+"Software Engineer Intern","Software Engineering","Microsoft","Full-stack feature development and cloud services","Hyderabad","Telangana","500081","No","B.Tech","C#;Azure;React;Node.js",30000,45000,"https://careers.microsoft.com/students/","2026-01-30","true"
+"Software Development Intern","Software Engineering","Amazon","Work on microservices, data pipelines and production services","Mumbai","Maharashtra","400013","Yes","B.Tech","Java;AWS;Microservices;Docker",32000,50000,"https://www.amazon.jobs/en/teams/student-programs","2026-02-05","true"
+"Software Development Intern","Software Engineering","Amazon","Work on microservices, data pipelines and production services","New Delhi","Delhi","110001","Yes","B.Tech","Java;AWS;Microservices;Docker",32000,50000,"https://www.amazon.jobs/en/teams/student-programs","2026-02-05","true"
+"AI/ML Intern","AI/ML","Meta","Develop ML models for recommendations and personalization","Bengaluru","Karnataka","560001","Yes","B.Tech","Python;PyTorch;TensorFlow;Statistics",35000,60000,"https://www.metacareers.com/students/","2026-01-25","true"
+"AI/ML Intern","AI/ML","Meta","Develop ML models for recommendations and personalization","Pune","Maharashtra","411045","Yes","B.Tech","Python;PyTorch;TensorFlow;Statistics",35000,60000,"https://www.metacareers.com/students/","2026-01-25","true"
+"Research Intern - ML","Research","NVIDIA","Work on GPU-accelerated ML and model optimization","Bengaluru","Karnataka","560048","Yes","B.Tech","CUDA;PyTorch;Deep Learning",35000,60000,"https://www.nvidia.com/en-us/about-nvidia/careers/","2026-01-28","true"
+"Data Science Intern","Data Analytics","IBM","Data pipelines, model prototyping, and dashboarding","Bengaluru","Karnataka","560070","Yes","B.Tech","Python;SQL;Pandas;Spark",30000,50000,"https://www.ibm.com/employment/entry-level/","2026-02-15","true"
+"Data Engineering Intern","Big Data","IBM","Build ETL pipelines and optimize data flows","Gurugram","Haryana","122002","Yes","B.Tech","SQL;Spark;Airflow;Python",30000,50000,"https://www.ibm.com/employment/entry-level/","2026-02-15","true"
+"Frontend Intern","Web","Adobe","Implement responsive UI, accessibility and performance","Noida","Uttar Pradesh","201301","Yes","B.Tech","HTML;CSS;JavaScript;React",28000,42000,"https://careers.adobe.com/","2026-02-02","true"
+"Graphics/Rendering Intern","Graphics","NVIDIA","Research and implement rendering algorithms and shaders","Bengaluru","Karnataka","560048","Yes","B.Tech","C++;Graphics;CUDA;Math",35000,60000,"https://www.nvidia.com/en-us/about-nvidia/careers/","2026-02-10","true"
+"Embedded Systems Intern","Embedded","Intel","Firmware development and low-level driver work","Chennai","Tamil Nadu","600028","No","B.Tech","C;Embedded C;RTOS;ARM",30000,50000,"https://jobs.intel.com/","2026-01-28","true"
+"Embedded Systems Intern","Embedded","Intel","Firmware development and low-level driver work","Bengaluru","Karnataka","560081","No","B.Tech","C;Embedded C;RTOS;ARM",30000,50000,"https://jobs.intel.com/","2026-01-28","true"
+"Network Engineer Intern","Networking","Cisco","Routing, switching and network automation projects","Hyderabad","Telangana","500081","No","B.Tech","Networking;Python;Cisco;BGP/OSPF",25000,40000,"https://jobs.cisco.com/","2026-01-20","true"
+"Security Research Intern","Cybersecurity","Cisco","Vulnerability analysis and secure network design","Bengaluru","Karnataka","560066","No","B.Tech","Linux;Network Security;Python",25000,42000,"https://jobs.cisco.com/","2026-01-20","true"
+"Robotics Intern","Robotics","Bosch","Robot control, sensor integration and prototyping","Bengaluru","Karnataka","560035","No","B.Tech","ROS;C++;Embedded Systems",20000,35000,"https://www.bosch-career.com/","2026-01-14","true"
+"Autonomous Systems Intern","Autonomy","Bosch","Perception and control for automated platforms","Pune","Maharashtra","411006","No","B.Tech","Python;ROS;Computer Vision",20000,35000,"https://www.bosch-career.com/","2026-01-14","true"
+"Computer Vision Intern","AI/ML","DeepMind","Work on perception and vision models (research intern)","London","England","WC2N","Yes","B.Tech","Python;TensorFlow;OpenCV;Research",40000,65000,"https://deepmind.com/careers/","2026-02-12","true"
+"Computer Vision Intern","AI/ML","DeepMind","Work on perception and vision models (research intern)","Bengaluru","Karnataka","560048","Yes","B.Tech","Python;TensorFlow;OpenCV;Research",40000,65000,"https://deepmind.com/careers/","2026-02-12","true"
+"Full Stack Intern","Software Engineering","Zoho","Build full-stack features for SaaS apps","Chennai","Tamil Nadu","600027","Yes","B.Tech","JavaScript;Node.js;React;SQL",20000,35000,"https://www.zoho.com/careers/","2026-01-10","true"
+"Backend Intern","Software Engineering","Zoho","Design REST APIs and backend services","Chennai","Tamil Nadu","600027","Yes","B.Tech","Java;MySQL;REST;Spring",20000,35000,"https://www.zoho.com/careers/","2026-01-10","true"
+"Payments Platform Intern","Fintech","Razorpay","Work on payments systems, reliability and scaling","Bengaluru","Karnataka","560001","Yes","B.Tech","Java;Kotlin;Distributed Systems",22000,38000,"https://razorpay.com/careers/","2026-01-18","true"
+"Backend Intern","Fintech","Razorpay","Work on payments systems, reliability and scaling","Pune","Maharashtra","411045","Yes","B.Tech","Java;Kotlin;Distributed Systems",22000,38000,"https://razorpay.com/careers/","2026-01-18","true"
+"Platform Intern","Cloud","Red Hat","Contribute to open-source infra and tooling","Bengaluru","Karnataka","560102","Yes","B.Tech","Linux;Ansible;Go;C",25000,42000,"https://www.redhat.com/en/jobs","2026-01-26","true"
+"DevOps Intern","Cloud","Red Hat","CI/CD pipelines and automation for enterprise infra","Hyderabad","Telangana","500081","Yes","B.Tech","CI/CD;Jenkins;Ansible;Docker",25000,42000,"https://www.redhat.com/en/jobs","2026-01-26","true"
+"Mobile App Intern","Mobile","Flipkart","Android feature development and performance tuning","Bengaluru","Karnataka","560100","No","B.Tech","Kotlin;Android Studio;Firebase",20000,34000,"https://www.flipkartcareers.com/","2026-01-22","true"
+"Mobile App Intern","Mobile","PhonePe","Payment app features and SDK integration","Bengaluru","Karnataka","560103","No","B.Tech","Kotlin;Android;Payments;SDKs",20000,34000,"https://www.phonepe.com/careers/","2026-01-22","true"
+"QA Automation Intern","Quality Assurance","BrowserStack","Automated testing, parallelization and infra","Mumbai","Maharashtra","400051","Yes","B.Tech","Selenium;Java;CI/CD;TestNG",22000,36000,"https://www.browserstack.com/careers","2026-01-12","true"
+"QA Automation Intern","Quality Assurance","BrowserStack","Automated testing, parallelization and infra","Bengaluru","Karnataka","560045","Yes","B.Tech","Selenium;Java;CI/CD;TestNG",22000,36000,"https://www.browserstack.com/careers","2026-01-12","true"
+"Hardware Design Intern","Hardware","Qualcomm","SoC verification and RTL work","Bengaluru","Karnataka","560102","No","B.Tech","Verilog;SystemVerilog;RTL;UVM",30000,52000,"https://www.qualcomm.com/company/careers","2026-02-05","true"
+"ASIC Verification Intern","Hardware","Qualcomm","Verification of ASIC blocks and simulation","Bengaluru","Karnataka","560102","No","B.Tech","SystemVerilog;UVM;Verification",30000,52000,"https://www.qualcomm.com/company/careers","2026-02-05","true"
+"Site Reliability Intern","SRE","Twitter (X)","Reliability engineering, monitoring and incident response","Bengaluru","Karnataka","560001","Yes","B.Tech","Linux;Python;Kubernetes;Monitoring",28000,46000,"https://careers.twitter.com/","2026-02-08","true"
+"Data Platform Intern","SRE/Data","Twitter (X)","Work on large-scale data infra and pipelines","Pune","Maharashtra","411001","Yes","B.Tech","Spark;Kafka;Scala;SQL",28000,46000,"https://careers.twitter.com/","2026-02-08","true"
+"Mechanical Design Intern","Mechanical","Tesla","Prototype design, CAD and product testing","Pune","Maharashtra","411045","No","B.Tech","SolidWorks;FEA;CAD",25000,40000,"https://www.tesla.com/careers","2026-02-20","true"
+"Battery R&D Intern","Electronics/Energy","Tesla","Battery testing, BMS and performance analytics","Bengaluru","Karnataka","560037","No","B.Tech","Battery Testing;BMS;Data Analysis",26000,42000,"https://www.tesla.com/careers","2026-02-20","true"
+"Power Electronics Intern","Power","Siemens","Power converter design and testing for industrial systems","Bengaluru","Karnataka","560066","No","B.Tech","Power Electronics;MATLAB;PSPICE",22000,38000,"https://new.siemens.com/global/en/company/jobs.html","2026-01-16","true"
+"Industrial Automation Intern","Automation","Siemens","PLC/SCADA integration and factory automation","Pune","Maharashtra","411045","No","B.Tech","PLC;SCADA;Automation",22000,38000,"https://new.siemens.com/global/en/company/jobs.html","2026-01-16","true"
+"Civil/Infrastructure Intern","Civil Engineering","L&T Construction","Site planning, CAD drawings and estimation support","Mumbai","Maharashtra","400023","No","B.Tech","AutoCAD;STAAD.Pro;Estimation",18000,30000,"https://www.larsentoubro.com/en/careers/","2026-02-02","true"
+"Structural Design Intern","Civil Engineering","L&T Construction","Structural analysis and reinforcement detailing","Chennai","Tamil Nadu","600002","No","B.Tech","ETABS;STAAD.Pro;AutoCAD",18000,30000,"https://www.larsentoubro.com/en/careers/","2026-02-02","true"
+"Embedded AI Intern","AI/Embedded","EdgeCore (startup)","Deploy tinyML models on MCUs and optimize latency","Bengaluru","Karnataka","560048","Yes","B.Tech","TensorFlow Lite;C++;Embedded Systems",20000,34000,"https://edgecore.example/careers/","2026-01-11","true"
+"IoT Intern","IoT","Samsung R&D","Sensor integration, firmware and cloud analytics","Noida","Uttar Pradesh","201301","Yes","B.Tech","IoT;MQTT;Embedded C;AWS IoT",23000,39000,"https://research.samsung.com/careers","2026-01-29","true"
+"Cloud Infrastructure Intern","Cloud","Oracle","Work on cloud services and database infra","Bengaluru","Karnataka","560102","Yes","B.Tech","OCI;Kubernetes;Database;Linux",27000,44000,"https://www.oracle.com/corporate/careers/","2026-02-11","true"
+"Intern - Automotive Systems","Automotive","Mahindra & Mahindra","Vehicle electronics, ECU testing and embedded software","Pune","Maharashtra","411036","No","B.Tech","Embedded C;Automotive ECUs;CAN",18000,32000,"https://www.mahindra.com/careers","2026-01-24","true"
+"Intern - Automotive Software","Automotive","Mahindra & Mahindra","ADAS prototyping and sensor fusion work","Chennai","Tamil Nadu","600001","No","B.Tech","Python;ROS;Sensor Fusion",18000,32000,"https://www.mahindra.com/careers","2026-01-24","true"`;
 
 export function parseCSV(csvText: string): LocalInternship[] {
   const lines = csvText.trim().split("\n");
@@ -110,7 +124,7 @@ export function parseCSV(csvText: string): LocalInternship[] {
         row.active?.toLowerCase() !== "no" &&
         row.active?.toLowerCase() !== "false",
       requiredSkills: row.requiredSkills
-        ? row.requiredSkills.split(",").map((s: string) => s.trim())
+        ? row.requiredSkills.split(/[;,]+/).map((s: string) => s.trim()).filter(Boolean)
         : [],
     };
   });
@@ -118,12 +132,13 @@ export function parseCSV(csvText: string): LocalInternship[] {
 
 export function initializeLocalStorage() {
   try {
-    const isLoaded = localStorage.getItem(CSV_LOADED_KEY);
-    if (!isLoaded) {
+    const loaded = localStorage.getItem(CSV_LOADED_KEY);
+    if (loaded !== CSV_VERSION) {
+      localStorage.removeItem(STORAGE_KEY);
       const internships = parseCSV(DEFAULT_CSV_DATA);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(internships));
-      localStorage.setItem(CSV_LOADED_KEY, "true");
-      console.log("✅ Default internship data loaded to localStorage");
+      localStorage.setItem(CSV_LOADED_KEY, CSV_VERSION);
+      console.log("✅ Internship data reset with new dataset");
     }
   } catch (error) {
     console.error("Error initializing localStorage:", error);
