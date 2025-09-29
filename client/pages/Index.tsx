@@ -132,7 +132,7 @@ export default function Index() {
           icon: TrendingUp,
           title: "करियर विकास",
           description:
-            "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक क���शल बनाएं और मूल्यवान कार्य अनुभव प्रा���्�� करें।",
+            "वेतन-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक क���शल बनाएं और मूल्यवान कार्य अनुभव प्राप्�� करें।",
         },
         {
           icon: Globe,
@@ -171,13 +171,13 @@ export default function Index() {
           icon: TrendingUp,
           title: "ক্যারি��়ার বৃদ্ধি",
           description:
-            "বৃত্তি-ভি��্তিক ইন্টার্���শিপ প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।",
+            "বৃত্তি-ভিত্তিক ইন্টার্���শিপ প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।",
         },
         {
           icon: Globe,
           title: "দেশব���যাপী অ্যাক্সেস",
           description:
-            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্ত��ক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
+            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্ত��ক বি���ল্পের সাথে ভারত জুড়ে ��ন্টার্নশিপ অ্যাক্সেস করুন।",
         },
       ],
       stats: [
@@ -290,7 +290,7 @@ export default function Index() {
     }
 
     if (t.includes("recommend") || t.includes("match") || t.includes("best")) {
-      return "Tap ‘Find my internship’ and complete the short form. I’ll show 3–5 top matches based on your skills, education, and location.";
+      return "Tap ‘Find my internship’ and complete the short form. I’ll show 3���5 top matches based on your skills, education, and location.";
     }
     if (t.includes("skill")) {
       return "Add 5–10 relevant skills (e.g., JavaScript, Excel, Communication). More accurate skills = better matches.";
@@ -339,8 +339,8 @@ export default function Index() {
                 className={cn(
                   "px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105",
                   language === lang
-                    ? "bg-white/30 text-white shadow-lg"
-                    : "text-white/80 hover:text-white hover:bg-white/10",
+                    ? "bg-neutral-900/10 dark:bg-white/30 text-neutral-900 dark:text-white shadow"
+                    : "text-neutral-600 dark:text-white/80 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-900/5 dark:hover:bg-white/10",
                 )}
               >
                 {lang.toUpperCase()}
