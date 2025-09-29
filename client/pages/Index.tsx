@@ -171,13 +171,13 @@ export default function Index() {
           icon: TrendingUp,
           title: "ক্যারি��়ার বৃদ্ধি",
           description:
-            "বৃত্তি-ভিত্তিক ইন্টার্���শিপ প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।",
+            "বৃত্তি-ভিত্তিক ইন্টার্���শিপ প্রো��্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।",
         },
         {
           icon: Globe,
           title: "দেশব���যাপী অ্যাক্সেস",
           description:
-            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্ত��ক বি���ল্পের সাথে ভারত জুড়ে ��ন্টার্নশিপ অ্যাক্সেস করুন।",
+            "আপনার প্রয়োজন অনুযায়ী রিমোট এবং অবস্থান-ভিত্ত��ক বি���ল্পের সাথে ভারত জুড়ে ইন্টার্নশিপ অ্যাক্সেস করুন।",
         },
       ],
       stats: [
@@ -290,7 +290,7 @@ export default function Index() {
     }
 
     if (t.includes("recommend") || t.includes("match") || t.includes("best")) {
-      return "Tap ‘Find my internship’ and complete the short form. I’ll show 3���5 top matches based on your skills, education, and location.";
+      return "Tap ‘Find my internship’ and complete the short form. I’ll show 3–5 top matches based on your skills, education, and location.";
     }
     if (t.includes("skill")) {
       return "Add 5–10 relevant skills (e.g., JavaScript, Excel, Communication). More accurate skills = better matches.";
@@ -302,7 +302,7 @@ export default function Index() {
       return "Open a match and click ‘Apply Now’. Your application will be tracked automatically in the system.";
     }
     if (t.includes("remote")) {
-      return "Select ‘Remote’ in your preferences or look for internships marked ‘Remote’.";
+      return "Select ‘Remote�� in your preferences or look for internships marked ‘Remote’.";
     }
     return "I can help with recommendations, skills, remote options, and applying. Try asking: ‘How do I get 3–5 matches?’";
   }
@@ -358,7 +358,7 @@ export default function Index() {
                 variant="ghost"
                 onClick={logout}
                 size="sm"
-                className="text-white hover:text-white/80 text-xs sm:text-sm"
+                className="text-neutral-900 dark:text-white hover:opacity-80 text-xs sm:text-sm"
               >
                 <LogOut className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -369,7 +369,7 @@ export default function Index() {
                 variant="ghost"
                 onClick={() => (window.location.href = "/login")}
                 size="sm"
-                className="text-white hover:text-white/80 text-xs sm:text-sm"
+                className="text-neutral-900 dark:text-white hover:opacity-80 text-xs sm:text-sm"
               >
                 <LogIn className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden sm:inline">Login</span>
