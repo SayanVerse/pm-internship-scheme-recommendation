@@ -727,12 +727,8 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-black/20"></div>
-      <div className="absolute top-20 left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+      
       <div className="relative z-10 container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
