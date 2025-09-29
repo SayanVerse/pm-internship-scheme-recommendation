@@ -41,19 +41,33 @@ export default function Index() {
     }
   }, []);
 
-  // Embed external chatbot (internet-based)
+  // Embed external chatbot (internet-based) only when authenticated
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://www.noupe.com/embed/01999146044b727eb08a05c21195c2d86c4c.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      try {
-        document.body.removeChild(script);
-      } catch {}
+    let script: HTMLScriptElement | null = null;
+    const AGENT_ID = "01999146044b727eb08a05c21195c2d86c4c";
+    const removeExisting = () => {
+      const container = document.getElementById(`JotformAgent-${AGENT_ID}`);
+      if (container && container.parentElement) container.parentElement.removeChild(container);
+      const iframes = Array.from(document.querySelectorAll("iframe"));
+      for (const f of iframes) {
+        if ((f as HTMLIFrameElement).src && (f as HTMLIFrameElement).src.includes(AGENT_ID)) {
+          f.remove();
+        }
+      }
     };
-  }, []);
+    if (isAuthenticated) {
+      script = document.createElement("script");
+      script.src =
+        "https://www.noupe.com/embed/01999146044b727eb08a05c21195c2d86c4c.js";
+      script.async = true;
+      document.body.appendChild(script);
+    } else {
+      removeExisting();
+    }
+    return () => {
+      if (script && script.parentElement) script.parentElement.removeChild(script);
+    };
+  }, [isAuthenticated]);
 
   const content = {
     en: {
@@ -106,7 +120,7 @@ export default function Index() {
           icon: Users,
           title: "स्मार्ट मैचिंग",
           description:
-            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
+            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार प�� इंटर्नशिप से मिलाता है।",
         },
         {
           icon: Briefcase,
@@ -145,7 +159,7 @@ export default function Index() {
           icon: Users,
           title: "স্মার্ট ম্যাচিং",
           description:
-            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দের ��পর ���িত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
+            "AI-লাইট অ্যালগরিদম আপনার দক্ষত���, শিক্ষা এবং অবস্থানের পছন্দের ��পর ���িত্তি করে আপনাকে ইন্টার্নশিপের সাথে মিলিয়ে দেয়।",
         },
         {
           icon: Briefcase,
@@ -294,14 +308,7 @@ export default function Index() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
-      {/* Enhanced Background decorative elements */}
-      <div className="absolute inset-0 bg-black/10"></div>
-      <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse gpu decorative will-filter"></div>
-      <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl gpu decorative will-filter"></div>
-      <div className="absolute top-1/2 left-1/4 w-80 h-80 bg-gradient-to-r from-green-400/15 to-cyan-500/15 rounded-full blur-3xl gpu decorative will-filter"></div>
-      <div className="absolute bottom-1/4 left-1/2 w-60 h-60 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl animate-pulse gpu decorative will-filter"></div>
-
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       {/* Header with Language Switcher and Auth */}
       <header className="relative z-10 flex flex-col sm:flex-row justify-between items-center p-4 sm:p-6 gap-4">
         <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-1">
