@@ -232,9 +232,8 @@ export default function Recommendations() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-pm relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 flex items-center justify-center min-h-screen">
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+                <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="glass-card p-8 text-center">
             <RefreshCw className="h-8 w-8 text-white animate-spin mx-auto mb-4" />
             <p className="text-white text-lg">
@@ -247,12 +246,7 @@ export default function Recommendations() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-cyberpunk relative overflow-hidden">
-      {/* Enhanced Background */}
-      <div className="absolute inset-0 bg-black/15"></div>
-      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse gpu decorative will-filter"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-red-500/20 rounded-full blur-3xl gpu decorative will-filter"></div>
-      <div className="absolute top-1/3 right-1/3 w-72 h-72 bg-gradient-to-r from-green-400/15 to-purple-500/15 rounded-full blur-3xl gpu decorative will-filter"></div>
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Header */}
@@ -334,7 +328,7 @@ export default function Recommendations() {
                             getScoreColor(match.score),
                           )}
                         >
-                          {Math.round(match.score)}% Match
+                          Recommended
                         </div>
                       </div>
                       <CardTitle className="text-lg sm:text-2xl text-white mb-2">
