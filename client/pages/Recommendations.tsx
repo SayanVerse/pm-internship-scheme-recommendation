@@ -323,10 +323,7 @@ export default function Recommendations() {
                           #{index + 1}
                         </span>
                         <div
-                          className={cn(
-                            "text-lg sm:text-2xl font-bold",
-                            getScoreColor(match.score),
-                          )}
+                          className={"text-sm sm:text-base font-medium text-white/80"}
                         >
                           Recommended
                         </div>
