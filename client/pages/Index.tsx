@@ -171,7 +171,7 @@ export default function Index() {
           icon: TrendingUp,
           title: "ক্যারি��়ার বৃদ্ধি",
           description:
-            "বৃত্তি-ভিত্তিক ইন্টার্���শ���প প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।",
+            "বৃত্তি-ভিত্তিক ইন্টার্���শিপ প্রোগ্রামের সাথে ব্যবহারিক দক্ষতা তৈরি করুন এবং মূল্যবান কাজের অভিজ্ঞতা অর্জন করুন।",
         },
         {
           icon: Globe,
@@ -383,7 +383,7 @@ export default function Index() {
       {/* Hero Section */}
       <main className="relative z-10 container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-16">
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-6 sm:mb-8 leading-tight px-2">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-neutral-900 dark:text-white mb-6 sm:mb-8 leading-tight px-2">
             {currentContent.hero}
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4">
