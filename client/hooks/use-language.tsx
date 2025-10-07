@@ -95,13 +95,6 @@ export function LanguageProvider({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    if (!document.getElementById("google_translate_element")) {
-      const container = document.createElement("div");
-      container.id = "google_translate_element";
-      container.style.display = "none";
-      document.body.appendChild(container);
-    }
-
     if (!window.googleTranslateElementInit) {
       window.googleTranslateElementInit = () => {
         if (typeof window.google?.translate?.TranslateElement !== "function") {
