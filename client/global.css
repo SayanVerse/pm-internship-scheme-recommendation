@@ -106,6 +106,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Baloo Bhai 2", cursive, sans-serif;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
