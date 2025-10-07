@@ -23,56 +23,58 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <ErrorBoundary>
-    <DarkModeProvider>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route
-                  path="/intake"
-                  element={
-                    <ProtectedRoute>
-                      <Intake />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/recommendations"
-                  element={
-                    <ProtectedRoute>
-                      <Recommendations />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/login" element={<Login />} />
-                <Route
-                  path="/admin"
-                  element={
-                    <ProtectedRoute adminOnly>
-                      <Admin />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/internships/:id"
-                  element={
-                    <ProtectedRoute>
-                      <InternshipDetail />
-                    </ProtectedRoute>
-                  }
-                />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </QueryClientProvider>
-      </AuthProvider>
-    </DarkModeProvider>
+    <LanguageProvider>
+      <DarkModeProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route
+                    path="/intake"
+                    element={
+                      <ProtectedRoute>
+                        <Intake />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/recommendations"
+                    element={
+                      <ProtectedRoute>
+                        <Recommendations />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="/login" element={<Login />} />
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute adminOnly>
+                        <Admin />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/internships/:id"
+                    element={
+                      <ProtectedRoute>
+                        <InternshipDetail />
+                      </ProtectedRoute>
+                    }
+                  />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </QueryClientProvider>
+        </AuthProvider>
+      </DarkModeProvider>
+    </LanguageProvider>
   </ErrorBoundary>
 );
 
