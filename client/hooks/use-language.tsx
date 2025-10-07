@@ -41,6 +41,7 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(
 
 const STORAGE_KEY = "app-language";
 const DEFAULT_LANGUAGE: SupportedLanguage = "en";
+const SUPPORTED_TRANSLATOR_LANGUAGES = ["en", "hi", "bn"] as const;
 
 function resolveTranslation(
   lang: SupportedLanguage,
@@ -80,6 +81,8 @@ export function LanguageProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const translatorReadyRef = useRef(false);
+  const [isTranslatorReady, setTranslatorReady] = useState(false);
   const [language, setLanguageState] = useState<SupportedLanguage>(() => {
     if (typeof window === "undefined") return DEFAULT_LANGUAGE;
     const stored = window.localStorage.getItem(STORAGE_KEY) as
@@ -91,12 +94,104 @@ export function LanguageProvider({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    if (!document.getElementById("google_translate_element")) {
+      const container = document.createElement("div");
+      container.id = "google_translate_element";
+      container.style.display = "none";
+      document.body.appendChild(container);
+    }
+
+    if (!window.googleTranslateElementInit) {
+      window.googleTranslateElementInit = () => {
+        if (typeof window.google?.translate?.TranslateElement !== "function") {
+          return;
+        }
+
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages: SUPPORTED_TRANSLATOR_LANGUAGES.join(","),
+            autoDisplay: false,
+          },
+          "google_translate_element",
+        );
+
+        translatorReadyRef.current = true;
+        setTranslatorReady(true);
+      };
+    }
+
+    const existingScript = document.getElementById("google-translate-script");
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.id = "google-translate-script";
+      script.src =
+        "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      document.body.appendChild(script);
+    } else if (window.google?.translate?.TranslateElement) {
+      window.googleTranslateElementInit?.();
+    }
+
+    const timer = window.setInterval(() => {
+      const select = document.querySelector<HTMLSelectElement>(
+        "select.goog-te-combo",
+      );
+      if (select) {
+        translatorReadyRef.current = true;
+        setTranslatorReady(true);
+        window.clearInterval(timer);
+      }
+    }, 400);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     window.localStorage.setItem(STORAGE_KEY, language);
   }, [language]);
 
   const setLanguage = (next: SupportedLanguage) => {
     setLanguageState(next);
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!translatorReadyRef.current) {
+      if (isTranslatorReady) {
+        translatorReadyRef.current = true;
+      } else {
+        return;
+      }
+    }
+
+    const select = document.querySelector<HTMLSelectElement>(
+      "select.goog-te-combo",
+    );
+    if (!select) return;
+
+    const target = language === "en" ? "en" : language;
+    if (select.value !== target) {
+      select.value = target;
+      select.dispatchEvent(new Event("change"));
+    }
+
+    const banner = document.querySelector<HTMLElement>(
+      ".goog-te-banner-frame.skiptranslate",
+    );
+    if (banner) {
+      banner.style.display = "none";
+    }
+
+    const body = document.querySelector<HTMLElement>("body");
+    if (body && body.style.top) {
+      body.style.top = "0";
+    }
+  }, [language, isTranslatorReady]);
 
   const t = useMemo(() => {
     const translate = (key: string, params?: Record<string, string | number>) => {
@@ -121,7 +216,12 @@ export function LanguageProvider({
     [language, setLanguage, t],
   );
 
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+      <div id="google_translate_element" style={{ display: "none" }} />
+    </LanguageContext.Provider>
+  );
 }
 
 export function useLanguage() {
