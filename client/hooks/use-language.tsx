@@ -9,6 +9,20 @@ import {
 
 import { translations, type SupportedLanguage } from "@/locales";
 
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: {
+      translate?: {
+        TranslateElement: new (
+          options: unknown,
+          containerId: string,
+        ) => void;
+      };
+    };
+  }
+}
+
 type TranslationValue = string | number | TranslationDictionary;
 
 type TranslationDictionary = {
