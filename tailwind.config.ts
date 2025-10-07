@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Poppins", "sans-serif"],
+        sans: ["Baloo Bhai 2", "Poppins", "cursive", "sans-serif"],
       },
       backdropBlur: {
         xs: "2px",
