@@ -10,6 +10,7 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { DarkModeProvider } from "@/hooks/use-dark-mode";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { LanguageProvider } from "@/hooks/use-language";
 import Index from "./pages/Index";
 import Intake from "./pages/Intake";
 import Recommendations from "./pages/Recommendations";
