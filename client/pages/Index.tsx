@@ -86,7 +86,6 @@ export default function Index() {
     { number: "95%", label: "Satisfaction Rate" },
   ] as const;
 
-  const currentContent = content[language];
 
   // InternGuide chatbot state
   const [showChat, setShowChat] = useState(false);
