@@ -227,23 +227,6 @@ export default function Index() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4 order-1 sm:order-2">
-          <div className="glass-card p-1 sm:p-2 flex gap-1">
-            {(["en", "hi", "bn"] as const).map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setLanguage(lang)}
-                className={cn(
-                  "px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105",
-                  language === lang
-                    ? "bg-neutral-900/10 dark:bg-white/30 text-neutral-900 dark:text-white shadow"
-                    : "text-neutral-600 dark:text-white/80 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-900/5 dark:hover:bg-white/10",
-                )}
-              >
-                {lang.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
           <div className="glass-card p-2">
             <DarkModeToggle />
           </div>
