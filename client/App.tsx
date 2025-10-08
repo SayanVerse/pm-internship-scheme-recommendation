@@ -32,10 +32,10 @@ const App = () => (
               <Toaster />
               <Sonner />
               <div className="fixed top-2 right-2 z-[1000]">
-              <LanguageToggle />
-            </div>
-            <BrowserRouter>
-              <Routes>
+                <LanguageToggle />
+              </div>
+              <BrowserRouter>
+                <Routes>
                   <Route path="/" element={<Index />} />
                   <Route
                     path="/intake"
