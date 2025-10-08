@@ -23,7 +23,6 @@ import {
 import { DEMO_INTERNSHIPS_CSV } from "@/lib/demo-internships-csv";
 
 export default function Index() {
-  const [language, setLanguage] = useState<"en" | "hi" | "bn">("en");
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
   // Initialize localStorage with default internship data on first load
@@ -138,7 +137,7 @@ export default function Index() {
           icon: Globe,
           title: "राष्ट्रव्यापी पहुंच",
           description:
-            "भारत भर में रिमोट और स्थान-आधारित विकल्पों के साथ इंटर्नशिप तक पहुंच प्राप्त करें।",
+            "भारत भर में रिमोट और स्थान-आधारित विकल्पों क�� साथ इंटर्नशिप तक पहुंच प्राप्त करें।",
         },
       ],
       stats: [
@@ -177,7 +176,7 @@ export default function Index() {
           icon: Globe,
           title: "সারাদেশব্যাপী অ্যাক্সেস",
           description:
-            "ভারত জুড়ে রিমোট এবং লোকেশন-ভিত্তিক বিকল্পের মাধ্যমে ইন্টার্নশিপে প্রবেশাধিকার পান।",
+            "ভারত জুড়ে রিমোট এবং লোকেশন-ভিত্তিক ��িকল্পের মাধ্যমে ইন্টার্নশিপে প্রবেশাধিকার পান।",
         },
       ],
       stats: [
