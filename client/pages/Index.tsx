@@ -46,10 +46,14 @@ export default function Index() {
     const AGENT_ID = "01999146044b727eb08a05c21195c2d86c4c";
     const removeExisting = () => {
       const container = document.getElementById(`JotformAgent-${AGENT_ID}`);
-      if (container && container.parentElement) container.parentElement.removeChild(container);
+      if (container && container.parentElement)
+        container.parentElement.removeChild(container);
       const iframes = Array.from(document.querySelectorAll("iframe"));
       for (const f of iframes) {
-        if ((f as HTMLIFrameElement).src && (f as HTMLIFrameElement).src.includes(AGENT_ID)) {
+        if (
+          (f as HTMLIFrameElement).src &&
+          (f as HTMLIFrameElement).src.includes(AGENT_ID)
+        ) {
           f.remove();
         }
       }
@@ -64,7 +68,8 @@ export default function Index() {
       removeExisting();
     }
     return () => {
-      if (script && script.parentElement) script.parentElement.removeChild(script);
+      if (script && script.parentElement)
+        script.parentElement.removeChild(script);
     };
   }, [isAuthenticated]);
 
@@ -74,10 +79,30 @@ export default function Index() {
   const findCTA = "Find my internship";
   const adminCTA = "Manage Internships 📂";
   const features = [
-    { icon: Users, title: "Smart Matching", description: "AI-light algorithm matches you with internships based on your skills, education, and location preferences." },
-    { icon: Briefcase, title: "Quality Opportunities", description: "Curated internships across IT, Healthcare, Agriculture, Education, and Public Administration sectors." },
-    { icon: TrendingUp, title: "Career Growth", description: "Build practical skills and gain valuable work experience with stipend-based internship programs." },
-    { icon: Globe, title: "Nationwide Access", description: "Access internships across India with remote and location-based options to suit your needs." },
+    {
+      icon: Users,
+      title: "Smart Matching",
+      description:
+        "AI-light algorithm matches you with internships based on your skills, education, and location preferences.",
+    },
+    {
+      icon: Briefcase,
+      title: "Quality Opportunities",
+      description:
+        "Curated internships across IT, Healthcare, Agriculture, Education, and Public Administration sectors.",
+    },
+    {
+      icon: TrendingUp,
+      title: "Career Growth",
+      description:
+        "Build practical skills and gain valuable work experience with stipend-based internship programs.",
+    },
+    {
+      icon: Globe,
+      title: "Nationwide Access",
+      description:
+        "Access internships across India with remote and location-based options to suit your needs.",
+    },
   ] as const;
   const stats = [
     { number: "500+", label: "Active Internships" },
@@ -85,7 +110,6 @@ export default function Index() {
     { number: "50+", label: "Partner Organizations" },
     { number: "95%", label: "Satisfaction Rate" },
   ] as const;
-
 
   // InternGuide chatbot state
   const [showChat, setShowChat] = useState(false);
@@ -299,7 +323,10 @@ export default function Index() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-20 px-2">
             {stats.map((stat, index) => (
-              <div key={index} className="glass-card p-3 sm:p-6 text-center text-neutral-900 dark:text-white">
+              <div
+                key={index}
+                className="glass-card p-3 sm:p-6 text-center text-neutral-900 dark:text-white"
+              >
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-1 sm:mb-2">
                   {stat.number}
                 </div>
