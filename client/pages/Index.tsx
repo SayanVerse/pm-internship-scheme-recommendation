@@ -263,10 +263,10 @@ export default function Index() {
       <main className="relative z-10 container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-16">
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-neutral-900 dark:text-white mb-6 sm:mb-8 leading-tight px-2">
-            {currentContent.hero}
+            {heroTitle}
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-neutral-700 dark:text-white/90 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4">
-            {currentContent.subtitle}
+            {heroSubtitle}
           </p>
 
           {/* CTA Buttons */}
@@ -280,7 +280,7 @@ export default function Index() {
                   window.location.href = "/intake";
                 }}
               >
-                {currentContent.findCTA}
+                {findCTA}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             )}
@@ -291,14 +291,14 @@ export default function Index() {
                 className="text-lg font-semibold"
                 onClick={() => (window.location.href = "/admin")}
               >
-                {currentContent.adminCTA}
+                {adminCTA}
               </Button>
             )}
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-20 px-2">
-            {currentContent.stats.map((stat, index) => (
+            {stats.map((stat, index) => (
               <div key={index} className="glass-card p-3 sm:p-6 text-center text-neutral-900 dark:text-white">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-1 sm:mb-2">
                   {stat.number}
@@ -313,7 +313,7 @@ export default function Index() {
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 max-w-7xl mx-auto px-2 sm:px-0">
-          {currentContent.features.map((feature, index) => (
+          {features.map((feature, index) => (
             <Card
               key={index}
               className="glass-card border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105"
