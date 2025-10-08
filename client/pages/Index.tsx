@@ -68,125 +68,23 @@ export default function Index() {
     };
   }, [isAuthenticated]);
 
-  const content = {
-    en: {
-      hero: "Intern Link",
-      subtitle:
-        "AI-powered recommendations for PM Internship Scheme candidates. Get 3-5 personalized internship suggestions based on your skills and preferences.",
-      findCTA: "Find my internship",
-      adminCTA: "Manage Internships 📂",
-      features: [
-        {
-          icon: Users,
-          title: "Smart Matching",
-          description:
-            "AI-light algorithm matches you with internships based on your skills, education, and location preferences.",
-        },
-        {
-          icon: Briefcase,
-          title: "Quality Opportunities",
-          description:
-            "Curated internships across IT, Healthcare, Agriculture, Education, and Public Administration sectors.",
-        },
-        {
-          icon: TrendingUp,
-          title: "Career Growth",
-          description:
-            "Build practical skills and gain valuable work experience with stipend-based internship programs.",
-        },
-        {
-          icon: Globe,
-          title: "Nationwide Access",
-          description:
-            "Access internships across India with remote and location-based options to suit your needs.",
-        },
-      ],
-      stats: [
-        { number: "500+", label: "Active Internships" },
-        { number: "10K+", label: "Students Placed" },
-        { number: "50+", label: "Partner Organizations" },
-        { number: "95%", label: "Satisfaction Rate" },
-      ],
-    },
-    hi: {
-      hero: "इंटर्न लिंक",
-      subtitle:
-        "PM इंटर्नशिप स्कीम के उम्मीदवारों के लिए AI- संचालित अनुशंसाएं। अपने कौशल और प्राथमिकताओं के आधार पर 3-5 व्यक्तिगत इंटर्नशिप सुझाव प्राप्त करें।",
-      findCTA: "मेरी इंटर्नशिप खोजें",
-      adminCTA: "इंटर्नशिप प्रबंधित करें 📂",
-      features: [
-        {
-          icon: Users,
-          title: "स्मार्ट मैचिंग",
-          description:
-            "AI-लाइट एल्गोरिदम आपको आपके कौशल, शिक्षा और स्थान प्राथमिकताओं के आधार पर इंटर्नशिप से मिलाता है।",
-        },
-        {
-          icon: Briefcase,
-          title: "गुणवत्तापूर्ण अवसर",
-          description:
-            "IT, हेल्थकेयर, कृषि, शिक्षा और सार्वजनिक प्रशासन क्षेत्रों में चुनी हुई इंटर्नशिप।",
-        },
-        {
-          icon: TrendingUp,
-          title: "करियर विकास",
-          description:
-            "स्टाइपेंड-आधारित इंटर्नशिप कार्यक्रमों के साथ व्यावहारिक कौशल विकसित करें और मूल्यवान कार्य अनुभव प्राप्त करें।",
-        },
-        {
-          icon: Globe,
-          title: "राष्ट्रव्यापी पहुंच",
-          description:
-            "भारत भर में रिमोट और स्थान-आधारित विकल्पों क�� साथ इंटर्नशिप तक पहुंच प्राप्त करें।",
-        },
-      ],
-      stats: [
-        { number: "500+", label: "सक्रिय इंटर्नशिप" },
-        { number: "10K+", label: "छात्र स्थापित" },
-        { number: "50+", label: "सहयोगी संगठन" },
-        { number: "95%", label: "संतुष्टि दर" },
-      ],
-    },
-    bn: {
-      hero: "ইন্টার্ন লিঙ্ক",
-      subtitle:
-        "PM ইন্টার্নশিপ স্কিম প্রার্থীদের জন্য AI-চালিত সুপারিশ। আপনার দক্ষতা ও পছন্দ অনুযায়ী 3-5টি ব্যক্তিগত ইন্টার্নশিপ প্রস্তাব পান।",
-      findCTA: "আমার ইন্টার্নশিপ খুঁজুন",
-      adminCTA: "ইন্টার্নশিপ ম্যানেজ করুন 📂",
-      features: [
-        {
-          icon: Users,
-          title: "স্মার্ট ম্যাচিং",
-          description:
-            "AI-লাইট অ্যালগরিদম আপনার দক্ষতা, শিক্ষা এবং অবস্থানের পছন্দ অনুযায়ী আপনাকে ইন্টার্নশিপের সাথে যুক্ত করে।",
-        },
-        {
-          icon: Briefcase,
-          title: "গুণগত সুযোগ",
-          description:
-            "IT,স্বাস্থ্যসেবা, কৃষি, শিক্ষা এবং পাবলিক অ্যাডমিনিস্ট্রেশন খাতে বাছাইকৃত ইন্টার্নশিপ।",
-        },
-        {
-          icon: TrendingUp,
-          title: "ক্যারিয়ার উন্নয়ন",
-          description:
-            "স্টাইপেন্ড-ভিত্তিক ইন্টার্নশিপ প্রোগ্রামের মাধ্যমে ব্যবহারিক দক্ষতা অর্জন করুন এবং মূল্যবান কাজের অভিজ্ঞতা লাভ করুন।",
-        },
-        {
-          icon: Globe,
-          title: "সারাদেশব্যাপী অ্যাক্সেস",
-          description:
-            "ভারত জুড়ে রিমোট এবং লোকেশন-ভিত্তিক ��িকল্পের মাধ্যমে ইন্টার্নশিপে প্রবেশাধিকার পান।",
-        },
-      ],
-      stats: [
-        { number: "৫০০+", label: "সক্রিয় ইন্টার্নশিপ" },
-        { number: "১০K+", label: "ছাত্রছাত্রী নিয়োগপ্রাপ্ত" },
-        { number: "৫০+", label: "অংশীদার সংস্থা" },
-        { number: "৯৫%", label: "সন্তুষ্টির হার" },
-      ],
-    },
-  };
+  const heroTitle = "Intern Link";
+  const heroSubtitle =
+    "AI-powered recommendations for PM Internship Scheme candidates. Get 3-5 personalized internship suggestions based on your skills and preferences.";
+  const findCTA = "Find my internship";
+  const adminCTA = "Manage Internships 📂";
+  const features = [
+    { icon: Users, title: "Smart Matching", description: "AI-light algorithm matches you with internships based on your skills, education, and location preferences." },
+    { icon: Briefcase, title: "Quality Opportunities", description: "Curated internships across IT, Healthcare, Agriculture, Education, and Public Administration sectors." },
+    { icon: TrendingUp, title: "Career Growth", description: "Build practical skills and gain valuable work experience with stipend-based internship programs." },
+    { icon: Globe, title: "Nationwide Access", description: "Access internships across India with remote and location-based options to suit your needs." },
+  ] as const;
+  const stats = [
+    { number: "500+", label: "Active Internships" },
+    { number: "10K+", label: "Students Placed" },
+    { number: "50+", label: "Partner Organizations" },
+    { number: "95%", label: "Satisfaction Rate" },
+  ] as const;
 
   const currentContent = content[language];
 
