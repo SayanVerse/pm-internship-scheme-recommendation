@@ -31,11 +31,11 @@ const App = () => (
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <div className="fixed top-2 right-2 z-[1000]">
-                <LanguageToggle />
-              </div>
-              <BrowserRouter>
-                <Routes>
+              <div className="fixed bottom-4 left-4 z-40 pointer-events-auto">
+              <LanguageToggle />
+            </div>
+            <BrowserRouter>
+              <Routes>
                   <Route path="/" element={<Index />} />
                   <Route
                     path="/intake"
