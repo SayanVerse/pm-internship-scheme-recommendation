@@ -2,7 +2,9 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-language";
 import { translations } from "@/locales";
 
-const LANGUAGE_OPTIONS = Object.keys(translations) as Array<keyof typeof translations>;
+const LANGUAGE_OPTIONS = Object.keys(translations) as Array<
+  keyof typeof translations
+>;
 
 export function LanguageToggle({ className }: { className?: string }) {
   const { language, setLanguage, t } = useTranslation();
