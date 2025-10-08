@@ -18,6 +18,7 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import InternshipDetail from "./pages/InternshipDetail";
 import NotFound from "./pages/NotFound";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 
 const queryClient = new QueryClient();
 
@@ -30,8 +31,11 @@ const App = () => (
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <BrowserRouter>
-                <Routes>
+              <div className="fixed top-2 right-2 z-[1000]">
+              <LanguageToggle />
+            </div>
+            <BrowserRouter>
+              <Routes>
                   <Route path="/" element={<Index />} />
                   <Route
                     path="/intake"

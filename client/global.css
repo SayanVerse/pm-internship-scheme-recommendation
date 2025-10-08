@@ -426,4 +426,18 @@
   .light .btn-accent {
     color: #000 !important;
   }
+
+#google_translate_element,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+.goog-te-menu-value,
+.goog-te-spinner-pos {
+  display: none !important;
+}
+
+div.goog-te-gadget {
+  display: none !important;
+}
+
+body { top: 0 !important; }
 }
