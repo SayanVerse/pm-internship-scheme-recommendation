@@ -18,7 +18,7 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import InternshipDetail from "./pages/InternshipDetail";
 import NotFound from "./pages/NotFound";
-import { LanguageToggle } from "@/components/ui/language-toggle";
+import { FloatingLanguageToggle } from "@/components/ui/floating-language-toggle";
 
 const queryClient = new QueryClient();
 
@@ -31,11 +31,9 @@ const App = () => (
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <div className="fixed bottom-4 left-4 z-40 pointer-events-auto">
-                <LanguageToggle />
-              </div>
-              <BrowserRouter>
-                <Routes>
+              <FloatingLanguageToggle />
+            <BrowserRouter>
+              <Routes>
                   <Route path="/" element={<Index />} />
                   <Route
                     path="/intake"
