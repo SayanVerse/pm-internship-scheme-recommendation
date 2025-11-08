@@ -32,8 +32,8 @@ const App = () => (
               <Toaster />
               <Sonner />
               <FloatingLanguageToggle />
-            <BrowserRouter>
-              <Routes>
+              <BrowserRouter>
+                <Routes>
                   <Route path="/" element={<Index />} />
                   <Route
                     path="/intake"
