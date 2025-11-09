@@ -61,7 +61,7 @@ export default function Index() {
     if (isAuthenticated) {
       script = document.createElement("script");
       script.src =
-        "https://www.noupe.com/embed/01999146044b727eb08a05c21195c2d86c4c.js";
+        "https://www.noupe.com/embed/0199b4f695fb7ed4b78acea60535cc802c54.js";
       script.async = true;
       document.body.appendChild(script);
     } else {
